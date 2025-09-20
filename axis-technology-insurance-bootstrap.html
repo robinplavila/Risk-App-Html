@@ -509,10 +509,25 @@
                         <div class="step-number">12</div>
                         <span class="step-text">AI Tools & Controls</span>
                     </div>
+                    <div class="step-separator"></div>
+                    <div class="step-item" data-step="13">
+                        <div class="step-number">13</div>
+                        <span class="step-text">Prior Incidents & Claims</span>
+                    </div>
                     <div class="step-separator" id="ai-step-separator" style="display: none;"></div>
                     <div class="step-item" data-step="14" id="ai-step-indicator" style="display: none;">
                         <div class="step-number">14</div>
                         <span class="step-text">Artificial Intelligence</span>
+                    </div>
+                    <div class="step-separator" id="defi-step-separator" style="display: none;"></div>
+                    <div class="step-item" data-step="15" id="defi-step-indicator" style="display: none;">
+                        <div class="step-number">15</div>
+                        <span class="step-text">Decentralized Finance</span>
+                    </div>
+                    <div class="step-separator" id="robotics-step-separator" style="display: none;"></div>
+                    <div class="step-item" data-step="16" id="robotics-step-indicator" style="display: none;">
+                        <div class="step-number">16</div>
+                        <span class="step-text">Autonomous Robotics</span>
                     </div>
                 </div>
             </div>
@@ -2011,8 +2026,128 @@
                         </div>
                     </div>
 
+                    <!-- Section 2: Decentralized Finance & Digital Assets (Additional Questions) -->
+                    <div class="form-section" data-section="15" id="defi-section" style="display: none;">
+                        <h2 class="section-title">💰 Section 2. Decentralized Finance & Digital Assets (Additional Questions)</h2>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Additional DeFi Questions:</strong> Since you selected Decentralized Finance & Digital Assets as a sector, please complete these additional questions.
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">1. Do you provide any services involving cryptocurrency custody, wallet management, or private key management on behalf of clients?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_custody_services" id="defi_custody_yes" value="yes">
+                                <label class="form-check-label" for="defi_custody_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_custody_services" id="defi_custody_no" value="no">
+                                <label class="form-check-label" for="defi_custody_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_custody_details" style="display: none;">
+                                <label for="defi_custody_controls" class="form-label">If yes, please describe the controls in place to secure these assets</label>
+                                <textarea class="form-control" id="defi_custody_controls" name="defi_custody_controls" rows="3" placeholder="Please describe your security controls for cryptocurrency custody, wallet management, and private key management..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">2. Do you operate or maintain a cryptocurrency exchange or trading platform?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_exchange_platform" id="defi_exchange_yes" value="yes">
+                                <label class="form-check-label" for="defi_exchange_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_exchange_platform" id="defi_exchange_no" value="no">
+                                <label class="form-check-label" for="defi_exchange_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_exchange_details" style="display: none;">
+                                <label class="form-label">If yes, specify:</label>
+                                
+                                <div class="mb-3">
+                                    <label for="defi_crypto_types" class="form-label">Types of cryptocurrencies supported</label>
+                                    <textarea class="form-control" id="defi_crypto_types" name="defi_crypto_types" rows="2" placeholder="List the types of cryptocurrencies supported on your exchange..."></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="defi_daily_volume" class="form-label">Average daily transaction volume</label>
+                                    <input type="text" class="form-control" id="defi_daily_volume" name="defi_daily_volume" placeholder="e.g., $1M USD equivalent">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="defi_geographic_regions" class="form-label">Geographic regions served</label>
+                                    <textarea class="form-control" id="defi_geographic_regions" name="defi_geographic_regions" rows="2" placeholder="List the geographic regions where your exchange operates..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">3. Do you use or develop smart contracts in connection with your services (e.g., for decentralized finance, token issuance, automated settlements)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_smart_contracts" id="defi_smart_contracts_yes" value="yes">
+                                <label class="form-check-label" for="defi_smart_contracts_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_smart_contracts" id="defi_smart_contracts_no" value="no">
+                                <label class="form-check-label" for="defi_smart_contracts_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_smart_contracts_details" style="display: none;">
+                                <label for="defi_audit_processes" class="form-label">If yes, please describe your processes for auditing and testing these smart contracts prior to deployment.</label>
+                                <textarea class="form-control" id="defi_audit_processes" name="defi_audit_processes" rows="3" placeholder="Please describe your smart contract auditing and testing processes..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Autonomous Robotics (Additional Questions) -->
+                    <div class="form-section" data-section="16" id="robotics-section" style="display: none;">
+                        <h2 class="section-title">🦾 Section 3. Autonomous Robotics (Additional Questions)</h2>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Additional Robotics Questions:</strong> Since you selected Autonomous Robotics as a sector, please complete these additional questions.
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="robotics_functions" class="form-label">1. What functions do your autonomous robots perform?</label>
+                            <textarea class="form-control" id="robotics_functions" name="robotics_functions" rows="3" placeholder="Please describe the functions and capabilities of your autonomous robots..."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">2. Are your robots used in public or semi-public environments (e.g., hospitals, airports, malls)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_public_use" id="robotics_public_yes" value="yes">
+                                <label class="form-check-label" for="robotics_public_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_public_use" id="robotics_public_no" value="no">
+                                <label class="form-check-label" for="robotics_public_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="robotics_deployed_count" class="form-label">3. How many autonomous robots are currently deployed in the field?</label>
+                            <input type="number" class="form-control" id="robotics_deployed_count" name="robotics_deployed_count" min="0" placeholder="Number of deployed robots">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">4. What level of autonomy do your robots operate at?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_autonomy_level" id="robotics_remote_controlled" value="remote_controlled">
+                                <label class="form-check-label" for="robotics_remote_controlled">Remote controlled</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_autonomy_level" id="robotics_semi_autonomous" value="semi_autonomous">
+                                <label class="form-check-label" for="robotics_semi_autonomous">Semi – autonomous</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_autonomy_level" id="robotics_fully_autonomous" value="fully_autonomous">
+                                <label class="form-check-label" for="robotics_fully_autonomous">Fully autonomous (no human in the loop)</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- AI Section: Conditional (only shown if AI is selected in sectors) -->
-                    <div class="form-section" data-section="14" id="ai-section" >
+                    <div class="form-section" data-section="14" id="ai-section" style="display: none;">
                         <h2 class="section-title">🤖 Section 1. Artificial Intelligence (Additional Questions)</h2>
                         
                         <div class="alert alert-info">
@@ -2314,11 +2449,9 @@
                             </div>
                         </div>
 
-                        <!-- Section 13: Prior Incidents & Claims -->
-                        <div class="step-content" id="step13" style="display: none;">
-                            <div class="section-header">
-                                <h2><span class="section-icon">⚠️</span> Section 13. Prior Incidents & Claims</h2>
-                            </div>
+                    <!-- Section 13: Prior Incidents & Claims -->
+                    <div class="form-section" data-section="13">
+                        <h2 class="section-title">⚠️ Section 13. Prior Incidents & Claims</h2>
                             
                             <div class="mb-4">
                                 <label class="form-label">1. In the last 5 years, has the Company, or any entity falling within the definition of 'Insured' under the proposed Policy, its partners, directors, officers, or employees ever had a written demand or civil proceedings for compensatory damages made against them?</label>
@@ -2419,7 +2552,7 @@
                 </button>
                 
                 <div class="step-counter">
-                    Step <span id="currentStep">1</span> of <span id="totalSteps">8</span>
+                    Step <span id="currentStep">1</span> of <span id="totalSteps">13</span>
                 </div>
                 
                 <div class="d-flex gap-2">
@@ -2447,8 +2580,7 @@
     <script>
         $(document).ready(function() {
             let currentStep = 1;
-            let totalSteps = 13; // Base steps, will be 14 if AI is selected
-            let aiStepEnabled = false;
+            let totalSteps = 13; // Base steps, conditional steps (14-16) added when sectors selected
             const formData = {};
 
             // Initialize form
@@ -2748,41 +2880,118 @@
                     }
                 });
 
-                // AI Section conditional logic - manage AI step visibility  
+                // Conditional sections logic - manage visibility for AI, DeFi, and Robotics
+                let aiStepEnabled = false;
+                let defiStepEnabled = false;
+                let roboticsStepEnabled = false;
+                
                 $('input[name="sectors[]"]').on('change', function() {
                     const aiSelected = $('#sector_ai').is(':checked');
+                    const defiSelected = $('#sector_defi').is(':checked');
+                    const roboticsSelected = $('#sector_robotics').is(':checked');
+                    
                     const $aiStepIndicator = $('#ai-step-indicator');
                     const $aiStepSeparator = $('#ai-step-separator');
                     const $aiSection = $('#ai-section');
                     
+                    const $defiStepIndicator = $('#defi-step-indicator');
+                    const $defiStepSeparator = $('#defi-step-separator');
+                    const $defiSection = $('#defi-section');
+                    
+                    const $roboticsStepIndicator = $('#robotics-step-indicator');
+                    const $roboticsStepSeparator = $('#robotics-step-separator');
+                    const $roboticsSection = $('#robotics-section');
+                    
+                    // Handle AI section
                     if (aiSelected && !aiStepEnabled) {
-                        // Enable AI step
                         aiStepEnabled = true;
-                        totalSteps = 14;
                         $aiStepIndicator.slideDown(300);
                         $aiStepSeparator.slideDown(300);
-                        updateStepIndicator();
                     } else if (!aiSelected && aiStepEnabled) {
-                        // Disable AI step
                         aiStepEnabled = false;
-                        totalSteps = 13;
-                        
-                        // If currently on AI step, go back to step 13
                         if (currentStep === 14) {
                             currentStep = 13;
                             showStep(currentStep);
                         }
-                        
                         $aiStepIndicator.slideUp(300);
                         $aiStepSeparator.slideUp(300);
-                        
-                        // Clear AI section fields when hidden
                         $aiSection.find('input, textarea').val('').prop('checked', false);
                         $aiSection.find('.conditional-field').hide();
                         $aiSection.find('.ai-agent-conditional').hide();
-                        
-                        updateStepIndicator();
-                        updateNavigation();
+                    }
+                    
+                    // Handle DeFi section
+                    if (defiSelected && !defiStepEnabled) {
+                        defiStepEnabled = true;
+                        $defiStepIndicator.slideDown(300);
+                        $defiStepSeparator.slideDown(300);
+                    } else if (!defiSelected && defiStepEnabled) {
+                        defiStepEnabled = false;
+                        if (currentStep === 15) {
+                            currentStep = 13;
+                            showStep(currentStep);
+                        }
+                        $defiStepIndicator.slideUp(300);
+                        $defiStepSeparator.slideUp(300);
+                        $defiSection.find('input, textarea').val('').prop('checked', false);
+                        $defiSection.find('.conditional-field').hide();
+                    }
+                    
+                    // Handle Robotics section
+                    if (roboticsSelected && !roboticsStepEnabled) {
+                        roboticsStepEnabled = true;
+                        $roboticsStepIndicator.slideDown(300);
+                        $roboticsStepSeparator.slideDown(300);
+                    } else if (!roboticsSelected && roboticsStepEnabled) {
+                        roboticsStepEnabled = false;
+                        if (currentStep === 16) {
+                            currentStep = 13;
+                            showStep(currentStep);
+                        }
+                        $roboticsStepIndicator.slideUp(300);
+                        $roboticsStepSeparator.slideUp(300);
+                        $roboticsSection.find('input, textarea').val('').prop('checked', false);
+                        $roboticsSection.find('.conditional-field').hide();
+                    }
+                    
+                    // Update total steps based on enabled conditional sections
+                    totalSteps = 13;
+                    if (aiStepEnabled) totalSteps++;
+                    if (defiStepEnabled) totalSteps++;
+                    if (roboticsStepEnabled) totalSteps++;
+                    
+                    updateStepIndicator();
+                    updateNavigation();
+                });
+
+                // DeFi Questions conditional logic
+                $('input[name="defi_custody_services"]').on('change', function() {
+                    const $details = $('#defi_custody_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_custody_controls').val('');
+                    }
+                });
+
+                $('input[name="defi_exchange_platform"]').on('change', function() {
+                    const $details = $('#defi_exchange_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_crypto_types, #defi_daily_volume, #defi_geographic_regions').val('');
+                    }
+                });
+
+                $('input[name="defi_smart_contracts"]').on('change', function() {
+                    const $details = $('#defi_smart_contracts_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_audit_processes').val('');
                     }
                 });
 
@@ -3111,7 +3320,7 @@
                         $('.high-risk-select').trigger('change');
                         $('.revenue-input').trigger('input');
                         
-                        // Trigger AI section logic
+                        // Trigger conditional section logic
                         $('input[name="sectors[]"]').trigger('change');
                         $('input[name="ai_functionality_integrated"]:checked').trigger('change');
                         $('input[name="develop_proprietary_ai"]:checked').trigger('change');
@@ -3119,6 +3328,11 @@
                         $('input[name="ai_testing_processes"]:checked').trigger('change');
                         $('input[name="ai_train_customer_data"]:checked').trigger('change');
                         $('input[name="ai_agents_integrated"]:checked').trigger('change');
+                        
+                        // Trigger DeFi conditional logic
+                        $('input[name="defi_custody_services"]:checked').trigger('change');
+                        $('input[name="defi_exchange_platform"]:checked').trigger('change');
+                        $('input[name="defi_smart_contracts"]:checked').trigger('change');
 
                         showNotification('Previous progress restored.', 'success');
                     }
@@ -3194,7 +3408,9 @@
                     employment: {},
                     aiTools: {},
                     priorIncidents: {},
-                    ai: {}
+                    ai: {},
+                    defi: {},
+                    robotics: {}
                 };
 
                 // Collect sectors
@@ -3216,7 +3432,9 @@
                     { step: 11, key: 'employment' },
                     { step: 12, key: 'aiTools' },
                     { step: 13, key: 'priorIncidents' },
-                    { step: 14, key: 'ai' }
+                    { step: 14, key: 'ai' },
+                    { step: 15, key: 'defi' },
+                    { step: 16, key: 'robotics' }
                 ];
 
                 sections.forEach(section => {
@@ -3358,9 +3576,17 @@
                     addSectionData('Section 12: Artificial Intelligence Tools & Controls', formData.aiTools);
                     addSectionData('Section 13: Prior Incidents & Claims', formData.priorIncidents);
                     
-                    // AI section (only if AI sector was selected)
-                    if (formData.sectors.includes('Artificial Intelligence')) {
+                    // Conditional sections (only if respective sectors were selected)
+                    if (formData.sectors.includes('ai')) {
                         addSectionData('Section 1: Artificial Intelligence (Additional Questions)', formData.ai);
+                    }
+                    
+                    if (formData.sectors.includes('defi')) {
+                        addSectionData('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', formData.defi);
+                    }
+                    
+                    if (formData.sectors.includes('robotics')) {
+                        addSectionData('Section 3: Autonomous Robotics (Additional Questions)', formData.robotics);
                     }
                     
                     // Footer
