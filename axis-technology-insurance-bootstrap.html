@@ -3362,6 +3362,11 @@
                     $('#ai-step-separator, #defi-step-separator, #robotics-step-separator').hide();
                     $('#ai-section, #defi-section, #robotics-section').removeClass('active').css('display', 'none');
                     
+                    // Clear data-section attributes for all conditional sections to prevent conflicts
+                    $('#ai-section').removeAttr('data-section');
+                    $('#defi-section').removeAttr('data-section');
+                    $('#robotics-section').removeAttr('data-section');
+                    
                     // Clear form data when sections are hidden
                     if (!aiSelected) {
                         $('#ai-section').find('input, textarea').val('').prop('checked', false);
