@@ -2916,6 +2916,7 @@
                         }
                         $aiStepIndicator.slideUp(300);
                         $aiStepSeparator.slideUp(300);
+                        $aiSection.removeClass('active').css('display', 'none');
                         $aiSection.find('input, textarea').val('').prop('checked', false);
                         $aiSection.find('.conditional-field').hide();
                         $aiSection.find('.ai-agent-conditional').hide();
@@ -2934,6 +2935,7 @@
                         }
                         $defiStepIndicator.slideUp(300);
                         $defiStepSeparator.slideUp(300);
+                        $defiSection.removeClass('active').css('display', 'none');
                         $defiSection.find('input, textarea').val('').prop('checked', false);
                         $defiSection.find('.conditional-field').hide();
                     }
@@ -2951,6 +2953,7 @@
                         }
                         $roboticsStepIndicator.slideUp(300);
                         $roboticsStepSeparator.slideUp(300);
+                        $roboticsSection.removeClass('active').css('display', 'none');
                         $roboticsSection.find('input, textarea').val('').prop('checked', false);
                         $roboticsSection.find('.conditional-field').hide();
                     }
@@ -3204,7 +3207,13 @@
 
             function showStep(step) {
                 $('.form-section').removeClass('active');
-                $(`.form-section[data-section="${step}"]`).addClass('active');
+                const $targetSection = $(`.form-section[data-section="${step}"]`);
+                $targetSection.addClass('active');
+                
+                // For conditional sections, remove inline display:none to allow CSS to take effect
+                if (step >= 14) {
+                    $targetSection.css('display', '');
+                }
             }
 
             function updateStepIndicator() {
