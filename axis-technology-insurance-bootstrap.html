@@ -553,7 +553,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="ai" id="sector_ai" name="sectors[]" required>
+                                        <input class="form-check-input" type="checkbox" value="ai" id="sector_ai" name="sectors[]">
                                         <label class="form-check-label" for="sector_ai">
                                             🤖 Artificial Intelligence
                                         </label>
@@ -561,7 +561,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="defi" id="sector_defi" name="sectors[]" required>
+                                        <input class="form-check-input" type="checkbox" value="defi" id="sector_defi" name="sectors[]">
                                         <label class="form-check-label" for="sector_defi">
                                             💰 Decentralized Finance & Digital Assets
                                         </label>
@@ -569,7 +569,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="robotics" id="sector_robotics" name="sectors[]" required>
+                                        <input class="form-check-input" type="checkbox" value="robotics" id="sector_robotics" name="sectors[]">
                                         <label class="form-check-label" for="sector_robotics">
                                             🦾 Autonomous Robotics
                                         </label>
@@ -2189,6 +2189,243 @@
                                 <textarea class="form-control" id="defi_audit_processes" name="defi_audit_processes" rows="3" placeholder="Please describe your smart contract auditing and testing processes..."></textarea>
                             </div>
                         </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">4. Do you develop, issue, or advise on the issuance of tokens, coins, or other digital assets?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_token_issuance" id="defi_token_yes" value="yes">
+                                <label class="form-check-label" for="defi_token_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_token_issuance" id="defi_token_no" value="no">
+                                <label class="form-check-label" for="defi_token_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_token_details" style="display: none;">
+                                <label for="defi_token_structure" class="form-label">If yes, please provide details on the token structure and investor protections.</label>
+                                <textarea class="form-control" id="defi_token_structure" name="defi_token_structure" rows="3" placeholder="Please describe the token structure and investor protections..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">5. Have you engaged any third-party security firms to perform penetration testing or blockchain code audits on your platforms or products?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_security_audits" id="defi_security_yes" value="yes">
+                                <label class="form-check-label" for="defi_security_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_security_audits" id="defi_security_no" value="no">
+                                <label class="form-check-label" for="defi_security_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_security_details" style="display: none;">
+                                <label for="defi_security_findings" class="form-label">If yes, please attach the latest summary findings or certifications.</label>
+                                <textarea class="form-control" id="defi_security_findings" name="defi_security_findings" rows="3" placeholder="Please describe the latest security audit findings or attach certifications..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">6. Do your standard client agreements include disclaimers, waivers, or limitations of liability specifically addressing risks related to cryptocurrency transactions, volatility, or smart contracts?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_disclaimers" id="defi_disclaimers_yes" value="yes">
+                                <label class="form-check-label" for="defi_disclaimers_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_disclaimers" id="defi_disclaimers_no" value="no">
+                                <label class="form-check-label" for="defi_disclaimers_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_disclaimers_details" style="display: none;">
+                                <label for="defi_contract_clauses" class="form-label">If yes, please attach sample contract clauses.</label>
+                                <textarea class="form-control" id="defi_contract_clauses" name="defi_contract_clauses" rows="3" placeholder="Please provide sample contract clauses..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">7. Do you maintain separate hot and cold wallet infrastructures for cryptocurrency held on behalf of clients?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_wallet_infrastructure" id="defi_wallet_yes" value="yes">
+                                <label class="form-check-label" for="defi_wallet_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_wallet_infrastructure" id="defi_wallet_no" value="no">
+                                <label class="form-check-label" for="defi_wallet_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_wallet_details" style="display: none;">
+                                <label for="defi_wallet_split" class="form-label">If yes, please describe the split and security controls.</label>
+                                <textarea class="form-control" id="defi_wallet_split" name="defi_wallet_split" rows="3" placeholder="Please describe the hot/cold wallet split and security controls..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">8. Are any of your blockchain or crypto-related activities regulated by financial services authorities (e.g., FINTRAC, MiCA, VARA, MAS)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_regulated" id="defi_regulated_yes" value="yes">
+                                <label class="form-check-label" for="defi_regulated_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_regulated" id="defi_regulated_no" value="no">
+                                <label class="form-check-label" for="defi_regulated_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_regulated_details" style="display: none;">
+                                <label for="defi_regulators" class="form-label">If yes, please list regulators and licenses held</label>
+                                <textarea class="form-control" id="defi_regulators" name="defi_regulators" rows="3" placeholder="Please list regulators and licenses held..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">9. Do you have documented policies and procedures in place for Anti-Money Laundering (AML), Counter Terrorist Financing (CFT), and customer onboarding (KYC/KYB)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_aml_policies" id="defi_aml_yes" value="yes">
+                                <label class="form-check-label" for="defi_aml_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_aml_policies" id="defi_aml_no" value="no">
+                                <label class="form-check-label" for="defi_aml_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_aml_details" style="display: none;">
+                                <label for="defi_aml_policy" class="form-label">Please attach your AML/KYC policy</label>
+                                <textarea class="form-control" id="defi_aml_policy" name="defi_aml_policy" rows="3" placeholder="Please describe your AML/KYC policy or attach documentation..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="defi_sanctions_compliance" class="form-label">10. What processes do you have to ensure compliance with international sanctions laws (e.g., OFAC, EU sanctions) in transactions involving digital assets?</label>
+                            <textarea class="form-control" id="defi_sanctions_compliance" name="defi_sanctions_compliance" rows="3" placeholder="Please describe your sanctions compliance processes..."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">11. Do you maintain logs or blockchain analytics to monitor and trace the source of funds to help mitigate fraud, money laundering, or sanctions violations?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_blockchain_analytics" id="defi_analytics_yes" value="yes">
+                                <label class="form-check-label" for="defi_analytics_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_blockchain_analytics" id="defi_analytics_no" value="no">
+                                <label class="form-check-label" for="defi_analytics_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_analytics_details" style="display: none;">
+                                <label for="defi_analytics_systems" class="form-label">If yes, please describe the systems or vendors used.</label>
+                                <textarea class="form-control" id="defi_analytics_systems" name="defi_analytics_systems" rows="3" placeholder="Please describe the blockchain analytics systems or vendors used..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">12. Do you use any decentralized protocols (DEXs, liquidity pools, DeFi protocols) as part of your business operations or investment strategies?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_protocols" id="defi_protocols_yes" value="yes">
+                                <label class="form-check-label" for="defi_protocols_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_protocols" id="defi_protocols_no" value="no">
+                                <label class="form-check-label" for="defi_protocols_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">13. Do you use third-party custodians, liquidity providers, or technology vendors for any part of your crypto operations?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_third_party" id="defi_third_party_yes" value="yes">
+                                <label class="form-check-label" for="defi_third_party_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_third_party" id="defi_third_party_no" value="no">
+                                <label class="form-check-label" for="defi_third_party_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_third_party_details" style="display: none;">
+                                <label class="form-label">If yes, do your contracts with these providers include indemnity and hold harmless provisions in your favor?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="defi_indemnity" id="defi_indemnity_yes" value="yes">
+                                    <label class="form-check-label" for="defi_indemnity_yes">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="defi_indemnity" id="defi_indemnity_no" value="no">
+                                    <label class="form-check-label" for="defi_indemnity_no">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">14. Do you hold or have custody digital assets on your own balance sheet for investment purposes?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_investment_assets" id="defi_investment_yes" value="yes">
+                                <label class="form-check-label" for="defi_investment_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_investment_assets" id="defi_investment_no" value="no">
+                                <label class="form-check-label" for="defi_investment_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_investment_details" style="display: none;">
+                                <label for="defi_investment_value" class="form-label">If yes, please indicate the approximate value and percentage of total assets.</label>
+                                <textarea class="form-control" id="defi_investment_value" name="defi_investment_value" rows="2" placeholder="Please indicate approximate value and percentage of total assets..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="defi_revenue_percentage" class="form-label">15. What percentage of your business revenue is derived from blockchain or cryptocurrency-related services versus traditional financial or technology services?</label>
+                            <input type="text" class="form-control" id="defi_revenue_percentage" name="defi_revenue_percentage" placeholder="e.g., 75% crypto-related, 25% traditional">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">16. Do you have incident response plans specific to handling cryptocurrency or blockchain-related security events, including notifying customers and regulators?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_incident_response" id="defi_incident_yes" value="yes">
+                                <label class="form-check-label" for="defi_incident_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_incident_response" id="defi_incident_no" value="no">
+                                <label class="form-check-label" for="defi_incident_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">17. Do you have insurance coverage in place (separate from E&O) to protect against loss or theft of cryptocurrency assets (crime / cyber crime / specie)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_crypto_insurance" id="defi_crypto_insurance_yes" value="yes">
+                                <label class="form-check-label" for="defi_crypto_insurance_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_crypto_insurance" id="defi_crypto_insurance_no" value="no">
+                                <label class="form-check-label" for="defi_crypto_insurance_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">18. Do you carry directors & officers (D&O) insurance that specifically contemplates exposures arising from cryptocurrency or blockchain-related activities?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_do_insurance" id="defi_do_yes" value="yes">
+                                <label class="form-check-label" for="defi_do_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_do_insurance" id="defi_do_no" value="no">
+                                <label class="form-check-label" for="defi_do_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">19. Have you ever been the subject of any regulatory investigation, audit, inquiry, or received a warning letter in relation to your crypto or blockchain activities?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_regulatory_issues" id="defi_regulatory_yes" value="yes">
+                                <label class="form-check-label" for="defi_regulatory_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_regulatory_issues" id="defi_regulatory_no" value="no">
+                                <label class="form-check-label" for="defi_regulatory_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">20. Have you experienced any hacks, data breaches, theft of cryptocurrency assets, or significant transaction errors in the last five years?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_security_incidents" id="defi_security_incidents_yes" value="yes">
+                                <label class="form-check-label" for="defi_security_incidents_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="defi_security_incidents" id="defi_security_incidents_no" value="no">
+                                <label class="form-check-label" for="defi_security_incidents_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="defi_security_incidents_details" style="display: none;">
+                                <label for="defi_incident_details" class="form-label">If yes, please provide details, including remedial actions taken.</label>
+                                <textarea class="form-control" id="defi_incident_details" name="defi_incident_details" rows="4" placeholder="Please provide details of any security incidents and remedial actions taken..."></textarea>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Section 3: Autonomous Robotics (Additional Questions) -->
@@ -2235,6 +2472,235 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="robotics_autonomy_level" id="robotics_fully_autonomous" value="fully_autonomous">
                                 <label class="form-check-label" for="robotics_fully_autonomous">Fully autonomous (no human in the loop)</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">5. Can the robot make real-time decisions without human oversight?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_realtime_decisions" id="robotics_realtime_yes" value="yes">
+                                <label class="form-check-label" for="robotics_realtime_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_realtime_decisions" id="robotics_realtime_no" value="no">
+                                <label class="form-check-label" for="robotics_realtime_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">6. Are there human override or emergency shutdown capabilities built into each unit?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_emergency_shutdown" id="robotics_shutdown_yes" value="yes">
+                                <label class="form-check-label" for="robotics_shutdown_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_emergency_shutdown" id="robotics_shutdown_no" value="no">
+                                <label class="form-check-label" for="robotics_shutdown_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">7. What navigation methods are used? (select all that apply)</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_gps" value="gps">
+                                <label class="form-check-label" for="nav_gps">GPS</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_slam" value="slam">
+                                <label class="form-check-label" for="nav_slam">SLAM</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_lidar" value="lidar">
+                                <label class="form-check-label" for="nav_lidar">LiDAR</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_computer_vision" value="computer_vision">
+                                <label class="form-check-label" for="nav_computer_vision">Computer Vision</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_beacon" value="beacon_infrared">
+                                <label class="form-check-label" for="nav_beacon">Beacon/Infrared</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_navigation[]" id="nav_other" value="other">
+                                <label class="form-check-label" for="nav_other">Other</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="nav_other_details" style="display: none;">
+                                <label for="nav_other_specify" class="form-label">Please specify other navigation methods:</label>
+                                <input type="text" class="form-control" id="nav_other_specify" name="nav_other_specify" placeholder="Please specify other navigation methods">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">8. Are the robots equipped with real-time obstacle detection and collision avoidance systems?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_obstacle_detection" id="robotics_obstacle_yes" value="yes">
+                                <label class="form-check-label" for="robotics_obstacle_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_obstacle_detection" id="robotics_obstacle_no" value="no">
+                                <label class="form-check-label" for="robotics_obstacle_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">9. Have you had any reported incidents involving physical harm or property damage caused by a robot?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_incidents" id="robotics_incidents_yes" value="yes">
+                                <label class="form-check-label" for="robotics_incidents_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_incidents" id="robotics_incidents_no" value="no">
+                                <label class="form-check-label" for="robotics_incidents_no">No</label>
+                            </div>
+                            <div class="conditional-field mt-3" id="robotics_incidents_details" style="display: none;">
+                                <label for="robotics_incident_description" class="form-label">If yes please describe</label>
+                                <textarea class="form-control" id="robotics_incident_description" name="robotics_incident_description" rows="3" placeholder="Please describe any incidents involving physical harm or property damage..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">10. Do your robots use AI agents or machine learning models to support decision-making?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_ai_ml" id="robotics_ai_yes" value="yes">
+                                <label class="form-check-label" for="robotics_ai_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_ai_ml" id="robotics_ai_no" value="no">
+                                <label class="form-check-label" for="robotics_ai_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="robotics_update_frequency" class="form-label">11. How often is the software or firmware on the robots updated?</label>
+                            <input type="text" class="form-control" id="robotics_update_frequency" name="robotics_update_frequency" placeholder="e.g., Monthly, Quarterly, As needed">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">12. Do you maintain logs of robot activity and decision-making for audit or incident response purposes?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_activity_logs" id="robotics_logs_yes" value="yes">
+                                <label class="form-check-label" for="robotics_logs_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_activity_logs" id="robotics_logs_no" value="no">
+                                <label class="form-check-label" for="robotics_logs_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">13. Are communications between robots and your servers encrypted and authenticated?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_encrypted_comms" id="robotics_encrypted_yes" value="yes">
+                                <label class="form-check-label" for="robotics_encrypted_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_encrypted_comms" id="robotics_encrypted_no" value="no">
+                                <label class="form-check-label" for="robotics_encrypted_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">14. Have your systems undergone independent safety, cybersecurity, or compliance audits?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_audits" id="robotics_audits_yes" value="yes">
+                                <label class="form-check-label" for="robotics_audits_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_audits" id="robotics_audits_no" value="no">
+                                <label class="form-check-label" for="robotics_audits_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">15. Are your robots certified or compliant with any relevant safety or robotics standards (e.g., ISO 13482, UL 3100)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_standards" id="robotics_standards_yes" value="yes">
+                                <label class="form-check-label" for="robotics_standards_yes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_standards" id="robotics_standards_no" value="no">
+                                <label class="form-check-label" for="robotics_standards_no">No</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">16. Do you perform regular maintenance or diagnostics on deployed robotic units?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_maintenance" id="robotics_maintenance_scheduled" value="scheduled_protocols">
+                                <label class="form-check-label" for="robotics_maintenance_scheduled">Yes – per scheduled maintenance protocols</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_maintenance" id="robotics_maintenance_failure" value="failure_only">
+                                <label class="form-check-label" for="robotics_maintenance_failure">Yes – only upon failure or customer report</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_maintenance" id="robotics_maintenance_none" value="no_formal">
+                                <label class="form-check-label" for="robotics_maintenance_none">No formal maintenance program</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">17. Are any robots deployed at customer or third-party locations where you do not have direct operational control?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_third_party_deployment" id="robotics_third_party_no" value="no">
+                                <label class="form-check-label" for="robotics_third_party_no">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_third_party_deployment" id="robotics_third_party_monitored" value="yes_monitored">
+                                <label class="form-check-label" for="robotics_third_party_monitored">Yes – with active monitoring</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_third_party_deployment" id="robotics_third_party_unmonitored" value="yes_unmonitored">
+                                <label class="form-check-label" for="robotics_third_party_unmonitored">Yes – without active monitoring</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">18. Do your robots interact directly with members of the public or end users (e.g., customers, patients, pedestrians)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_public_interaction" id="robotics_interaction_frequent" value="yes_frequently">
+                                <label class="form-check-label" for="robotics_interaction_frequent">Yes – frequently</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_public_interaction" id="robotics_interaction_occasional" value="occasionally">
+                                <label class="form-check-label" for="robotics_interaction_occasional">Occasionally</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_public_interaction" id="robotics_interaction_none" value="no_direct">
+                                <label class="form-check-label" for="robotics_interaction_none">No direct interaction</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">19. Do you have contracts in place with customers or partners that include:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_contract_terms[]" id="contract_liability" value="limitations_liability">
+                                <label class="form-check-label" for="contract_liability">Limitations of liability?</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_contract_terms[]" id="contract_indemnification" value="indemnification">
+                                <label class="form-check-label" for="contract_indemnification">Indemnification terms?</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="robotics_contract_terms[]" id="contract_insurance" value="insurance_requirements">
+                                <label class="form-check-label" for="contract_insurance">Insurance requirements?</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">20. Do you carry insurance coverage specific to autonomous hardware/software risks (e.g., product liability, tech E&O, cyber)?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_insurance_coverage" id="robotics_insurance_adequate" value="yes_adequate">
+                                <label class="form-check-label" for="robotics_insurance_adequate">Yes – adequate and reviewed annually</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_insurance_coverage" id="robotics_insurance_review" value="yes_needs_review">
+                                <label class="form-check-label" for="robotics_insurance_review">Yes – but may need review</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="robotics_insurance_coverage" id="robotics_insurance_none" value="no_coverage">
+                                <label class="form-check-label" for="robotics_insurance_none">No specific coverage</label>
                             </div>
                         </div>
                     </div>
@@ -2999,6 +3465,128 @@
                     }
                 });
 
+                // Additional DeFi conditional logic for new fields
+                $('input[name="defi_token_issuance"]').on('change', function() {
+                    const $details = $('#defi_token_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_token_structure').val('');
+                    }
+                });
+
+                $('input[name="defi_security_audits"]').on('change', function() {
+                    const $details = $('#defi_security_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_security_findings').val('');
+                    }
+                });
+
+                $('input[name="defi_disclaimers"]').on('change', function() {
+                    const $details = $('#defi_disclaimers_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_contract_clauses').val('');
+                    }
+                });
+
+                $('input[name="defi_wallet_infrastructure"]').on('change', function() {
+                    const $details = $('#defi_wallet_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_wallet_split').val('');
+                    }
+                });
+
+                $('input[name="defi_regulated"]').on('change', function() {
+                    const $details = $('#defi_regulated_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_regulators').val('');
+                    }
+                });
+
+                $('input[name="defi_aml_policies"]').on('change', function() {
+                    const $details = $('#defi_aml_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_aml_policy').val('');
+                    }
+                });
+
+                $('input[name="defi_blockchain_analytics"]').on('change', function() {
+                    const $details = $('#defi_analytics_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_analytics_systems').val('');
+                    }
+                });
+
+                $('input[name="defi_third_party"]').on('change', function() {
+                    const $details = $('#defi_third_party_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('input[name="defi_indemnity"]').prop('checked', false);
+                    }
+                });
+
+                $('input[name="defi_investment_assets"]').on('change', function() {
+                    const $details = $('#defi_investment_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_investment_value').val('');
+                    }
+                });
+
+                $('input[name="defi_security_incidents"]').on('change', function() {
+                    const $details = $('#defi_security_incidents_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#defi_incident_details').val('');
+                    }
+                });
+
+                // Robotics Questions conditional logic for new fields
+                $('input[name="robotics_navigation[]"][value="other"]').on('change', function() {
+                    const $details = $('#nav_other_details');
+                    if ($(this).is(':checked')) {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#nav_other_specify').val('');
+                    }
+                });
+
+                $('input[name="robotics_incidents"]').on('change', function() {
+                    const $details = $('#robotics_incidents_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#robotics_incident_description').val('');
+                    }
+                });
+
                 // AI Questions conditional logic
                 $('input[name="ai_functionality_integrated"]').on('change', function() {
                     const $details = $('#ai_functionality_details');
@@ -3343,6 +3931,20 @@
                         $('input[name="defi_custody_services"]:checked').trigger('change');
                         $('input[name="defi_exchange_platform"]:checked').trigger('change');
                         $('input[name="defi_smart_contracts"]:checked').trigger('change');
+                        $('input[name="defi_token_issuance"]:checked').trigger('change');
+                        $('input[name="defi_security_audits"]:checked').trigger('change');
+                        $('input[name="defi_disclaimers"]:checked').trigger('change');
+                        $('input[name="defi_wallet_infrastructure"]:checked').trigger('change');
+                        $('input[name="defi_regulated"]:checked').trigger('change');
+                        $('input[name="defi_aml_policies"]:checked').trigger('change');
+                        $('input[name="defi_blockchain_analytics"]:checked').trigger('change');
+                        $('input[name="defi_third_party"]:checked').trigger('change');
+                        $('input[name="defi_investment_assets"]:checked').trigger('change');
+                        $('input[name="defi_security_incidents"]:checked').trigger('change');
+                        
+                        // Trigger Robotics conditional logic
+                        $('input[name="robotics_navigation[]"]:checked').trigger('change');
+                        $('input[name="robotics_incidents"]:checked').trigger('change');
 
                         showNotification('Previous progress restored.', 'success');
                     }
