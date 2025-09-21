@@ -2026,6 +2026,99 @@
                         </div>
                     </div>
 
+                    <!-- Section 13: Prior Incidents & Claims -->
+                    <div class="form-section" data-section="13">
+                        <h2 class="section-title">⚠️ Section 13. Prior Incidents & Claims</h2>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">1. In the last 5 years, has the Company, or any entity falling within the definition of 'Insured' under the proposed Policy, its partners, directors, officers, or employees ever had a written demand or civil proceedings for compensatory damages made against them?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="written_demands" id="written_demands_yes" value="yes">
+                                    <label class="form-check-label" for="written_demands_yes">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="written_demands" id="written_demands_no" value="no">
+                                    <label class="form-check-label" for="written_demands_no">No</label>
+                                </div>
+                                <div id="written_demands_details" class="mt-3" style="display: none;">
+                                    <label for="written_demands_details_text" class="form-label">If yes, provide details:</label>
+                                    <textarea class="form-control" id="written_demands_details_text" name="written_demands_details_text" rows="4" placeholder="Provide details including dates, nature of claims, and outcomes..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">2. In the past 5 years has the Company, or any entity falling within the definition of 'Insured' under the proposed Policy:</label>
+                                
+                                <div class="mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_privacy_claims" id="incident_privacy_claims" value="yes">
+                                        <label class="form-check-label" for="incident_privacy_claims">
+                                            Received any claims or complaints regarding privacy, data protection or network security, or unauthorized disclosure of information?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_breach_notification" id="incident_breach_notification" value="yes">
+                                        <label class="form-check-label" for="incident_breach_notification">
+                                            Notified any persons of a privacy violation and/or data breach incident?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_extortion" id="incident_extortion" value="yes">
+                                        <label class="form-check-label" for="incident_extortion">
+                                            Received an extortion demand relating to your data and/or computer systems?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_network_outage" id="incident_network_outage" value="yes">
+                                        <label class="form-check-label" for="incident_network_outage">
+                                            Experienced a network outage that resulted in a significant disruption to your operations?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_government_action" id="incident_government_action" value="yes">
+                                        <label class="form-check-label" for="incident_government_action">
+                                            Been subject to any government action, investigation, subpoena regarding any alleged violation of privacy law or regulation?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_ip_complaint" id="incident_ip_complaint" value="yes">
+                                        <label class="form-check-label" for="incident_ip_complaint">
+                                            Received a complaint or cease and desist demand alleging trademark, copyright, invasion of privacy, defamation with regard to content published, displayed, or distributed by or on behalf of the applicant?
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-check">
+                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_policy_covered" id="incident_policy_covered" value="yes">
+                                        <label class="form-check-label" for="incident_policy_covered">
+                                            Experienced any incident which may be covered under this policy?
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div id="incident_details" class="mt-3" style="display: none;">
+                                    <label for="incident_details_text" class="form-label">If Yes to any of the above, please provide details on an addendum including relevant dates, brief summary of incident and any preventative measures that have been taken to prevent a reoccurrence:</label>
+                                    <textarea class="form-control" id="incident_details_text" name="incident_details_text" rows="6" placeholder="Provide comprehensive details for each applicable incident including dates, circumstances, resolution, and preventative measures implemented..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">3. Is the Applicant, or any person applying for this insurance aware of any fact, circumstance, situation, event, or act that reasonably could give rise to a claim against them for any coverages for which the Applicant is applying?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="potential_claims_awareness" id="potential_claims_yes" value="yes">
+                                    <label class="form-check-label" for="potential_claims_yes">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="potential_claims_awareness" id="potential_claims_no" value="no">
+                                    <label class="form-check-label" for="potential_claims_no">No</label>
+                                </div>
+                            </div>
+                        </div>
+
                     <!-- Section 2: Decentralized Finance & Digital Assets (Additional Questions) -->
                     <div class="form-section" data-section="15" id="defi-section" style="display: none;">
                         <h2 class="section-title">💰 Section 2. Decentralized Finance & Digital Assets (Additional Questions)</h2>
@@ -2448,99 +2541,6 @@
                                 <label class="form-check-label" for="ai_logs_no">No</label>
                             </div>
                         </div>
-
-                    <!-- Section 13: Prior Incidents & Claims -->
-                    <div class="form-section" data-section="13">
-                        <h2 class="section-title">⚠️ Section 13. Prior Incidents & Claims</h2>
-                            
-                            <div class="mb-4">
-                                <label class="form-label">1. In the last 5 years, has the Company, or any entity falling within the definition of 'Insured' under the proposed Policy, its partners, directors, officers, or employees ever had a written demand or civil proceedings for compensatory damages made against them?</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="written_demands" id="written_demands_yes" value="yes">
-                                    <label class="form-check-label" for="written_demands_yes">Yes</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="written_demands" id="written_demands_no" value="no">
-                                    <label class="form-check-label" for="written_demands_no">No</label>
-                                </div>
-                                <div id="written_demands_details" class="mt-3" style="display: none;">
-                                    <label for="written_demands_details_text" class="form-label">If yes, provide details:</label>
-                                    <textarea class="form-control" id="written_demands_details_text" name="written_demands_details_text" rows="4" placeholder="Provide details including dates, nature of claims, and outcomes..."></textarea>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label">2. In the past 5 years has the Company, or any entity falling within the definition of 'Insured' under the proposed Policy:</label>
-                                
-                                <div class="mt-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_privacy_claims" id="incident_privacy_claims" value="yes">
-                                        <label class="form-check-label" for="incident_privacy_claims">
-                                            Received any claims or complaints regarding privacy, data protection or network security, or unauthorized disclosure of information?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_breach_notification" id="incident_breach_notification" value="yes">
-                                        <label class="form-check-label" for="incident_breach_notification">
-                                            Notified any persons of a privacy violation and/or data breach incident?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_extortion" id="incident_extortion" value="yes">
-                                        <label class="form-check-label" for="incident_extortion">
-                                            Received an extortion demand relating to your data and/or computer systems?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_network_outage" id="incident_network_outage" value="yes">
-                                        <label class="form-check-label" for="incident_network_outage">
-                                            Experienced a network outage that resulted in a significant disruption to your operations?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_government_action" id="incident_government_action" value="yes">
-                                        <label class="form-check-label" for="incident_government_action">
-                                            Been subject to any government action, investigation, subpoena regarding any alleged violation of privacy law or regulation?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_ip_complaint" id="incident_ip_complaint" value="yes">
-                                        <label class="form-check-label" for="incident_ip_complaint">
-                                            Received a complaint or cease and desist demand alleging trademark, copyright, invasion of privacy, defamation with regard to content published, displayed, or distributed by or on behalf of the applicant?
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input incident-checkbox" type="checkbox" name="incident_policy_covered" id="incident_policy_covered" value="yes">
-                                        <label class="form-check-label" for="incident_policy_covered">
-                                            Experienced any incident which may be covered under this policy?
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <div id="incident_details" class="mt-3" style="display: none;">
-                                    <label for="incident_details_text" class="form-label">If Yes to any of the above, please provide details on an addendum including relevant dates, brief summary of incident and any preventative measures that have been taken to prevent a reoccurrence:</label>
-                                    <textarea class="form-control" id="incident_details_text" name="incident_details_text" rows="6" placeholder="Provide comprehensive details for each applicable incident including dates, circumstances, resolution, and preventative measures implemented..."></textarea>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label">3. Is the Applicant, or any person applying for this insurance aware of any fact, circumstance, situation, event, or act that reasonably could give rise to a claim against them for any coverages for which the Applicant is applying?</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="potential_claims_awareness" id="potential_claims_yes" value="yes">
-                                    <label class="form-check-label" for="potential_claims_yes">Yes</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="potential_claims_awareness" id="potential_claims_no" value="no">
-                                    <label class="form-check-label" for="potential_claims_no">No</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -2578,6 +2578,11 @@
 
     <!-- Custom jQuery Script for Form Logic -->
     <script>
+        // Global conditional step flags
+        let aiStepEnabled = false;
+        let defiStepEnabled = false;
+        let roboticsStepEnabled = false;
+
         $(document).ready(function() {
             let currentStep = 1;
             let totalSteps = 13; // Base steps, conditional steps (14-16) added when sectors selected
@@ -2881,10 +2886,6 @@
                 });
 
                 // Conditional sections logic - manage visibility for AI, DeFi, and Robotics
-                let aiStepEnabled = false;
-                let defiStepEnabled = false;
-                let roboticsStepEnabled = false;
-                
                 $('input[name="sectors[]"]').on('change', function() {
                     const aiSelected = $('#sector_ai').is(':checked');
                     const defiSelected = $('#sector_defi').is(':checked');
