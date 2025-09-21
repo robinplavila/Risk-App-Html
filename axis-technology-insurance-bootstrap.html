@@ -3351,87 +3351,104 @@
                     }
                 });
 
-                // Conditional sections logic - manage visibility for AI, DeFi, and Robotics
-                $('input[name="sectors[]"]').on('change', function() {
+                // Conditional sections logic - manage visibility and dynamic step numbering for AI, DeFi, and Robotics
+                function updateConditionalSteps() {
                     const aiSelected = $('#sector_ai').is(':checked');
                     const defiSelected = $('#sector_defi').is(':checked');
                     const roboticsSelected = $('#sector_robotics').is(':checked');
                     
-                    const $aiStepIndicator = $('#ai-step-indicator');
-                    const $aiStepSeparator = $('#ai-step-separator');
-                    const $aiSection = $('#ai-section');
+                    // Reset all conditional steps
+                    $('#ai-step-indicator, #defi-step-indicator, #robotics-step-indicator').hide();
+                    $('#ai-step-separator, #defi-step-separator, #robotics-step-separator').hide();
+                    $('#ai-section, #defi-section, #robotics-section').removeClass('active').css('display', 'none');
                     
-                    const $defiStepIndicator = $('#defi-step-indicator');
-                    const $defiStepSeparator = $('#defi-step-separator');
-                    const $defiSection = $('#defi-section');
-                    
-                    const $roboticsStepIndicator = $('#robotics-step-indicator');
-                    const $roboticsStepSeparator = $('#robotics-step-separator');
-                    const $roboticsSection = $('#robotics-section');
-                    
-                    // Handle AI section
-                    if (aiSelected && !aiStepEnabled) {
-                        aiStepEnabled = true;
-                        $aiStepIndicator.slideDown(300);
-                        $aiStepSeparator.slideDown(300);
-                    } else if (!aiSelected && aiStepEnabled) {
-                        aiStepEnabled = false;
-                        if (currentStep === 14) {
-                            currentStep = 13;
-                            showStep(currentStep);
-                        }
-                        $aiStepIndicator.slideUp(300);
-                        $aiStepSeparator.slideUp(300);
-                        $aiSection.removeClass('active').css('display', 'none');
-                        $aiSection.find('input, textarea').val('').prop('checked', false);
-                        $aiSection.find('.conditional-field').hide();
-                        $aiSection.find('.ai-agent-conditional').hide();
+                    // Clear form data when sections are hidden
+                    if (!aiSelected) {
+                        $('#ai-section').find('input, textarea').val('').prop('checked', false);
+                        $('#ai-section').find('.conditional-field').hide();
+                        $('#ai-section').find('.ai-agent-conditional').hide();
+                    }
+                    if (!defiSelected) {
+                        $('#defi-section').find('input, textarea').val('').prop('checked', false);
+                        $('#defi-section').find('.conditional-field').hide();
+                    }
+                    if (!roboticsSelected) {
+                        $('#robotics-section').find('input, textarea').val('').prop('checked', false);
+                        $('#robotics-section').find('.conditional-field').hide();
                     }
                     
-                    // Handle DeFi section
-                    if (defiSelected && !defiStepEnabled) {
-                        defiStepEnabled = true;
-                        $defiStepIndicator.slideDown(300);
-                        $defiStepSeparator.slideDown(300);
-                    } else if (!defiSelected && defiStepEnabled) {
-                        defiStepEnabled = false;
-                        if (currentStep === 15) {
-                            currentStep = 13;
-                            showStep(currentStep);
-                        }
-                        $defiStepIndicator.slideUp(300);
-                        $defiStepSeparator.slideUp(300);
-                        $defiSection.removeClass('active').css('display', 'none');
-                        $defiSection.find('input, textarea').val('').prop('checked', false);
-                        $defiSection.find('.conditional-field').hide();
+                    // Dynamically assign step numbers starting from 14
+                    let nextStep = 14;
+                    const sectorSteps = [];
+                    
+                    if (aiSelected) {
+                        sectorSteps.push({
+                            sector: 'ai',
+                            stepNumber: nextStep,
+                            indicator: '#ai-step-indicator',
+                            separator: '#ai-step-separator',
+                            section: '#ai-section'
+                        });
+                        nextStep++;
                     }
                     
-                    // Handle Robotics section
-                    if (roboticsSelected && !roboticsStepEnabled) {
-                        roboticsStepEnabled = true;
-                        $roboticsStepIndicator.slideDown(300);
-                        $roboticsStepSeparator.slideDown(300);
-                    } else if (!roboticsSelected && roboticsStepEnabled) {
-                        roboticsStepEnabled = false;
-                        if (currentStep === 16) {
-                            currentStep = 13;
-                            showStep(currentStep);
-                        }
-                        $roboticsStepIndicator.slideUp(300);
-                        $roboticsStepSeparator.slideUp(300);
-                        $roboticsSection.removeClass('active').css('display', 'none');
-                        $roboticsSection.find('input, textarea').val('').prop('checked', false);
-                        $roboticsSection.find('.conditional-field').hide();
+                    if (defiSelected) {
+                        sectorSteps.push({
+                            sector: 'defi',
+                            stepNumber: nextStep,
+                            indicator: '#defi-step-indicator',
+                            separator: '#defi-step-separator',
+                            section: '#defi-section'
+                        });
+                        nextStep++;
                     }
                     
-                    // Update total steps based on enabled conditional sections
-                    totalSteps = 13;
-                    if (aiStepEnabled) totalSteps++;
-                    if (defiStepEnabled) totalSteps++;
-                    if (roboticsStepEnabled) totalSteps++;
+                    if (roboticsSelected) {
+                        sectorSteps.push({
+                            sector: 'robotics',
+                            stepNumber: nextStep,
+                            indicator: '#robotics-step-indicator',
+                            separator: '#robotics-step-separator',
+                            section: '#robotics-section'
+                        });
+                        nextStep++;
+                    }
+                    
+                    // Update step indicators and sections with new step numbers
+                    sectorSteps.forEach(step => {
+                        // Update step indicator
+                        const $indicator = $(step.indicator);
+                        $indicator.attr('data-step', step.stepNumber);
+                        $indicator.find('.step-number').text(step.stepNumber);
+                        $indicator.slideDown(300);
+                        
+                        // Update separator
+                        $(step.separator).slideDown(300);
+                        
+                        // Update form section data-step attribute
+                        $(step.section).attr('data-section', step.stepNumber);
+                    });
+                    
+                    // Update enabled flags
+                    aiStepEnabled = aiSelected;
+                    defiStepEnabled = defiSelected;
+                    roboticsStepEnabled = roboticsSelected;
+                    
+                    // Update total steps
+                    totalSteps = 13 + sectorSteps.length;
+                    
+                    // If current step is beyond the new total, go back to step 13
+                    if (currentStep > totalSteps) {
+                        currentStep = 13;
+                        showStep(currentStep);
+                    }
                     
                     updateStepIndicator();
                     updateNavigation();
+                }
+                
+                $('input[name="sectors[]"]').on('change', function() {
+                    updateConditionalSteps();
                 });
 
                 // DeFi Questions conditional logic
@@ -4043,11 +4060,22 @@
                     { step: 10, key: 'intellectualProperty' },
                     { step: 11, key: 'employment' },
                     { step: 12, key: 'aiTools' },
-                    { step: 13, key: 'priorIncidents' },
-                    { step: 14, key: 'ai' },
-                    { step: 15, key: 'defi' },
-                    { step: 16, key: 'robotics' }
+                    { step: 13, key: 'priorIncidents' }
                 ];
+
+                // Add conditional sections based on their current step numbers (dynamic)
+                if (aiStepEnabled) {
+                    const aiStep = $('#ai-section').attr('data-section');
+                    if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
+                }
+                if (defiStepEnabled) {
+                    const defiStep = $('#defi-section').attr('data-section');
+                    if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
+                }
+                if (roboticsStepEnabled) {
+                    const roboticsStep = $('#robotics-section').attr('data-section');
+                    if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
+                }
 
                 sections.forEach(section => {
                     $(`#step${section.step} input, #step${section.step} textarea, #step${section.step} select`).each(function() {
@@ -4257,9 +4285,20 @@
             $('.step-item').on('click', function() {
                 const targetStep = parseInt($(this).data('step'));
                 
-                // Don't allow navigation to AI step if AI is not enabled
-                if (targetStep === 13 && !aiStepEnabled) {
-                    return;
+                // Don't allow navigation to conditional steps if they are not enabled
+                if (targetStep >= 14) {
+                    const aiStep = $('#ai-section').attr('data-section');
+                    const defiStep = $('#defi-section').attr('data-section');
+                    const roboticsStep = $('#robotics-section').attr('data-section');
+                    
+                    const isValidConditionalStep = 
+                        (aiStepEnabled && targetStep == aiStep) ||
+                        (defiStepEnabled && targetStep == defiStep) ||
+                        (roboticsStepEnabled && targetStep == roboticsStep);
+                    
+                    if (!isValidConditionalStep) {
+                        return;
+                    }
                 }
                 
                 // Only allow navigation to completed steps or next step
