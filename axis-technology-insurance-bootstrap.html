@@ -1248,30 +1248,61 @@
                         <div class="mb-4">
                             <label class="form-label">6. Do your standard contracts include limitations on your financial liability and legal liability, including for missing service levels?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_yes" value="yes">
-                                <label class="form-check-label" for="liability_limitations_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_yes" value="Standard contracts do not include any limitations of liability.">
+                                <label class="form-check-label" for="liability_limitations_yes">Standard contracts do not include any limitations of liability.</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_no" value="no">
-                                <label class="form-check-label" for="liability_limitations_no">No</label>
+                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_no" value="Liability limits are included in standard contracts and sometimes negotiated, but they are not consistently applied or reviewed and often do not address consequential damages or SLA breaches.">
+                                <label class="form-check-label" for="liability_limitations_no">Liability limits are included in standard contracts and sometimes negotiated, but they are not consistently applied or reviewed and often do not address consequential damages or SLA breaches.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_yes" value="Contracts include defined financial caps and disclaimers for indirect damages and SLA non-performance.">
+                                <label class="form-check-label" for="liability_limitations_yes">Contracts include defined financial caps and disclaimers for indirect damages and SLA non-performance.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="liability_limitations" id="liability_limitations_no" value="The organization uses tailored limitation clauses covering direct and indirect risks, with regular legal review to align with evolving exposures and jurisdictions.">
+                                <label class="form-check-label" for="liability_limitations_no">The organization uses tailored limitation clauses covering direct and indirect risks, with regular legal review to align with evolving exposures and jurisdictions.</label>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">7. Do you have a process to track contract obligations (timelines, deliverables, SLAs) and escalate issues if a project is at risk?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_yes" value="yes">
-                                <label class="form-check-label" for="contract_tracking_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_yes" value="We do not have a formal process to track projects.">
+                                <label class="form-check-label" for="contract_tracking_yes">We do not have a formal process to track projects.</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_no" value="no">
-                                <label class="form-check-label" for="contract_tracking_no">No</label>
+                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_no" value="We track key project deadlines and deliverables manually and escalatory actions vary by project or manager.">
+                                <label class="form-check-label" for="contract_tracking_no">We track key project deadlines and deliverables manually and escalatory actions vary by project or manager.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_yes" value="A project management system is used to track deliverables, milestones, and SLAs, with internal reviews and escalation as needed.">
+                                <label class="form-check-label" for="contract_tracking_yes">A project management system is used to track deliverables, milestones, and SLAs, with internal reviews and escalation as needed.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="contract_tracking" id="contract_tracking_no" value="Contract commitments are integrated into project and performance tracking tools, with automated alerts, escalation processes, and reporting to leadership.">
+                                <label class="form-check-label" for="contract_tracking_no">Contract commitments are integrated into project and performance tracking tools, with automated alerts, escalation processes, and reporting to leadership.</label>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="scope_change_handling" class="form-label">8. How do you handle changes in project scope, customer feedback, or issues needing corrective action?</label>
-                            <textarea class="form-control" id="scope_change_handling" name="scope_change_handling" rows="3" placeholder="Please describe your process..."></textarea>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formal_acceptance_process" id="formal_acceptance_process_yes" value="Changes and feedback are handled informally without documentation.">
+                                <label class="form-check-label" for="formal_acceptance_process_yes">Changes and feedback are handled informally without documentation.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formal_acceptance_process" id="formal_acceptance_process_no" value="Changes are typically discussed and approved through email or meetings, with some controls like change request forms in place, but there is no structured tracking or sign-off and these controls are not used consistently.">
+                                <label class="form-check-label" for="formal_acceptance_process_no">Changes are typically discussed and approved through email or meetings, with some controls like change request forms in place, but there is no structured tracking or sign-off and these controls are not used consistently.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formal_acceptance_process" id="formal_acceptance_process_yes" value="There is a formal process for scope changes and issue resolution, including documentation, approvals, and updates to contracts or timelines.">
+                                <label class="form-check-label" for="formal_acceptance_process_yes">There is a formal process for scope changes and issue resolution, including documentation, approvals, and updates to contracts or timelines.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formal_acceptance_process" id="formal_acceptance_process_no" value="T+A28:E28he company enforces change control procedures, customer feedback loops, root cause analysis, and continuous improvement tracking for service delivery.">
+                                <label class="form-check-label" for="formal_acceptance_process_no">T+A28:E28he company enforces change control procedures, customer feedback loops, root cause analysis, and continuous improvement tracking for service delivery.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -1308,35 +1339,81 @@
 
                         <div class="mb-4">
                             <label for="subcontractor_standards" class="form-label">11. How do you ensure your subcontractors meet the same insurance and risk standards that are of you in your contracts?</label>
-                            <textarea class="form-control" id="subcontractor_standards" name="subcontractor_standards" rows="3" placeholder="Please describe your process for ensuring subcontractor compliance..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_yes" value="Subcontractors are not subject to any formal requirements.">
+                                <label class="form-check-label" for="subcontract_services_yes">Subcontractors are not subject to any formal requirements.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_no" value="Our contracts require subcontractors to carry insurance and comply with security terms, but there is no consistent process to verify compliance and enforcement is uneven.">
+                                <label class="form-check-label" for="subcontract_services_no">Our contracts require subcontractors to carry insurance and comply with security terms, but there is no consistent process to verify compliance and enforcement is uneven.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_yes" value="Subcontractors must provide proof of compliance (e.g., COIs), and compliance is checked during onboarding.">
+                                <label class="form-check-label" for="subcontract_services_yes">Subcontractors must provide proof of compliance (e.g., COIs), and compliance is checked during onboarding.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_no" value="Subcontractor risk controls are embedded in procurement and project workflows, with centralized tracking, renewal monitoring, and compliance audits.">
+                                <label class="form-check-label" for="subcontract_services_no">Subcontractor risk controls are embedded in procurement and project workflows, with centralized tracking, renewal monitoring, and compliance audits.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="marketing_accuracy" class="form-label">12. How do you make sure claims about the performance of your products or services in marketing and sales materials are accurate?</label>
-                            <textarea class="form-control" id="marketing_accuracy" name="marketing_accuracy" rows="3" placeholder="Please describe your process for ensuring marketing claims accuracy..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_yes" value="No process exists to verify marketing or sales claims.">
+                                <label class="form-check-label" for="subcontract_services_yes">No process exists to verify marketing or sales claims.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_no" value="Marketing materials are created by internal teams with occasional product input and a basic review by product or leadership before release, but they are not reviewed for legal or factual accuracy.">
+                                <label class="form-check-label" for="subcontract_services_no">Marketing materials are created by internal teams with occasional product input and a basic review by product or leadership before release, but they are not reviewed for legal or factual accuracy.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_yes" value="There is a review process involving legal, product, and marketing to ensure accuracy and compliance with advertising standards.">
+                                <label class="form-check-label" for="subcontract_services_yes">There is a review process involving legal, product, and marketing to ensure accuracy and compliance with advertising standards.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="subcontract_services" id="subcontract_services_no" value="A structured marketing review process exists with documented substantiation for performance claims, legal signoff, and audit trails for compliance.">
+                                <label class="form-check-label" for="subcontract_services_no">A structured marketing review process exists with documented substantiation for performance claims, legal signoff, and audit trails for compliance.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">13. Do you have a process to identify and update legacy contracts that may not conform to your current standard templates?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_yes" value="yes">
-                                <label class="form-check-label" for="legacy_contract_process_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_yes" value="No formal process exists. Legacy contracts remain in place without review, regardless of alignment with current standards or protocols.">
+                                <label class="form-check-label" for="legacy_contract_process_yes">No formal process exists. Legacy contracts remain in place without review, regardless of alignment with current standards or protocols.</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_no" value="no">
-                                <label class="form-check-label" for="legacy_contract_process_no">No</label>
+                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_no" value="Legacy contracts are occasionally reviewed or updated, but only when issues arise (e.g., disputes, renewals). No systematic approach or central oversight">
+                                <label class="form-check-label" for="legacy_contract_process_no">Legacy contracts are occasionally reviewed or updated, but only when issues arise (e.g., disputes, renewals). No systematic approach or central oversight</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_yes" value="A structured process is in place to review and update legacy contracts, typically during renewals or major business changes. Some contracts may still fall outside current standards.">
+                                <label class="form-check-label" for="legacy_contract_process_yes">A structured process is in place to review and update legacy contracts, typically during renewals or major business changes. Some contracts may still fall outside current standards.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="legacy_contract_process" id="legacy_contract_process_no" value="Comprehensive, proactive process in place with regular audits of all contracts. Legacy agreements are systematically identified, tracked, and updated to align with current templates and risk protocols.">
+                                <label class="form-check-label" for="legacy_contract_process_no">Comprehensive, proactive process in place with regular audits of all contracts. Legacy agreements are systematically identified, tracked, and updated to align with current templates and risk protocols.</label>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">14. Do your sales, marketing, or customer-facing materials use terms such as "guarantee" or "warranty" that could create obligations beyond contractual commitments or fall outside the scope of insurance coverage?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_yes" value="yes">
-                                <label class="form-check-label" for="marketing_warranty_terms_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_yes" value="Sales and marketing materials may include “guarantee” or “warranty” language without legal or risk review.">
+                                <label class="form-check-label" for="marketing_warranty_terms_yes">Sales and marketing materials may include “guarantee” or “warranty” language without legal or risk review.</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_no" value="no">
-                                <label class="form-check-label" for="marketing_warranty_terms_no">No</label>
+                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_no" value="References to “guarantees” or “warranties” are occasionally reviewed, but not consistently controlled or approved by legal/risk teams.">
+                                <label class="form-check-label" for="marketing_warranty_terms_no">References to “guarantees” or “warranties” are occasionally reviewed, but not consistently controlled or approved by legal/risk teams.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_yes" value="Marketing and sales content is generally reviewed by legal or compliance before publication. Warranty or guarantee language is identified and managed, though gaps may still exist in older or decentralized materials.">
+                                <label class="form-check-label" for="marketing_warranty_terms_yes">Marketing and sales content is generally reviewed by legal or compliance before publication. Warranty or guarantee language is identified and managed, though gaps may still exist in older or decentralized materials.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="marketing_warranty_terms" id="marketing_warranty_terms_no" value="All marketing and sales materials are systematically vetted to avoid unintended guarantees/warranties. Employees are trained on the insurance and liability implications of such terms, ensuring alignment with contractual and insurance protections.">
+                                <label class="form-check-label" for="marketing_warranty_terms_no">All marketing and sales materials are systematically vetted to avoid unintended guarantees/warranties. Employees are trained on the insurance and liability implications of such terms, ensuring alignment with contractual and insurance protections.</label>
                             </div>
                         </div>
                     </div>
