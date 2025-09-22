@@ -1228,20 +1228,12 @@
                         <div class="mb-4">
                             <label class="form-label">5. Do you have a clear process for reviewing and approving key contracts, including with clients, vendors, and other partners?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_yes" value="No formal contract review or approval process exists.">
-                                <label class="form-check-label" for="contract_review_process_yes">No formal contract review or approval process exists.</label>
+                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_yes" value="yes">
+                                <label class="form-check-label" for="contract_review_process_yes">Yes</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_no" value="Contracts are reviewed on a case-by-case basis, typically by the CEO, founder, or internal stakeholders, but there is no consistent process, legal review, or formal approval protocol.">
-                                <label class="form-check-label" for="contract_review_process_no">Contracts are reviewed on a case-by-case basis, typically by the CEO, founder, or internal stakeholders, but there is no consistent process, legal review, or formal approval protocol.</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_no" value="There is a defined contract review and approval process involving legal or executive oversight for key agreements.">
-                                <label class="form-check-label" for="contract_review_process_no">There is a defined contract review and approval process involving legal or executive oversight for key agreements.</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_no" value="A documented workflow is in place with legal review, delegated signing authority, contract risk checks, and version control for all major agreements.">
-                                <label class="form-check-label" for="contract_review_process_no">A documented workflow is in place with legal review, delegated signing authority, contract risk checks, and version control for all major agreements.</label>
+                                <input class="form-check-input" type="radio" name="contract_review_process" id="contract_review_process_no" value="no">
+                                <label class="form-check-label" for="contract_review_process_no">No</label>
                             </div>
                         </div>
 
@@ -3369,11 +3361,6 @@
                     $('#ai-step-indicator, #defi-step-indicator, #robotics-step-indicator').hide();
                     $('#ai-step-separator, #defi-step-separator, #robotics-step-separator').hide();
                     $('#ai-section, #defi-section, #robotics-section').removeClass('active').css('display', 'none');
-                    
-                    // Clear data-section attributes for all conditional sections to prevent conflicts
-                    $('#ai-section').removeAttr('data-section');
-                    $('#defi-section').removeAttr('data-section');
-                    $('#robotics-section').removeAttr('data-section');
                     
                     // Clear form data when sections are hidden
                     if (!aiSelected) {
