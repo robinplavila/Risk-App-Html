@@ -1424,52 +1424,202 @@
                         
                         <div class="mb-4">
                             <label for="cybersecurity_responsibility" class="form-label">1. Who is responsible for overseeing cybersecurity on a day-to-day basis?</label>
-                            <textarea class="form-control" id="cybersecurity_responsibility" name="cybersecurity_responsibility" rows="2" placeholder="Please describe who oversees cybersecurity..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="No one is formally responsible for cybersecurity.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">No one is formally responsible for cybersecurity.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Cybersecurity responsibilities are informally assigned, usually handled part-time by IT, operations, or a designated staff member.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Cybersecurity responsibilities are informally assigned, usually handled part-time by IT, operations, or a designated staff member.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="A full-time staff member or external provider is responsible, with defined oversight.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">A full-time staff member or external provider is responsible, with defined oversight.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="A qualified internal or external CISO manages cybersecurity with clear authority, reporting, and board-level oversight.">
+                                <label class="form-check-label" for="vulnerability_scans_no">A qualified internal or external CISO manages cybersecurity with clear authority, reporting, and board-level oversight.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="cybersecurity_policy" class="form-label">2. Is there a formal cybersecurity policy in place for employees to follow?</label>
-                            <textarea class="form-control" id="cybersecurity_policy" name="cybersecurity_policy" rows="2" placeholder="Please describe your cybersecurity policy..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="No cybersecurity policy exists.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">No cybersecurity policy exists.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="A policy exists and is shared with employees during onboarding but it may be outdated or not consistently distributed to all staff beyond initial hiring.">
+                                <label class="form-check-label" for="vulnerability_scans_no">A policy exists and is shared with employees during onboarding but it may be outdated or not consistently distributed to all staff beyond initial hiring.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="The policy is current, distributed to all employees, and acknowledged in writing.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">The policy is current, distributed to all employees, and acknowledged in writing.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="A comprehensive, regularly updated policy is enforced and supported with training and accountability mechanisms.">
+                                <label class="form-check-label" for="vulnerability_scans_no">A comprehensive, regularly updated policy is enforced and supported with training and accountability mechanisms.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="cyber_training" class="form-label">3. Do all team members receive regular training to help them recognize cyber threats and scams?</label>
-                            <textarea class="form-control" id="cyber_training" name="cyber_training" rows="2" placeholder="Please describe your cyber threat training program..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="No cybersecurity training is provided.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">No cybersecurity training is provided.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Most employees receive annual training, but it may be informal, one-time, or not consistently tracked.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Most employees receive annual training, but it may be informal, one-time, or not consistently tracked.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="All employees receive mandatory cybersecurity training annually.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">All employees receive mandatory cybersecurity training annually.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Training is ongoing, tailored by role, and includes phishing simulations and tracking of completion and performance.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Training is ongoing, tailored by role, and includes phishing simulations and tracking of completion and performance.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="mfa_requirement" class="form-label">4. Is multi-factor authentication (MFA) required for accessing company systems, email, and cloud tools remotely?</label>
-                            <textarea class="form-control" id="mfa_requirement" name="mfa_requirement" rows="2" placeholder="Please describe your MFA requirements..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="MFA is not used.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">MFA is not used.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="MFA is required for remote access to critical systems and used for some other users or systems, but overall implementation is inconsistent.">
+                                <label class="form-check-label" for="vulnerability_scans_no">MFA is required for remote access to critical systems and used for some other users or systems, but overall implementation is inconsistent.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="MFA is enforced for all users across remote and cloud environments.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">MFA is enforced for all users across remote and cloud environments.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="MFA is universally enforced, regularly tested, and monitored for compliance and anomalies.">
+                                <label class="form-check-label" for="vulnerability_scans_no">MFA is universally enforced, regularly tested, and monitored for compliance and anomalies.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="remote_access_security" class="form-label">5. Is remote access to your internal or cloud systems restricted to secure methods like VPN or SSO and protected with MFA?</label>
-                            <textarea class="form-control" id="remote_access_security" name="remote_access_security" rows="2" placeholder="Please describe your remote access security measures..."></textarea>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Remote access is open or unmanaged.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Remote access is open or unmanaged.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Remote access typically relies on passwords and may use VPN or SSO, but secure controls like MFA are not consistently applied.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Remote access typically relies on passwords and may use VPN or SSO, but secure controls like MFA are not consistently applied.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Secure access (VPN or SSO) with MFA is required for all remote users.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Secure access (VPN or SSO) with MFA is required for all remote users.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Remote access is tightly controlled with policy enforcement, MFA, and centralized access logging.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Remote access is tightly controlled with policy enforcement, MFA, and centralized access logging.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="device_protection" class="form-label">6. What tools or protections secure employee devices and email from cyber threats?</label>
-                            <textarea class="form-control" id="device_protection" name="device_protection" rows="3" placeholder="Please describe your device and email protection tools..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Devices and email are not protected by security tools.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Devices and email are not protected by security tools.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Basic antivirus, standard endpoint protection, and email filtering are in place.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Basic antivirus, standard endpoint protection, and email filtering are in place.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Devices are protected by centrally managed EDR, and email systems have advanced filtering and threat detection.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Devices are protected by centrally managed EDR, and email systems have advanced filtering and threat detection.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="A layered security stack is deployed across all devices and email accounts, including EDR, DLP, and sandboxing.">
+                                <label class="form-check-label" for="vulnerability_scans_no">A layered security stack is deployed across all devices and email accounts, including EDR, DLP, and sandboxing.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="user_access_management" class="form-label">7. How is user access managed, including setting, adjusting, and promptly removing access?</label>
-                            <textarea class="form-control" id="user_access_management" name="user_access_management" rows="3" placeholder="Please describe your user access management process..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Access is granted manually and rarely updated.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Access is granted manually and rarely updated.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Access rights are adjusted as needed and reviewed occasionally, with revocation upon termination, though delays may occur.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Access rights are adjusted as needed and reviewed occasionally, with revocation upon termination, though delays may occur.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Role-based access controls are in place with regular access reviews.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Role-based access controls are in place with regular access reviews.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Access is centrally managed, provisioned by role, reviewed quarterly, and automatically revoked upon role change or termination.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Access is centrally managed, provisioned by role, reviewed quarterly, and automatically revoked upon role change or termination.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="activity_logs" class="form-label">8. Do you collect and review activity logs across your IT environment?</label>
-                            <textarea class="form-control" id="activity_logs" name="activity_logs" rows="2" placeholder="Please describe your activity logging and review process..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="No activity logs are collected or retained.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">No activity logs are collected or retained.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Logs are collected from key systems but are not actively monitored, and reviews are performed reactively.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Logs are collected from key systems but are not actively monitored, and reviews are performed reactively.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Centralized log management is in place with routine review and alerting.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Centralized log management is in place with routine review and alerting.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Logs are collected, analyzed with SIEM tools, and reviewed proactively with incident response integration.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Logs are collected, analyzed with SIEM tools, and reviewed proactively with incident response integration.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="threat_detection" class="form-label">9. Do you use tools or services to identify cyber threats or unusual system activity in real time?</label>
-                            <textarea class="form-control" id="threat_detection" name="threat_detection" rows="3" placeholder="Please describe your threat detection tools and services..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="No tools are used to monitor system activity or threats.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">No tools are used to monitor system activity or threats.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Basic alerts come from standard antivirus or firewall tools, with some real-time monitoring in place, though it is not centrally managed.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Basic alerts come from standard antivirus or firewall tools, with some real-time monitoring in place, though it is not centrally managed.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Real-time threat detection tools are used and monitored by internal or external IT/security teams.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Real-time threat detection tools are used and monitored by internal or external IT/security teams.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="A fully integrated threat detection and response system (e.g., MDR, SIEM) monitors activity 24/7 with alerting and escalation.">
+                                <label class="form-check-label" for="vulnerability_scans_no">A fully integrated threat detection and response system (e.g., MDR, SIEM) monitors activity 24/7 with alerting and escalation.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="technology_management" class="form-label">10. How does your organization manage aging technology and ensure software and systems stay updated and supported?</label>
-                            <textarea class="form-control" id="technology_management" name="technology_management" rows="3" placeholder="Please describe your technology update and support management..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Software updates and patching are done irregularly or not at all.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Software updates and patching are done irregularly or not at all.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Most systems are updated periodically, though some legacy systems remain unsupported, and updates often occur reactively without a set schedule.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Most systems are updated periodically, though some legacy systems remain unsupported, and updates often occur reactively without a set schedule.</label>
+                            </div>
+                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_yes" value="Key systems are tracked, security patches are regularly applied, and major upgrades are planned every few years, though some older systems remain in use if still functional.">
+                                <label class="form-check-label" for="vulnerability_scans_yes">Key systems are tracked, security patches are regularly applied, and major upgrades are planned every few years, though some older systems remain in use if still functional.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="vulnerability_scans" id="vulnerability_scans_no" value="Systems are proactively monitored for EOL/EOS, with automated patching and lifecycle management to maintain secure, supported software.">
+                                <label class="form-check-label" for="vulnerability_scans_no">Systems are proactively monitored for EOL/EOS, with automated patching and lifecycle management to maintain secure, supported software.</label>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -1536,23 +1686,41 @@
                         <div class="mb-4">
                             <label class="form-label">17. Do you require more than one person to approve high-risk financial transactions like wire transfers?</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="yes">
-                                <label class="form-check-label" for="financial_approval_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="No approval process is required; a single individual can execute high-risk transactions.">
+                                <label class="form-check-label" for="financial_approval_yes">No approval process is required; a single individual can execute high-risk transactions.</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_no" value="no">
-                                <label class="form-check-label" for="financial_approval_no">No</label>
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_no" value="Dual approval is expected for some transactions and occasionally required, but it is not consistently applied, enforced, or documented.">
+                                <label class="form-check-label" for="financial_approval_no">Dual approval is expected for some transactions and occasionally required, but it is not consistently applied, enforced, or documented.</label>
                             </div>
-                            
-                            <div id="financial_approval_details" class="mt-3" style="display: none;">
-                                <label for="financial_approval_process" class="form-label">Please describe your approval process:</label>
-                                <textarea class="form-control" id="financial_approval_process" name="financial_approval_process" rows="2" placeholder="Please describe your financial transaction approval process..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="A dual-approval policy is enforced for all high-risk transactions (e.g., wire transfers, bank account changes), with audit trail documentation.">
+                                <label class="form-check-label" for="financial_approval_yes">A dual-approval policy is enforced for all high-risk transactions (e.g., wire transfers, bank account changes), with audit trail documentation.</label>
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_no" value="Dual authorization is mandatory for all high-risk transactions, embedded in financial systems, with tiered thresholds, role-based permissions, fraud alerts, and periodic audits to verify compliance.">
+                                <label class="form-check-label" for="financial_approval_no">Dual authorization is mandatory for all high-risk transactions, embedded in financial systems, with tiered thresholds, role-based permissions, fraud alerts, and periodic audits to verify compliance.</label>
+                            </div>                            
                         </div>
 
                         <div class="mb-4">
                             <label for="financial_fraud_controls" class="form-label">18. What controls are in place to prevent and detect financial fraud, including scams targeting incoming and outgoing wire transfers or internal theft?</label>
-                            <textarea class="form-control" id="financial_fraud_controls" name="financial_fraud_controls" rows="3" placeholder="Please describe your financial fraud prevention and detection controls..."></textarea>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value=" No formal controls or monitoring systems are in place; the company relies on trust or informal checks.">
+                                <label class="form-check-label" for="financial_approval_yes"> No formal controls or monitoring systems are in place; the company relies on trust or informal checks.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="Basic safeguards exist, such as accounting software permissions and finance team reviews, with some vendor verification and fraud awareness efforts, but proactive measures against risks like phishing, business email compromise, or internal theft are limited, and monitoring is minimal.">
+                                <label class="form-check-label" for="financial_approval_yes">Basic safeguards exist, such as accounting software permissions and finance team reviews, with some vendor verification and fraud awareness efforts, but proactive measures against risks like phishing, business email compromise, or internal theft are limited, and monitoring is minimal.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="Documented fraud prevention policies exist, with training, vendor validation, audit logs, and periodic financial audits or reconciliations.">
+                                <label class="form-check-label" for="financial_approval_yes">Documented fraud prevention policies exist, with training, vendor validation, audit logs, and periodic financial audits or reconciliations.</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="financial_approval" id="financial_approval_yes" value="A formal fraud prevention framework is in place, including dual controls, transaction monitoring, fraud detection tools, employee training, whistleblower protections, and regular testing or audits of financial systems.">
+                                <label class="form-check-label" for="financial_approval_yes">A formal fraud prevention framework is in place, including dual controls, transaction monitoring, fraud detection tools, employee training, whistleblower protections, and regular testing or audits of financial systems.</label>
+                            </div>
                         </div>
                     </div>
 
