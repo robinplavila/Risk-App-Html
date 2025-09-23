@@ -2251,30 +2251,67 @@
 
                         <div class="mb-4">
                             <label class="form-label">2. Do you maintain a data inventory or data classification policy?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_yes" value="yes">
-                                <label class="form-check-label" for="data_inventory_policy_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_no" value="no">
-                                <label class="form-check-label" for="data_inventory_policy_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_1" value="1">
+                                    <label class="form-check-label" for="data_inventory_policy_1">We are unsure what personal or sensitive data we handle.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_2" value="2">
+                                    <label class="form-check-label" for="data_inventory_policy_2">There is a general understanding of the types of personal data handled, with some documented categories, but no formal or comprehensive classification of personal or sensitive data.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_3" value="3">
+                                    <label class="form-check-label" for="data_inventory_policy_3">We classify data (e.g., PII, health, financial) and apply protection policies accordingly.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_inventory_policy" id="data_inventory_policy_4" value="4">
+                                    <label class="form-check-label" for="data_inventory_policy_4">We maintain a detailed data inventory with classification levels, mapped to systems and regulatory obligations, and aligned to risk-based protection standards.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="data_sensitivity_determination" class="form-label">3. How do you determine what data is sensitive, and what protections are applied based on that sensitivity?</label>
-                            <textarea class="form-control" id="data_sensitivity_determination" name="data_sensitivity_determination" rows="3" placeholder="Please describe your data sensitivity determination and protection process..."></textarea>
+                            <label class="form-label">3. How do you determine what data is sensitive, and what protections are applied based on that sensitivity?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_sensitivity_determination" id="data_sensitivity_determination_1" value="1">
+                                    <label class="form-check-label" for="data_sensitivity_determination_1">There is no process for classifying or protecting sensitive data.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_sensitivity_determination" id="data_sensitivity_determination_2" value="2">
+                                    <label class="form-check-label" for="data_sensitivity_determination_2">Sensitivity is generally determined case-by-case with informal guidance, though a basic classification policy exists with some controls like encryption for high-risk data.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_sensitivity_determination" id="data_sensitivity_determination_3" value="3">
+                                    <label class="form-check-label" for="data_sensitivity_determination_3">Data is classified based on regulatory and business impact, with defined controls for each level (e.g., access control, encryption, retention).</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_sensitivity_determination" id="data_sensitivity_determination_4" value="4">
+                                    <label class="form-check-label" for="data_sensitivity_determination_4">A comprehensive data classification and protection framework is used, with automated enforcement, access logging, and policy integration across platforms.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">4. Do you have a process for permanently deleting personal data when it's no longer needed?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_yes" value="yes">
-                                <label class="form-check-label" for="data_deletion_process_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_no" value="no">
-                                <label class="form-check-label" for="data_deletion_process_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_1" value="1">
+                                    <label class="form-check-label" for="data_deletion_process_1">No defined process for deleting personal data.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_2" value="2">
+                                    <label class="form-check-label" for="data_deletion_process_2">Personal data is deleted when required, typically through manual processes, but this is done occasionally and not in a systematic or irreversible way.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_3" value="3">
+                                    <label class="form-check-label" for="data_deletion_process_3">A documented data deletion process is in place, aligned to retention policies, with periodic audits.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_deletion_process" id="data_deletion_process_4" value="4">
+                                    <label class="form-check-label" for="data_deletion_process_4">Automated and auditable deletion workflows are in place for personal data, based on retention schedules, legal holds, and privacy regulations (e.g., PIPEDA, GDPR, CPRA).</label>
+                                </div>
                             </div>
                         </div>
 
@@ -2296,57 +2333,134 @@
 
                         <div class="mb-4">
                             <label class="form-label">6. Do you enforce data retention or deletion schedules?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_yes" value="yes">
-                                <label class="form-check-label" for="data_retention_schedules_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_no" value="no">
-                                <label class="form-check-label" for="data_retention_schedules_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_1" value="1">
+                                    <label class="form-check-label" for="data_retention_schedules_1">We do not have a formal data retention or deletion policy in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_2" value="2">
+                                    <label class="form-check-label" for="data_retention_schedules_2">We have informal guidelines, but enforcement is inconsistent and often left to individual departments.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_3" value="3">
+                                    <label class="form-check-label" for="data_retention_schedules_3">We have a documented data retention and deletion policy, with scheduled reviews, but enforcement is only partially automated.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_retention_schedules" id="data_retention_schedules_4" value="4">
+                                    <label class="form-check-label" for="data_retention_schedules_4">We enforce automated data retention and deletion schedules across all systems, aligned with legal, regulatory, and contractual requirements, and monitored for compliance.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">7. Do you use data loss prevention (DLP) or file encryption tools?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_yes" value="yes">
-                                <label class="form-check-label" for="dlp_encryption_tools_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_no" value="no">
-                                <label class="form-check-label" for="dlp_encryption_tools_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_1" value="1">
+                                    <label class="form-check-label" for="dlp_encryption_tools_1">We do not use any DLP or file encryption tools.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_2" value="2">
+                                    <label class="form-check-label" for="dlp_encryption_tools_2">We use basic file encryption tools on select systems, but no DLP solution is in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_3" value="3">
+                                    <label class="form-check-label" for="dlp_encryption_tools_3">We use either DLP or encryption tools across core systems handling sensitive data, though coverage may not be enterprise-wide.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="dlp_encryption_tools" id="dlp_encryption_tools_4" value="4">
+                                    <label class="form-check-label" for="dlp_encryption_tools_4">We use both DLP and encryption tools organization-wide, with centralized policies, real-time monitoring, and alerting to prevent unauthorized data exfiltration.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">8. Do you encrypt sensitive data in transit over networks and at rest?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_yes" value="yes">
-                                <label class="form-check-label" for="data_encryption_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_no" value="no">
-                                <label class="form-check-label" for="data_encryption_no">No</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_partial" value="partial">
-                                <label class="form-check-label" for="data_encryption_partial">Partially</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_1" value="1">
+                                    <label class="form-check-label" for="data_encryption_1">Sensitive data is not consistently encrypted either in transit or at rest.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_2" value="2">
+                                    <label class="form-check-label" for="data_encryption_2">We encrypt sensitive data in transit (e.g., HTTPS, VPN), but at-rest encryption is not applied across all systems.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_3" value="3">
+                                    <label class="form-check-label" for="data_encryption_3">Sensitive data is encrypted both in transit and at rest for key systems, but not fully standardized across the organization.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="data_encryption" id="data_encryption_4" value="4">
+                                    <label class="form-check-label" for="data_encryption_4">All sensitive data is encrypted by default both in transit and at rest using industry-standard algorithms, enforced via policy and regularly audited.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="api_access_control" class="form-label">9. How is access to your APIs controlled, and how is sensitive data protected during transmission?</label>
-                            <textarea class="form-control" id="api_access_control" name="api_access_control" rows="3" placeholder="Please describe your API access controls and data protection measures..."></textarea>
+                            <label class="form-label">9. How is access to your APIs controlled, and how is sensitive data protected during transmission?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_access_control" id="api_access_control_1" value="1">
+                                    <label class="form-check-label" for="api_access_control_1">APIs are open or unsecured, with no encryption or access control.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_access_control" id="api_access_control_2" value="2">
+                                    <label class="form-check-label" for="api_access_control_2">Basic API keys, passwords, and encryption (e.g., HTTPS) are used for most APIs, but controls are not consistently enforced or standardized.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_access_control" id="api_access_control_3" value="3">
+                                    <label class="form-check-label" for="api_access_control_3">Access is controlled via secure methods like OAuth, API gateways, and all traffic is encrypted.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_access_control" id="api_access_control_4" value="4">
+                                    <label class="form-check-label" for="api_access_control_4">APIs use strong authentication (OAuth2, JWT), encryption (TLS 1.2+), rate limiting, and token lifecycle controls, with centralized access management.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="api_security_review" class="form-label">10. Are your APIs regularly reviewed for security risks, and how do you handle any issues that are found?</label>
-                            <textarea class="form-control" id="api_security_review" name="api_security_review" rows="3" placeholder="Please describe your API security review process and issue handling..."></textarea>
+                            <label class="form-label">10. Are your APIs regularly reviewed for security risks, and how do you handle any issues that are found?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_security_review" id="api_security_review_1" value="1">
+                                    <label class="form-check-label" for="api_security_review_1">No regular review or testing of APIs for security vulnerabilities.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_security_review" id="api_security_review_2" value="2">
+                                    <label class="form-check-label" for="api_security_review_2">APIs are informally tested or reviewed during development or when problems are reported, but follow-up and ongoing testing are inconsistent.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_security_review" id="api_security_review_3" value="3">
+                                    <label class="form-check-label" for="api_security_review_3">Regular static/dynamic security testing is performed, and findings are addressed through a formal remediation process.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_security_review" id="api_security_review_4" value="4">
+                                    <label class="form-check-label" for="api_security_review_4">APIs undergo routine automated and manual security testing (e.g., SAST, DAST, fuzzing), with tracked remediation SLAs and integration into DevSecOps.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="api_monitoring" class="form-label">11. How do you monitor API use in real time to detect unusual behavior or potential data leaks?</label>
-                            <textarea class="form-control" id="api_monitoring" name="api_monitoring" rows="3" placeholder="Please describe your API monitoring and anomaly detection processes..."></textarea>
+                            <label class="form-label">11. How do you monitor API use in real time to detect unusual behavior or potential data leaks?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_monitoring" id="api_monitoring_1" value="1">
+                                    <label class="form-check-label" for="api_monitoring_1">No monitoring of API traffic or behavior is in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_monitoring" id="api_monitoring_2" value="2">
+                                    <label class="form-check-label" for="api_monitoring_2">API logs are collected and usage is monitored through manual reviews or basic alerts, but not on a regular or proactive basis.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_monitoring" id="api_monitoring_3" value="3">
+                                    <label class="form-check-label" for="api_monitoring_3">Real-time monitoring is in place for usage patterns, errors, and rate anomalies, with alerts for suspicious behavior.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_monitoring" id="api_monitoring_4" value="4">
+                                    <label class="form-check-label" for="api_monitoring_4">API traffic is monitored continuously using analytics or threat detection tools, with anomaly detection, alerting, and response workflows integrated with incident handling.</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2356,46 +2470,134 @@
                         
                         <div class="mb-4">
                             <label class="form-label">1. Do your contracts with customers, partners, or distributors include indemnification provisions that make you responsible for IP infringement claims?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_yes" value="yes">
-                                <label class="form-check-label" for="ip_indemnification_provisions_yes">Yes</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_1" value="1">
+                                    <label class="form-check-label" for="ip_indemnification_provisions_1">We haven't reviewed our contracts for IP indemnity exposure and are unsure whether such provisions exist.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_2" value="2">
+                                    <label class="form-check-label" for="ip_indemnification_provisions_2">Some contracts include IP indemnities, but we accept them as-is without negotiation or risk transfer strategies.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_3" value="3">
+                                    <label class="form-check-label" for="ip_indemnification_provisions_3">We review IP indemnity provisions case-by-case and seek to limit or share liability where possible, often with legal input.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_4" value="4">
+                                    <label class="form-check-label" for="ip_indemnification_provisions_4">We have a formal process for reviewing and negotiating IP indemnities, consistently limit our exposure through contract language, and align coverage with our insurance program to ensure claims are insurable.</label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ip_indemnification_provisions" id="ip_indemnification_provisions_no" value="no">
-                                <label class="form-check-label" for="ip_indemnification_provisions_no">No</label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">2. What is your plan if your company is accused of infringing someone else's IP?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_infringement_plan" id="ip_infringement_plan_1" value="1">
+                                    <label class="form-check-label" for="ip_infringement_plan_1">No plan or insurance is in place to address IP disputes.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_infringement_plan" id="ip_infringement_plan_2" value="2">
+                                    <label class="form-check-label" for="ip_infringement_plan_2">Leadership relies on legal counsel and a general dispute response approach, but there is no documented or detailed plan specific to IP disputes.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_infringement_plan" id="ip_infringement_plan_3" value="3">
+                                    <label class="form-check-label" for="ip_infringement_plan_3">A formal incident response process is in place, including legal review and insurance support.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_infringement_plan" id="ip_infringement_plan_4" value="4">
+                                    <label class="form-check-label" for="ip_infringement_plan_4">The company has a documented IP risk response plan, legal counsel on standby, indemnification strategies, and intellectual property insurance.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="ip_infringement_plan" class="form-label">2. What is your plan if your company is accused of infringing someone else's IP?</label>
-                            <textarea class="form-control" id="ip_infringement_plan" name="ip_infringement_plan" rows="3" placeholder="Please describe your plan for handling IP infringement accusations..."></textarea>
+                            <label class="form-label">3. How do you monitor and manage the use of third-party software licenses?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_license_monitoring" id="third_party_license_monitoring_1" value="1">
+                                    <label class="form-check-label" for="third_party_license_monitoring_1">Software is used without tracking licenses or usage rights.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_license_monitoring" id="third_party_license_monitoring_2" value="2">
+                                    <label class="form-check-label" for="third_party_license_monitoring_2">Teams manage licensing informally with a partial inventory and some tools to track third-party software, but tracking is incomplete and decentralized.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_license_monitoring" id="third_party_license_monitoring_3" value="3">
+                                    <label class="form-check-label" for="third_party_license_monitoring_3">License use is tracked and reviewed regularly, with controls to prevent unauthorized or expired use.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_license_monitoring" id="third_party_license_monitoring_4" value="4">
+                                    <label class="form-check-label" for="third_party_license_monitoring_4">A centralized license management system is in place, integrated with procurement and development, with regular audits and automated compliance alerts.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="third_party_license_monitoring" class="form-label">3. How do you monitor and manage the use of third-party software licenses?</label>
-                            <textarea class="form-control" id="third_party_license_monitoring" name="third_party_license_monitoring" rows="3" placeholder="Please describe your software license monitoring and management process..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="ip_misuse_prevention" class="form-label">4. What measures are in place to prevent the misuse of someone else's IP? (like patents, content, or software)</label>
-                            <textarea class="form-control" id="ip_misuse_prevention" name="ip_misuse_prevention" rows="3" placeholder="Please describe your measures to prevent IP misuse..."></textarea>
+                            <label class="form-label">4. What measures are in place to prevent the misuse of someone else's IP? (like patents, content, or software)</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_misuse_prevention" id="ip_misuse_prevention_1" value="1">
+                                    <label class="form-check-label" for="ip_misuse_prevention_1">No measures are in place; staff use third-party materials without oversight.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_misuse_prevention" id="ip_misuse_prevention_2" value="2">
+                                    <label class="form-check-label" for="ip_misuse_prevention_2">Teams follow basic guidelines and reminders to avoid IP misuse, but there are no formal policies, checks, or consistent monitoring in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_misuse_prevention" id="ip_misuse_prevention_3" value="3">
+                                    <label class="form-check-label" for="ip_misuse_prevention_3">The company has documented policies, training, and review processes to avoid IP infringement.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_misuse_prevention" id="ip_misuse_prevention_4" value="4">
+                                    <label class="form-check-label" for="ip_misuse_prevention_4">A formal IP compliance program is in place, including legal review, licensing audits, content screening, and employee training.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">5. Is there a review process to ensure marketing or public content doesn't violate IP rights or privacy laws?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_yes" value="yes">
-                                <label class="form-check-label" for="content_review_process_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_no" value="no">
-                                <label class="form-check-label" for="content_review_process_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_1" value="1">
+                                    <label class="form-check-label" for="content_review_process_1">Content is published without any review for legal or IP concerns.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_2" value="2">
+                                    <label class="form-check-label" for="content_review_process_2">Content, including marketing materials, is reviewed informally by managers or legal when requested, but there is no defined process or consistent checklist.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_3" value="3">
+                                    <label class="form-check-label" for="content_review_process_3">A standard review process is in place for all public-facing content, including checks for IP and privacy issues.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="content_review_process" id="content_review_process_4" value="4">
+                                    <label class="form-check-label" for="content_review_process_4">All content goes through a formal legal/compliance review process with documented approvals, IP clearance procedures, and version control.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="ip_protection_controls" class="form-label">6. What controls does your organization have in place to detect and prevent unauthorized use or infringement of your intellectual property by others?</label>
-                            <textarea class="form-control" id="ip_protection_controls" name="ip_protection_controls" rows="3" placeholder="Please describe your IP protection and monitoring controls..."></textarea>
+                            <label class="form-label">6. What controls does your organization have in place to detect and prevent unauthorized use or infringement of your intellectual property by others?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_protection_controls" id="ip_protection_controls_1" value="1">
+                                    <label class="form-check-label" for="ip_protection_controls_1">We don't currently monitor for IP infringement and rely on third parties to notify us if issues arise.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_protection_controls" id="ip_protection_controls_2" value="2">
+                                    <label class="form-check-label" for="ip_protection_controls_2">We occasionally search for misuse of our IP online or respond when issues are brought to our attention, but have no formal process.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_protection_controls" id="ip_protection_controls_3" value="3">
+                                    <label class="form-check-label" for="ip_protection_controls_3">We monitor for unauthorized use of our IP using basic tools (e.g., manual searches, Google alerts) and engage legal counsel when needed.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ip_protection_controls" id="ip_protection_controls_4" value="4">
+                                    <label class="form-check-label" for="ip_protection_controls_4">We use active monitoring tools (e.g., trademark watch services, brand protection platforms), have internal escalation procedures, and enforce our rights through cease-and-desist letters, takedowns, or litigation when appropriate.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -2468,40 +2670,135 @@
                         <h2 class="section-title">👥 Section 11. People, Employment Practices & Insider Controls</h2>
                         
                         <div class="mb-4">
-                            <label for="background_checks" class="form-label">1. What background checks or screening do you use to evaluate new hires, especially for roles with access to sensitive data or systems?</label>
-                            <textarea class="form-control" id="background_checks" name="background_checks" rows="3" placeholder="Please describe your background check and screening process..."></textarea>
+                            <label class="form-label">1. What background checks or screening do you use to evaluate new hires, especially for roles with access to sensitive data or systems?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="background_checks" id="background_checks_1" value="1">
+                                    <label class="form-check-label" for="background_checks_1">No background checks or screening are conducted before hiring.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="background_checks" id="background_checks_2" value="2">
+                                    <label class="form-check-label" for="background_checks_2">Basic reference checks and, for sensitive roles, occasional criminal background or employment verification are performed, but there is no formal screening policy and practices are inconsistent.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="background_checks" id="background_checks_3" value="3">
+                                    <label class="form-check-label" for="background_checks_3">Standardized screening process includes criminal, employment, and education verification for all roles with data/system access.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="background_checks" id="background_checks_4" value="4">
+                                    <label class="form-check-label" for="background_checks_4">A comprehensive, risk-based screening process is applied based on role sensitivity, including background, credit (where appropriate), and regulatory compliance checks.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="new_hire_policy_training" class="form-label">2. What is your process for ensuring new hires understand and follow your company's key policies, like security and acceptable use?</label>
-                            <textarea class="form-control" id="new_hire_policy_training" name="new_hire_policy_training" rows="3" placeholder="Please describe your new hire training and policy orientation process..."></textarea>
+                            <label class="form-label">2. What is your process for ensuring new hires understand and follow your company's key policies, like security and acceptable use?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="new_hire_policy_training" id="new_hire_policy_training_1" value="1">
+                                    <label class="form-check-label" for="new_hire_policy_training_1">New hires receive little or no orientation on company policies.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="new_hire_policy_training" id="new_hire_policy_training_2" value="2">
+                                    <label class="form-check-label" for="new_hire_policy_training_2">New hires receive policies to review as part of basic onboarding, with signed acknowledgment required for key policies like confidentiality or acceptable use, but broader training or acknowledgment is not consistently required.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="new_hire_policy_training" id="new_hire_policy_training_3" value="3">
+                                    <label class="form-check-label" for="new_hire_policy_training_3">New hires complete structured onboarding, including required training on security, privacy, and acceptable use policies.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="new_hire_policy_training" id="new_hire_policy_training_4" value="4">
+                                    <label class="form-check-label" for="new_hire_policy_training_4">Onboarding includes interactive, role-specific policy training with testing, tracked completion, and annual re-certification for key policies.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="confidentiality_training" class="form-label">3. How are employees trained to avoid accidentally sharing confidential information through email, messages, or presentations?</label>
-                            <textarea class="form-control" id="confidentiality_training" name="confidentiality_training" rows="3" placeholder="Please describe your confidentiality and information security training..."></textarea>
+                            <label class="form-label">3. How are employees trained to avoid accidentally sharing confidential information through email, messages, or presentations?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="confidentiality_training" id="confidentiality_training_1" value="1">
+                                    <label class="form-check-label" for="confidentiality_training_1">No training is provided on handling confidential information.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="confidentiality_training" id="confidentiality_training_2" value="2">
+                                    <label class="form-check-label" for="confidentiality_training_2">Employees receive informal reminders and confidentiality training during onboarding, but there is no structured or ongoing training program.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="confidentiality_training" id="confidentiality_training_3" value="3">
+                                    <label class="form-check-label" for="confidentiality_training_3">Regular training is provided, including email and presentation dos/don'ts and examples of accidental disclosure.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="confidentiality_training" id="confidentiality_training_4" value="4">
+                                    <label class="form-check-label" for="confidentiality_training_4">Employees receive role-based, scenario-driven training with testing, reinforced by policy, monitoring, and reporting mechanisms.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="unusual_behavior_detection" class="form-label">4. What steps are in place to detect unusual employee behavior that could indicate a security or policy issue?</label>
-                            <textarea class="form-control" id="unusual_behavior_detection" name="unusual_behavior_detection" rows="3" placeholder="Please describe your employee behavior monitoring and detection processes..."></textarea>
+                            <label class="form-label">4. What steps are in place to detect unusual employee behavior that could indicate a security or policy issue?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="unusual_behavior_detection" id="unusual_behavior_detection_1" value="1">
+                                    <label class="form-check-label" for="unusual_behavior_detection_1">No monitoring or detection tools or processes are in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="unusual_behavior_detection" id="unusual_behavior_detection_2" value="2">
+                                    <label class="form-check-label" for="unusual_behavior_detection_2">Potential issues are identified informally through manager observation or peer reporting, with HR or IT conducting manual log reviews when concerns arise, but there is no ongoing monitoring.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="unusual_behavior_detection" id="unusual_behavior_detection_3" value="3">
+                                    <label class="form-check-label" for="unusual_behavior_detection_3">Systems log user activity and can flag anomalies; HR and IT have a defined process to investigate concerns.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="unusual_behavior_detection" id="unusual_behavior_detection_4" value="4">
+                                    <label class="form-check-label" for="unusual_behavior_detection_4">Behavioral analytics and monitoring tools are in place for high-risk roles, with integrated alerting, response protocols, and legal/HR oversight.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">5. Do employment agreements clearly define confidentiality obligations, IP ownership, and terms that continue after someone leaves?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_yes" value="yes">
-                                <label class="form-check-label" for="employment_agreement_terms_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_no" value="no">
-                                <label class="form-check-label" for="employment_agreement_terms_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_1" value="1">
+                                    <label class="form-check-label" for="employment_agreement_terms_1">Employment agreements do not include confidentiality or IP ownership provisions, and have no post-employment obligations.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_2" value="2">
+                                    <label class="form-check-label" for="employment_agreement_terms_2">Some agreements include confidentiality clauses, but IP ownership or post-employment obligations are missing or inconsistent.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_3" value="3">
+                                    <label class="form-check-label" for="employment_agreement_terms_3">Most agreements include confidentiality, IP ownership, and some terms that extend after employment ends, though not always reviewed or tailored.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="employment_agreement_terms" id="employment_agreement_terms_4" value="4">
+                                    <label class="form-check-label" for="employment_agreement_terms_4">All employment agreements clearly define confidentiality, IP ownership, and post-employment obligations, are reviewed by legal counsel, and updated regularly.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="nda_enforcement" class="form-label">6. What steps ensure NDAs are signed, enforced, and followed, particularly after employment ends?</label>
-                            <textarea class="form-control" id="nda_enforcement" name="nda_enforcement" rows="3" placeholder="Please describe your NDA management and enforcement processes..."></textarea>
+                            <label class="form-label">6. What steps ensure NDAs are signed, enforced, and followed, particularly after employment ends?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="nda_enforcement" id="nda_enforcement_1" value="1">
+                                    <label class="form-check-label" for="nda_enforcement_1">NDAs are rarely used or tracked, with no process to enforce them during or after employment.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="nda_enforcement" id="nda_enforcement_2" value="2">
+                                    <label class="form-check-label" for="nda_enforcement_2">NDAs are signed for some roles or situations, but tracking is informal and follow-up after employment is minimal.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="nda_enforcement" id="nda_enforcement_3" value="3">
+                                    <label class="form-check-label" for="nda_enforcement_3">NDAs are standard for employees and key contractors, tracked centrally, with reminders of obligations given during exit processes.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="nda_enforcement" id="nda_enforcement_4" value="4">
+                                    <label class="form-check-label" for="nda_enforcement_4">NDAs are mandatory for all staff and applicable vendors, systematically tracked, enforced with formal exit procedures, and obligations monitored post-employment.</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2511,76 +2808,177 @@
                         
                         <div class="mb-4">
                             <label class="form-label">1. Do you have formal policies governing employee use of generative AI tools in the workplace?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_yes" value="yes">
-                                <label class="form-check-label" for="ai_tool_policies_yes">Yes</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_1" value="1">
+                                    <label class="form-check-label" for="ai_tool_policies_1">No formal policy exists; employees use AI tools at their discretion without oversight or guidance.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_2" value="2">
+                                    <label class="form-check-label" for="ai_tool_policies_2">Informal guidelines are communicated verbally or via ad hoc communications, but no formalized or documented policy is in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_3" value="3">
+                                    <label class="form-check-label" for="ai_tool_policies_3">A documented policy exists outlining acceptable AI use cases and prohibited applications; periodic reminders or basic training are provided.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_4" value="4">
+                                    <label class="form-check-label" for="ai_tool_policies_4">A comprehensive, regularly updated AI use policy is in place, aligned with legal, regulatory, and ethical standards. Mandatory employee training, acknowledgement tracking, and compliance audits ensure adherence.</label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_tool_policies" id="ai_tool_policies_no" value="no">
-                                <label class="form-check-label" for="ai_tool_policies_no">No</label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">2. How does your organization ensure sensitive, proprietary or customer data is not inadvertently inputted into public or third-party AI tools?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_data_protection" id="ai_data_protection_1" value="1">
+                                    <label class="form-check-label" for="ai_data_protection_1">No controls or employee awareness; sensitive data may be shared with AI tools without restriction or monitoring.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_data_protection" id="ai_data_protection_2" value="2">
+                                    <label class="form-check-label" for="ai_data_protection_2">Employees are instructed not to share sensitive data with AI tools, but enforcement is manual and there are no technical safeguards.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_data_protection" id="ai_data_protection_3" value="3">
+                                    <label class="form-check-label" for="ai_data_protection_3">Data classification and access rules are defined, with monitoring tools or DLP (Data Loss Prevention) systems in place to detect and prevent accidental sharing.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_data_protection" id="ai_data_protection_4" value="4">
+                                    <label class="form-check-label" for="ai_data_protection_4">Strong, enforced controls combining technical safeguards (e.g., AI input filtering, DLP, endpoint restrictions) with mandatory training, AI-specific data handling protocols, and real-time monitoring to prevent sensitive data leakage.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="ai_data_protection" class="form-label">2. How does your organization ensure sensitive, proprietary or customer data is not inadvertently inputted into public or third-party AI tools?</label>
-                            <textarea class="form-control" id="ai_data_protection" name="ai_data_protection" rows="3" placeholder="Please describe your data protection measures for AI tool usage..."></textarea>
+                            <label class="form-label">3. How are AI tools provisioned and monitored internally to ensure only authorized employees can access and use them?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_provisioning" id="ai_tool_provisioning_1" value="1">
+                                    <label class="form-check-label" for="ai_tool_provisioning_1">No restrictions; any employee can access and use AI tools, including unsanctioned or public platforms, without oversight.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_provisioning" id="ai_tool_provisioning_2" value="2">
+                                    <label class="form-check-label" for="ai_tool_provisioning_2">AI tool access is limited to certain teams, but controls are informal and not technically enforced (e.g., relying on manager approval or trust).</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_provisioning" id="ai_tool_provisioning_3" value="3">
+                                    <label class="form-check-label" for="ai_tool_provisioning_3">Approved AI tools are centrally provisioned with role-based access controls; usage logs are reviewed periodically but not continuously monitored.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_tool_provisioning" id="ai_tool_provisioning_4" value="4">
+                                    <label class="form-check-label" for="ai_tool_provisioning_4">Enterprise-approved AI tools integrated with identity and access management (IAM), multi-factor authentication, continuous monitoring, automated alerts for misuse, and centralized reporting dashboards for compliance oversight.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="ai_tool_provisioning" class="form-label">3. How are AI tools provisioned and monitored internally to ensure only authorized employees can access and use them?</label>
-                            <textarea class="form-control" id="ai_tool_provisioning" name="ai_tool_provisioning" rows="3" placeholder="Please describe your AI tool provisioning and monitoring process..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="ai_content_compliance" class="form-label">4. What steps do you take to make sure AI-generated content doesn't violate privacy rules or IP rights?</label>
-                            <textarea class="form-control" id="ai_content_compliance" name="ai_content_compliance" rows="3" placeholder="Please describe your AI content compliance verification process..."></textarea>
+                            <label class="form-label">4. What steps do you take to make sure AI-generated content doesn't violate privacy rules or IP rights?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_content_compliance" id="ai_content_compliance_1" value="1">
+                                    <label class="form-check-label" for="ai_content_compliance_1">No review or safeguards are in place to monitor AI-generated content.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_content_compliance" id="ai_content_compliance_2" value="2">
+                                    <label class="form-check-label" for="ai_content_compliance_2">There is informal awareness of potential privacy and IP risks, with some safeguards such as manual review of public content, but no specific controls or consistent validation process are in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_content_compliance" id="ai_content_compliance_3" value="3">
+                                    <label class="form-check-label" for="ai_content_compliance_3">The business has implemented content review procedures, and AI output is checked for privacy or IP issues before publication or use.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_content_compliance" id="ai_content_compliance_4" value="4">
+                                    <label class="form-check-label" for="ai_content_compliance_4">There is a formal review and compliance process involving legal, compliance, and product teams to ensure AI outputs align with IP, copyright, and data privacy obligations.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">5. Have you implemented controls to monitor and validate the accuracy and reliability of outputs generated by third-party AI tools?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_yes" value="yes">
-                                <label class="form-check-label" for="ai_output_validation_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_no" value="no">
-                                <label class="form-check-label" for="ai_output_validation_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_1" value="1">
+                                    <label class="form-check-label" for="ai_output_validation_1">No controls in place; outputs from AI tools are used without review or validation, relying entirely on the tool's outputs.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_2" value="2">
+                                    <label class="form-check-label" for="ai_output_validation_2">Manual review of outputs occurs inconsistently, dependent on individual user discretion, with no formal validation process or documented standards.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_3" value="3">
+                                    <label class="form-check-label" for="ai_output_validation_3">A formal processes exist for reviewing and validating AI outputs, including documented criteria and periodic spot checks by subject matter experts.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_output_validation" id="ai_output_validation_4" value="4">
+                                    <label class="form-check-label" for="ai_output_validation_4">A comprehensive validation framework in place, combining automated checks, human-in-the-loop oversight, and ongoing performance monitoring. Continuous audits and feedback loops are used to detect errors, bias, and drift, with results feeding into process improvements.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">6. Do you have incident response procedures in place to address errors, misuse, or breaches resulting from third-party AI tool use?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_yes" value="yes">
-                                <label class="form-check-label" for="ai_incident_response_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_no" value="no">
-                                <label class="form-check-label" for="ai_incident_response_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_1" value="1">
+                                    <label class="form-check-label" for="ai_incident_response_1">No formal incident response procedures exist for AI-related errors or misuse.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_2" value="2">
+                                    <label class="form-check-label" for="ai_incident_response_2">General IT or cybersecurity incident response procedures exist but do not address AI-specific risks or third-party tool misuse.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_3" value="3">
+                                    <label class="form-check-label" for="ai_incident_response_3">A documented incident response plan includes AI-related scenarios, with designated roles and escalation paths. Periodic tabletop exercises or testing are conducted, but scope remains limited.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_incident_response" id="ai_incident_response_4" value="4">
+                                    <label class="form-check-label" for="ai_incident_response_4">A comprehensive AI-specific incident response plan is fully integrated with enterprise risk and cybersecurity frameworks. It includes rapid detection, predefined playbooks for AI errors/misuse, coordination with third-party vendors, post-incident reviews, and continuous improvement.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">7. Have you reviewed whether your insurance or contracts adequately address risks from using AI, such as errors, reputation damage, or legal issues?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_yes" value="yes">
-                                <label class="form-check-label" for="ai_insurance_review_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_no" value="no">
-                                <label class="form-check-label" for="ai_insurance_review_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_1" value="1">
+                                    <label class="form-check-label" for="ai_insurance_review_1">No review has been done, and existing policies or contracts may not address AI-related risks.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_2" value="2">
+                                    <label class="form-check-label" for="ai_insurance_review_2">AI-related risks have been considered internally, and while some insurance coverage has been extended or gaps flagged by general counsel, there has been no formal review or comprehensive adjustments to coverage.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_3" value="3">
+                                    <label class="form-check-label" for="ai_insurance_review_3">AI-related risks have been reviewed with legal and insurance advisors, and contracts include basic protections (e.g., disclaimers, indemnity).</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_insurance_review" id="ai_insurance_review_4" value="4">
+                                    <label class="form-check-label" for="ai_insurance_review_4">The company proactively manages AI risks through tailored contractual clauses, D&O/E&O/cyber coverage extensions, and periodic reviews aligned to evolving uses of AI and regulatory guidance.</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">8. Do you require contractual indemnities or evidence of insurance from third-party AI vendors used in your internal operations?</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_yes" value="yes">
-                                <label class="form-check-label" for="ai_vendor_indemnities_yes">Yes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_no" value="no">
-                                <label class="form-check-label" for="ai_vendor_indemnities_no">No</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_1" value="1">
+                                    <label class="form-check-label" for="ai_vendor_indemnities_1">We accept the vendors Terms of Service without review or monitoring of indemnification obligations.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_2" value="2">
+                                    <label class="form-check-label" for="ai_vendor_indemnities_2">Some contracts include general indemnification language, but vendor insurance evidence is not consistently requested.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_3" value="3">
+                                    <label class="form-check-label" for="ai_vendor_indemnities_3">Contracts include defined indemnities for AI-related risks and require vendors to provide proof of insurance, but enforcement and periodic review are limited.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_vendor_indemnities" id="ai_vendor_indemnities_4" value="4">
+                                    <label class="form-check-label" for="ai_vendor_indemnities_4">Robust vendor agreements mandate AI-specific indemnification, verified insurance coverage aligned with exposure (e.g., tech E&O, cyber), and ongoing compliance monitoring to ensure protections remain current.</label>
+                                </div>
                             </div>
                         </div>
                     </div>
