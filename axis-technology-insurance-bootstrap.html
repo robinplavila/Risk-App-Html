@@ -1729,33 +1729,135 @@
                         <h2 class="section-title">💾 Section 7. Data Backup & Business Continuity & Supply Chain Controls</h2>
                         
                         <div class="mb-4">
-                            <label for="breach_detection_response" class="form-label">1. What processes are in place to quickly detect and respond to data breaches or unauthorized access?</label>
-                            <textarea class="form-control" id="breach_detection_response" name="breach_detection_response" rows="3" placeholder="Please describe your breach detection and response processes..."></textarea>
+                            <label class="form-label">1. What processes are in place to quickly detect and respond to data breaches or unauthorized access?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="breach_detection_response" id="breach_detection_response_1" value="1">
+                                    <label class="form-check-label" for="breach_detection_response_1">No formal detection or response process exists.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="breach_detection_response" id="breach_detection_response_2" value="2">
+                                    <label class="form-check-label" for="breach_detection_response_2">Incidents are handled reactively when staff notice something suspicious, supported by basic detection tools like antivirus and system logs, but incident response is largely ad hoc.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="breach_detection_response" id="breach_detection_response_3" value="3">
+                                    <label class="form-check-label" for="breach_detection_response_3">A defined incident response plan exists, with detection tools, trained responders, and escalation protocols.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="breach_detection_response" id="breach_detection_response_4" value="4">
+                                    <label class="form-check-label" for="breach_detection_response_4">A comprehensive incident response program includes 24/7 monitoring, real-time alerting, runbooks, tabletop testing, and post-incident review.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="communications_plan" class="form-label">2. Do you have a communications plan to protect your company's reputation in the event of a major issue or breach?</label>
-                            <textarea class="form-control" id="communications_plan" name="communications_plan" rows="3" placeholder="Please describe your communications plan..."></textarea>
+                            <label class="form-label">2. Do you have a communications plan to protect your company's reputation in the event of a major issue or breach?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="communications_plan" id="communications_plan_1" value="1">
+                                    <label class="form-check-label" for="communications_plan_1">No communications plan exists for handling incidents.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="communications_plan" id="communications_plan_2" value="2">
+                                    <label class="form-check-label" for="communications_plan_2">Incident responses are generally handled by PR or leadership, supported by a basic communications plan with draft statements and designated spokespersons, but there is no formal protocol.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="communications_plan" id="communications_plan_3" value="3">
+                                    <label class="form-check-label" for="communications_plan_3">A formal reputational risk communications plan is documented, with media, legal, and customer messaging protocols.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="communications_plan" id="communications_plan_4" value="4">
+                                    <label class="form-check-label" for="communications_plan_4">The company maintains a comprehensive communications playbook for crisis events, including breach notification, regulatory guidance, and stakeholder outreach, tested regularly through simulations.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="backup_systems" class="form-label">3. Do you have backup systems to recover data after a cyber incident or outage?</label>
-                            <textarea class="form-control" id="backup_systems" name="backup_systems" rows="3" placeholder="Please describe your backup systems..."></textarea>
+                            <label class="form-label">3. Do you have backup systems to recover data after a cyber incident or outage?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="backup_systems" id="backup_systems_1" value="1">
+                                    <label class="form-check-label" for="backup_systems_1">No backup systems exist.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="backup_systems" id="backup_systems_2" value="2">
+                                    <label class="form-check-label" for="backup_systems_2">Regular backups are taken and stored offsite or in the cloud, but not all data is covered, testing is limited, and updates may not be consistent.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="backup_systems" id="backup_systems_3" value="3">
+                                    <label class="form-check-label" for="backup_systems_3">Backups are automated, encrypted, and tested periodically for critical systems.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="backup_systems" id="backup_systems_4" value="4">
+                                    <label class="form-check-label" for="backup_systems_4">An enterprise-grade backup and recovery system is in place with real-time replication, frequent testing, and integration into the overall incident response strategy.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="recovery_time" class="form-label">4. If systems go down, how quickly can you get your critical data and operations back online?</label>
-                            <textarea class="form-control" id="recovery_time" name="recovery_time" rows="2" placeholder="Please describe your recovery time objectives..."></textarea>
+                            <label class="form-label">4. If systems go down, how quickly can you get your critical data and operations back online?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_time" id="recovery_time_1" value="1">
+                                    <label class="form-check-label" for="recovery_time_1">There is no defined recovery timeframe; recovery would be improvised.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_time" id="recovery_time_2" value="2">
+                                    <label class="form-check-label" for="recovery_time_2">A target recovery window is defined for key systems (e.g., 48–72 hours), but for other areas recovery could take several days, and there are no documented targets.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_time" id="recovery_time_3" value="3">
+                                    <label class="form-check-label" for="recovery_time_3">Recovery goals (RTOs) are set by system tier, with most critical services recoverable within 24 hours.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_time" id="recovery_time_4" value="4">
+                                    <label class="form-check-label" for="recovery_time_4">Rapid recovery (RTO < 4 hours for critical systems) is enabled via automated failover, and performance against RTOs is tested and validated.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="continuity_recovery_plans" class="form-label">5. Do you maintain business continuity and disaster recovery plans, and what are your key recovery goals?</label>
-                            <textarea class="form-control" id="continuity_recovery_plans" name="continuity_recovery_plans" rows="3" placeholder="Please describe your business continuity and disaster recovery plans..."></textarea>
+                            <label class="form-label">5. Do you maintain business continuity and disaster recovery plans, and what are your key recovery goals?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="continuity_recovery_plans" id="continuity_recovery_plans_1" value="1">
+                                    <label class="form-check-label" for="continuity_recovery_plans_1">No formal plans exist.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="continuity_recovery_plans" id="continuity_recovery_plans_2" value="2">
+                                    <label class="form-check-label" for="continuity_recovery_plans_2">Recovery plans exist with defined Recovery Time Objectives and Recovery Point Objectives and some written procedures, but they are not thoroughly tested or fully aligned to recovery goals.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="continuity_recovery_plans" id="continuity_recovery_plans_3" value="3">
+                                    <label class="form-check-label" for="continuity_recovery_plans_3">BCP and DRP are documented, with role assignments, key systems prioritized, and regular stakeholder reviews.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="continuity_recovery_plans" id="continuity_recovery_plans_4" value="4">
+                                    <label class="form-check-label" for="continuity_recovery_plans_4">Continuity and disaster recovery plans are fully developed, tested regularly, and aligned to business impact analyses with clearly defined and measured RTOs/RPOs.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="recovery_testing" class="form-label">6. How often are recovery plans tested, and what improvements have resulted?</label>
-                            <textarea class="form-control" id="recovery_testing" name="recovery_testing" rows="3" placeholder="Please describe your testing frequency and improvements..."></textarea>
+                            <label class="form-label">6. How often are recovery plans tested, and what improvements have resulted?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_testing" id="recovery_testing_1" value="1">
+                                    <label class="form-check-label" for="recovery_testing_1">Recovery plans are never tested.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_testing" id="recovery_testing_2" value="2">
+                                    <label class="form-check-label" for="recovery_testing_2">Recovery plans are reviewed occasionally and tested annually, with some lessons learned incorporated, but exercises are not frequent or comprehensive.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_testing" id="recovery_testing_3" value="3">
+                                    <label class="form-check-label" for="recovery_testing_3">Tests are conducted at least twice per year, with results documented and improvements tracked.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recovery_testing" id="recovery_testing_4" value="4">
+                                    <label class="form-check-label" for="recovery_testing_4">Plans are tested regularly using realistic scenarios (e.g., tabletop and live failover), with continuous improvement cycles and executive oversight.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -1793,18 +1895,69 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="third_party_outage_plan" class="form-label">8. Does your business continuity or disaster recovery plan specifically address prolonged outages of critical third-party services?</label>
-                            <textarea class="form-control" id="third_party_outage_plan" name="third_party_outage_plan" rows="3" placeholder="Please describe how your plan addresses third-party outages..."></textarea>
+                            <label class="form-label">8. Does your business continuity or disaster recovery plan specifically address prolonged outages of critical third-party services?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_outage_plan" id="third_party_outage_plan_1" value="1">
+                                    <label class="form-check-label" for="third_party_outage_plan_1">Our business continuity and disaster recovery plans do not specifically address prolonged outages of critical third-party services.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_outage_plan" id="third_party_outage_plan_2" value="2">
+                                    <label class="form-check-label" for="third_party_outage_plan_2">Our plans generally mention third-party risks, but do not include detailed strategies for extended outages of critical providers.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_outage_plan" id="third_party_outage_plan_3" value="3">
+                                    <label class="form-check-label" for="third_party_outage_plan_3">Our plans include scenarios for disruptions to critical third-party services, but they are not deeply detailed or regularly tested.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="third_party_outage_plan" id="third_party_outage_plan_4" value="4">
+                                    <label class="form-check-label" for="third_party_outage_plan_4">Our business continuity and disaster recovery plans explicitly cover prolonged outages of critical third-party services, with documented procedures, alternate arrangements, and regular testing.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="cloud_provider_assessment" class="form-label">9. Have you assessed how a primary cloud provider outage would impact your operations, and does your continuity plan address this?</label>
-                            <textarea class="form-control" id="cloud_provider_assessment" name="cloud_provider_assessment" rows="3" placeholder="Please describe your cloud provider impact assessment..."></textarea>
+                            <label class="form-label">9. Have you assessed how a primary cloud provider outage would impact your operations, and does your continuity plan address this?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cloud_provider_assessment" id="cloud_provider_assessment_1" value="1">
+                                    <label class="form-check-label" for="cloud_provider_assessment_1">No assessment has been done, and no contingency exists for cloud service failure.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cloud_provider_assessment" id="cloud_provider_assessment_2" value="2">
+                                    <label class="form-check-label" for="cloud_provider_assessment_2">Cloud risks are informally acknowledged, with documented impacts of downtime and some alternate communication or manual processes identified, but they are not fully integrated into formal planning.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cloud_provider_assessment" id="cloud_provider_assessment_3" value="3">
+                                    <label class="form-check-label" for="cloud_provider_assessment_3">Cloud dependency is mapped in continuity plans, and mitigations (e.g., data export, failover zones) are in place.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="cloud_provider_assessment" id="cloud_provider_assessment_4" value="4">
+                                    <label class="form-check-label" for="cloud_provider_assessment_4">Cloud risk is deeply integrated into BCP, with multi-region failover, vendor SLAs, and automated recovery tested regularly.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="incident_investigation" class="form-label">10. How do you investigate and address the root cause of major security incidents, service problems, or customer complaints?</label>
-                            <textarea class="form-control" id="incident_investigation" name="incident_investigation" rows="3" placeholder="Please describe your incident investigation process..."></textarea>
+                            <label class="form-label">10. How do you investigate and address the root cause of major security incidents, service problems, or customer complaints?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="incident_investigation" id="incident_investigation_1" value="1">
+                                    <label class="form-check-label" for="incident_investigation_1">Root cause is not formally investigated; focus is only on fixing the immediate issue.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="incident_investigation" id="incident_investigation_2" value="2">
+                                    <label class="form-check-label" for="incident_investigation_2">Issues are discussed internally, with root cause reviews and some documentation or follow-up for significant incidents, but lessons learned and corrective actions are applied inconsistently.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="incident_investigation" id="incident_investigation_3" value="3">
+                                    <label class="form-check-label" for="incident_investigation_3">A structured post-incident review (PIR) process is used for all major events, with documented corrective actions.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="incident_investigation" id="incident_investigation_4" value="4">
+                                    <label class="form-check-label" for="incident_investigation_4">Formal root cause analysis is conducted with executive oversight, cross-functional input, tracked improvements, and trend analysis.</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1813,48 +1966,201 @@
                         <h2 class="section-title">🤝 Section 8. Third Party, Vendor & Supply Chain Controls</h2>
                         
                         <div class="mb-4">
-                            <label for="customer_risk_assessment" class="form-label">1. What steps are taken when bringing on a new customer to assess potential risks to your business?</label>
-                            <textarea class="form-control" id="customer_risk_assessment" name="customer_risk_assessment" rows="3" placeholder="Please describe your customer risk assessment process..."></textarea>
+                            <label class="form-label">1. What steps are taken when bringing on a new customer to assess potential risks to your business?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="customer_risk_assessment" id="customer_risk_assessment_1" value="1">
+                                    <label class="form-check-label" for="customer_risk_assessment_1">No formal risk assessment is conducted before onboarding new customers.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="customer_risk_assessment" id="customer_risk_assessment_2" value="2">
+                                    <label class="form-check-label" for="customer_risk_assessment_2">Vetting is mostly informal, relying on relationship history or perceived reputation, with some credit or legal checks performed, but these are not standardized.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="customer_risk_assessment" id="customer_risk_assessment_3" value="3">
+                                    <label class="form-check-label" for="customer_risk_assessment_3">The company uses a risk-based onboarding process including financial, operational, and legal reviews for high-risk customers.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="customer_risk_assessment" id="customer_risk_assessment_4" value="4">
+                                    <label class="form-check-label" for="customer_risk_assessment_4">A formal customer risk assessment framework is in place, including KYC, creditworthiness, contract risk, regulatory exposure, and service capacity evaluation.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="vendor_due_diligence" class="form-label">2. Do you have a formal due diligence process to evaluate potential risks when onboarding new vendors or suppliers?</label>
-                            <textarea class="form-control" id="vendor_due_diligence" name="vendor_due_diligence" rows="3" placeholder="Please describe your vendor due diligence process..."></textarea>
+                            <label class="form-label">2. Do you have a formal due diligence process to evaluate potential risks when onboarding new vendors or suppliers?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_due_diligence" id="vendor_due_diligence_1" value="1">
+                                    <label class="form-check-label" for="vendor_due_diligence_1">Vendors are onboarded informally with no checks or documentation.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_due_diligence" id="vendor_due_diligence_2" value="2">
+                                    <label class="form-check-label" for="vendor_due_diligence_2">Basic vetting is performed, such as checking references and requiring insurance certificates from vendors, but reviews of insurance and risk factors are inconsistent and formal risk assessments are rare.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_due_diligence" id="vendor_due_diligence_3" value="3">
+                                    <label class="form-check-label" for="vendor_due_diligence_3">Onboarding includes documented review of insurance, security, and financial risk, with sign-off by relevant departments.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_due_diligence" id="vendor_due_diligence_4" value="4">
+                                    <label class="form-check-label" for="vendor_due_diligence_4">A structured onboarding workflow is in place, including insurance verification, legal review, risk scoring, and approval gates for higher-risk vendors.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="vendor_cybersecurity_assessment" class="form-label">3. How does your organization assess and monitor the cybersecurity posture of third-party vendors, and what steps are taken if a vendor is found to pose elevated risk?</label>
-                            <textarea class="form-control" id="vendor_cybersecurity_assessment" name="vendor_cybersecurity_assessment" rows="3" placeholder="Please describe your vendor cybersecurity assessment process..."></textarea>
+                            <label class="form-label">3. How does your organization assess and monitor the cybersecurity posture of third-party vendors, and what steps are taken if a vendor is found to pose elevated risk?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_cybersecurity_assessment" id="vendor_cybersecurity_assessment_1" value="1">
+                                    <label class="form-check-label" for="vendor_cybersecurity_assessment_1">We don't currently assess vendor cybersecurity posture and rely on vendors to manage their own risks.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_cybersecurity_assessment" id="vendor_cybersecurity_assessment_2" value="2">
+                                    <label class="form-check-label" for="vendor_cybersecurity_assessment_2">We conduct basic due diligence when onboarding vendors, such as reviewing security questionnaires, but we don't monitor risk on an ongoing basis.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_cybersecurity_assessment" id="vendor_cybersecurity_assessment_3" value="3">
+                                    <label class="form-check-label" for="vendor_cybersecurity_assessment_3">We assess vendor cyber risk at onboarding and periodically review key vendors' security posture. If a vendor is found to pose elevated risk, we may request remediation or consider contract changes.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_cybersecurity_assessment" id="vendor_cybersecurity_assessment_4" value="4">
+                                    <label class="form-check-label" for="vendor_cybersecurity_assessment_4">We use continuous monitoring tools (e.g., third-party risk scoring or threat intelligence platforms) to track vendor cybersecurity posture in real time. High-risk vendors trigger formal escalation protocols, including audits, contractual enforcement, or offboarding if necessary.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="redundant_systems" class="form-label">4. Do you have redundant systems or alternate suppliers in place to minimize disruption if a critical third party fails or is unavailable?</label>
-                            <textarea class="form-control" id="redundant_systems" name="redundant_systems" rows="3" placeholder="Please describe your redundant systems and alternate supplier arrangements..."></textarea>
+                            <label class="form-label">4. Do you have redundant systems or alternate suppliers in place to minimize disruption if a critical third party fails or is unavailable?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="redundant_systems" id="redundant_systems_1" value="1">
+                                    <label class="form-check-label" for="redundant_systems_1">We rely on single providers for critical services and would face major disruption if one failed.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="redundant_systems" id="redundant_systems_2" value="2">
+                                    <label class="form-check-label" for="redundant_systems_2">We are aware of possible alternates but have no formal agreements or automated systems. Switching would be manual and could be delayed.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="redundant_systems" id="redundant_systems_3" value="3">
+                                    <label class="form-check-label" for="redundant_systems_3">We have identified and maintain relationships with alternate suppliers, or have partial redundant systems for critical functions. However, these are not fully integrated or routinely tested, so some disruption could still occur.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="redundant_systems" id="redundant_systems_4" value="4">
+                                    <label class="form-check-label" for="redundant_systems_4">We have fully redundant systems and formal agreements with alternative suppliers, along with tested failover processes, to ensure minimal disruption in the event of a critical third-party failure. These contingencies are regularly reviewed and tested as part of our business continuity program.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="vendor_liability" class="form-label">5. Do your vendors agree to take responsibility if they mishandle personal or confidential information?</label>
-                            <textarea class="form-control" id="vendor_liability" name="vendor_liability" rows="3" placeholder="Please describe your vendor liability arrangements for data mishandling..."></textarea>
+                            <label class="form-label">5. Do your vendors agree to take responsibility if they mishandle personal or confidential information?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_liability" id="vendor_liability_1" value="1">
+                                    <label class="form-check-label" for="vendor_liability_1">There are no contract terms addressing vendor responsibility for data mishandling.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_liability" id="vendor_liability_2" value="2">
+                                    <label class="form-check-label" for="vendor_liability_2">Many vendor contracts include general confidentiality or data protection clauses, but the enforceability, scope, and presence of liability terms vary.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_liability" id="vendor_liability_3" value="3">
+                                    <label class="form-check-label" for="vendor_liability_3">Vendor agreements include specific data handling obligations, breach notification requirements, and indemnity clauses.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_liability" id="vendor_liability_4" value="4">
+                                    <label class="form-check-label" for="vendor_liability_4">All vendor agreements involving sensitive data include legally vetted, standardized language on liability, data safeguards, breach response, and indemnification for damages.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="vendor_security_practices" class="form-label">6. Do your critical vendors provide proof of strong security practices (like SOC 2 or ISO 27001), and how often is that reviewed?</label>
-                            <textarea class="form-control" id="vendor_security_practices" name="vendor_security_practices" rows="3" placeholder="Please describe your vendor security practice verification and review process..."></textarea>
+                            <label class="form-label">6. Do your critical vendors provide proof of strong security practices (like SOC 2 or ISO 27001), and how often is that reviewed?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_security_practices" id="vendor_security_practices_1" value="1">
+                                    <label class="form-check-label" for="vendor_security_practices_1">No security documentation is requested from vendors.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_security_practices" id="vendor_security_practices_2" value="2">
+                                    <label class="form-check-label" for="vendor_security_practices_2">Security credentials, such as SOC 2 or ISO 27001 reports, are requested from critical vendors during onboarding, but overall reviews and ongoing tracking are inconsistent.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_security_practices" id="vendor_security_practices_3" value="3">
+                                    <label class="form-check-label" for="vendor_security_practices_3">Security documentation is required and reviewed at onboarding and annually for all high-risk vendors.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="vendor_security_practices" id="vendor_security_practices_4" value="4">
+                                    <label class="form-check-label" for="vendor_security_practices_4">A formal third-party security assessment program is in place, with regular audits, attestation reviews, and automated tracking of vendor certifications and renewals.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="api_contracts" class="form-label">7. Do your third-party contracts that involve APIs include data protection and liability terms?</label>
-                            <textarea class="form-control" id="api_contracts" name="api_contracts" rows="3" placeholder="Please describe your API contract data protection and liability provisions..."></textarea>
+                            <label class="form-label">7. Do your third-party contracts that involve APIs include data protection and liability terms?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_contracts" id="api_contracts_1" value="1">
+                                    <label class="form-check-label" for="api_contracts_1">No specific data protection or liability clauses are included in contracts.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_contracts" id="api_contracts_2" value="2">
+                                    <label class="form-check-label" for="api_contracts_2">Contracts include general data security and confidentiality terms that apply to API use, but they may not specifically address API-related risks.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_contracts" id="api_contracts_3" value="3">
+                                    <label class="form-check-label" for="api_contracts_3">API-integrated contracts specify data protection responsibilities, liability for breaches, and usage limits.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="api_contracts" id="api_contracts_4" value="4">
+                                    <label class="form-check-label" for="api_contracts_4">Third-party contracts include detailed API-specific clauses (e.g., data use, retention, security standards, breach notification, indemnity) reviewed by legal and security teams.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="component_security" class="form-label">8. How do you ensure third-party or open-source components meet your company's quality and security expectations before use?</label>
-                            <textarea class="form-control" id="component_security" name="component_security" rows="3" placeholder="Please describe your process for vetting third-party and open-source components..."></textarea>
+                            <label class="form-label">8. How do you ensure third-party or open-source components meet your company's quality and security expectations before use?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="component_security" id="component_security_1" value="1">
+                                    <label class="form-check-label" for="component_security_1">Components are used without any evaluation or tracking.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="component_security" id="component_security_2" value="2">
+                                    <label class="form-check-label" for="component_security_2">Developers choose components mainly based on familiarity or popularity and vet them for functionality, but security and licensing risks are not systematically reviewed.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="component_security" id="component_security_3" value="3">
+                                    <label class="form-check-label" for="component_security_3">Components must meet internal guidelines and are checked for known vulnerabilities and license terms before use.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="component_security" id="component_security_4" value="4">
+                                    <label class="form-check-label" for="component_security_4">A formal approval process is in place with automated scanning for vulnerabilities (e.g., SCA tools), legal review of licenses, and centralized tracking of third-party components.</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="product_testing" class="form-label">9. What steps are taken to test your products or software to ensure they work as intended before launch?</label>
-                            <textarea class="form-control" id="product_testing" name="product_testing" rows="3" placeholder="Please describe your product testing and quality assurance process..."></textarea>
+                            <label class="form-label">9. What steps are taken to test your products or software to ensure they work as intended before launch?</label>
+                            <div class="form-check-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="product_testing" id="product_testing_1" value="1">
+                                    <label class="form-check-label" for="product_testing_1">No formal testing is done before release. Issues are addressed post-launch.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="product_testing" id="product_testing_2" value="2">
+                                    <label class="form-check-label" for="product_testing_2">Basic manual testing, including unit and integration tests with occasional regression checks before major releases, is typically performed by developers or end users.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="product_testing" id="product_testing_3" value="3">
+                                    <label class="form-check-label" for="product_testing_3">A structured QA process is in place, including automated testing, regression testing, and staging environment validation before release.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="product_testing" id="product_testing_4" value="4">
+                                    <label class="form-check-label" for="product_testing_4">A comprehensive testing framework is enforced with automated test coverage, peer reviews, security testing, and production readiness sign-off by QA and product teams.</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
