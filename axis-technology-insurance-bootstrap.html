@@ -3964,6 +3964,54 @@
                                 <label class="form-check-label" for="ai_logs_no">No</label>
                             </div>
                         </div>
+
+                        <div class="mb-4 ai-agent-conditional" style="display: none;">
+                            <label class="form-label">18. Have your AI agents or models been independently reviewed, tested, or red-teamed for safety, fairness, and robustness?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_independent_review" id="ai_review_third_party" value="third_party">
+                                <label class="form-check-label" for="ai_review_third_party">Yes - By a third party specialist</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_independent_review" id="ai_review_internal" value="internal">
+                                <label class="form-check-label" for="ai_review_internal">Yes – Internally only</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_independent_review" id="ai_review_none" value="none">
+                                <label class="form-check-label" for="ai_review_none">No formal review conducted</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 ai-agent-conditional" style="display: none;">
+                            <label class="form-label">19. Do your AI agents interact with minors, healthcare data, financial advice, or other regulated environments?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_regulated_interaction" id="ai_regulated_no" value="no">
+                                <label class="form-check-label" for="ai_regulated_no">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_regulated_interaction" id="ai_regulated_compliant" value="compliant">
+                                <label class="form-check-label" for="ai_regulated_compliant">Yes - in compliance with applicable laws and controls</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_regulated_interaction" id="ai_regulated_limited" value="limited_safeguards">
+                                <label class="form-check-label" for="ai_regulated_limited">Yes – but limited safeguards in place</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 ai-agent-conditional" style="display: none;">
+                            <label class="form-label">20. Have you experienced or been notified of any incidents involving the misuse, failure, or unintended outputs of your AI agents?</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_incidents" id="ai_incidents_no" value="no">
+                                <label class="form-check-label" for="ai_incidents_no">No</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_incidents" id="ai_incidents_no_harm" value="no_harm">
+                                <label class="form-check-label" for="ai_incidents_no_harm">Yes – But no resulting claim or harm</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ai_incidents" id="ai_incidents_dispute" value="dispute_loss">
+                                <label class="form-check-label" for="ai_incidents_dispute">Yes – Resulted in customer dispute, loss or legal action</label>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -4635,6 +4683,9 @@
                         $('input[name="ai_contractual_limitations"]').prop('checked', false);
                         $('input[name="ai_critical_systems"]').prop('checked', false);
                         $('input[name="ai_logs_version_control"]').prop('checked', false);
+                        $('input[name="ai_independent_review"]').prop('checked', false);
+                        $('input[name="ai_regulated_interaction"]').prop('checked', false);
+                        $('input[name="ai_incidents"]').prop('checked', false);
                     }
                 });
 
