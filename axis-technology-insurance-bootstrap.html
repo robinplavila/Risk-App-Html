@@ -686,25 +686,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">11. Any plans to change the business structure in the next 12 months?</label>
-                            <div class="mt-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="business_structure_change" id="structure_change_yes" value="yes">
-                                    <label class="form-check-label" for="structure_change_yes">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="business_structure_change" id="structure_change_no" value="no">
-                                    <label class="form-check-label" for="structure_change_no">No</label>
-                                </div>
-                            </div>
-                            
-                            <div class="conditional-field" id="structure_change_details">
-                                <label for="structure_change_description" class="form-label">If yes, describe:</label>
-                                <textarea class="form-control" id="structure_change_description" name="structure_change_description" rows="3"></textarea>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- Section 3: Operations -->
@@ -729,20 +711,21 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Software Development</td>
+                                            <td>Custom Software Development</td>
                                             <td><input type="number" class="form-control revenue-input" name="revenue_software" min="0" max="100" placeholder="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Software as a Service</td>
+                                            <td><input type="number" class="form-control revenue-input" name="revenue_saas" min="0" max="100" placeholder="0"></td>
                                         </tr>
                                         <tr>
                                             <td>Consulting Services</td>
                                             <td><input type="number" class="form-control revenue-input" name="revenue_consulting" min="0" max="100" placeholder="0"></td>
                                         </tr>
+                                        
                                         <tr>
-                                            <td>Product Sales</td>
-                                            <td><input type="number" class="form-control revenue-input" name="revenue_products" min="0" max="100" placeholder="0"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Technology Services</td>
-                                            <td><input type="number" class="form-control revenue-input" name="revenue_tech_services" min="0" max="100" placeholder="0"></td>
+                                            <td>Hardware</td>
+                                            <td><input type="number" class="form-control revenue-input" name="revenue_hardware" min="0" max="100" placeholder="0"></td>
                                         </tr>
                                         <tr>
                                             <td>Other</td>
@@ -761,12 +744,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label">3. Do you operate in any of the following high-risk areas?</label>
+                            <label class="form-label">3. Do you operate in any of the following areas?</label>
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>High-Risk Area</th>
+                                            <th>Area</th>
                                             <th>Yes/No</th>
                                             <th>Details (if Yes)</th>
                                         </tr>
