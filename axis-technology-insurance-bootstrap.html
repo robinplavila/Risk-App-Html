@@ -5077,18 +5077,32 @@
                     { step: 13, key: 'priorIncidents' }
                 ];
 
-                // Add conditional sections based on their current step numbers (dynamic)
-                if (aiStepEnabled) {
-                    const aiStep = $('#ai-section').attr('data-section');
-                    if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
+                // Add conditional sections based on selected sectors and available sections
+                // Check if AI sector is selected and AI section exists
+                if (formData.sectors.includes('ai')) {
+                    const aiSection = $('#ai-section');
+                    if (aiSection.length > 0) {
+                        const aiStep = aiSection.attr('data-section');
+                        if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
+                    }
                 }
-                if (defiStepEnabled) {
-                    const defiStep = $('#defi-section').attr('data-section');
-                    if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
+                
+                // Check if DeFi sector is selected and DeFi section exists  
+                if (formData.sectors.includes('defi')) {
+                    const defiSection = $('#defi-section');
+                    if (defiSection.length > 0) {
+                        const defiStep = defiSection.attr('data-section');
+                        if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
+                    }
                 }
-                if (roboticsStepEnabled) {
-                    const roboticsStep = $('#robotics-section').attr('data-section');
-                    if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
+                
+                // Check if Robotics sector is selected and Robotics section exists
+                if (formData.sectors.includes('robotics')) {
+                    const roboticsSection = $('#robotics-section');
+                    if (roboticsSection.length > 0) {
+                        const roboticsStep = roboticsSection.attr('data-section');
+                        if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
+                    }
                 }
 
                 sections.forEach(section => {
@@ -5233,19 +5247,28 @@
                                 let fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
                                 fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
                                 
-                                // Handle special field name formatting
+                                // Handle special field name formatting and common abbreviations
                                 fieldName = fieldName
-                                    .replace(/\bb2b\b/g, 'B2B')
-                                    .replace(/\bb2c\b/g, 'B2C')
-                                    .replace(/\bai\b/g, 'AI')
-                                    .replace(/\bml\b/g, 'ML')
-                                    .replace(/\bapi\b/g, 'API')
-                                    .replace(/\burl\b/g, 'URL')
-                                    .replace(/\btos\b/g, 'Terms of Service')
-                                    .replace(/\bsla\b/g, 'SLA')
-                                    .replace(/\bip\b/g, 'IP')
-                                    .replace(/\bdefi\b/g, 'DeFi')
-                                    .replace(/\baml\b/g, 'AML');
+                                    .replace(/\bb2b\b/gi, 'B2B')
+                                    .replace(/\bb2c\b/gi, 'B2C')
+                                    .replace(/\bai\b/gi, 'AI')
+                                    .replace(/\bml\b/gi, 'ML')
+                                    .replace(/\bapi\b/gi, 'API')
+                                    .replace(/\burl\b/gi, 'URL')
+                                    .replace(/\burls\b/gi, 'URLs')
+                                    .replace(/\btos\b/gi, 'Terms of Service')
+                                    .replace(/\bsla\b/gi, 'SLA')
+                                    .replace(/\bslas\b/gi, 'SLAs')
+                                    .replace(/\bip\b/gi, 'IP')
+                                    .replace(/\bdefi\b/gi, 'DeFi')
+                                    .replace(/\baml\b/gi, 'AML')
+                                    .replace(/\bkyc\b/gi, 'KYC')
+                                    .replace(/\bcoi\b/gi, 'COI')
+                                    .replace(/\bcois\b/gi, 'COIs')
+                                    .replace(/\bit\b/gi, 'IT')
+                                    .replace(/\bceo\b/gi, 'CEO')
+                                    .replace(/\bcfo\b/gi, 'CFO')
+                                    .replace(/\bcto\b/gi, 'CTO');
                                 
                                 // Format value with proper handling of different types
                                 let displayValue = value;
