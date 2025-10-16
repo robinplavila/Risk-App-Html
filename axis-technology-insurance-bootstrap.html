@@ -5056,12 +5056,31 @@
                     robotics: {}
                 };
 
-                // Collect sectors
-                $('input[name="sectors[]"]:checked').each(function() {
-                    formData.sectors.push($(this).val());
-                });
+                // Collect sectors with question text
+                const sectorQuestion = {
+                    questionText: "Does your business provide products or services within any of the following sectors?",
+                    selectedOptions: [],
+                    allOptions: [
+                        { value: 'ai', label: '🤖 Artificial Intelligence' },
+                        { value: 'defi', label: '💰 Decentralized Finance & Digital Assets' },
+                        { value: 'robotics', label: '🦾 Autonomous Robotics' }
+                    ]
+                };
 
-                // Collect all form inputs by section
+                $('input[name="sectors[]"]').each(function() {
+                    const $input = $(this);
+                    if ($input.is(':checked')) {
+                        formData.sectors.push($input.val());
+                        sectorQuestion.selectedOptions.push({
+                            value: $input.val(),
+                            label: $input.next('label').text().trim()
+                        });
+                    }
+                });
+                
+                formData.sectorsQuestion = sectorQuestion;
+
+                // Collect all form inputs by section with enhanced question extraction
                 const sections = [
                     { step: 2, key: 'generalInfo' },
                     { step: 3, key: 'operations' },
@@ -5078,7 +5097,6 @@
                 ];
 
                 // Add conditional sections based on selected sectors and available sections
-                // Check if AI sector is selected and AI section exists
                 if (formData.sectors.includes('ai')) {
                     const aiSection = $('#ai-section');
                     if (aiSection.length > 0) {
@@ -5087,7 +5105,6 @@
                     }
                 }
                 
-                // Check if DeFi sector is selected and DeFi section exists  
                 if (formData.sectors.includes('defi')) {
                     const defiSection = $('#defi-section');
                     if (defiSection.length > 0) {
@@ -5096,7 +5113,6 @@
                     }
                 }
                 
-                // Check if Robotics sector is selected and Robotics section exists
                 if (formData.sectors.includes('robotics')) {
                     const roboticsSection = $('#robotics-section');
                     if (roboticsSection.length > 0) {
@@ -5110,23 +5126,109 @@
                         const $input = $(this);
                         const name = $input.attr('name');
                         const type = $input.attr('type');
+                        const id = $input.attr('id');
                         
-                        if (name) {
-                            if (type === 'checkbox') {
-                                if (!formData[section.key][name]) {
-                                    formData[section.key][name] = [];
+                        if (name && !formData[section.key][name]) {
+                            // Get question text from label
+                            let questionText = '';
+                            if (id) {
+                                const $label = $(`label[for="${id}"]`);
+                                if ($label.length > 0) {
+                                    questionText = $label.text().trim();
                                 }
-                                if ($input.is(':checked')) {
-                                    formData[section.key][name].push($input.val());
+                            }
+                            
+                            // If no direct label found, look for parent label
+                            if (!questionText) {
+                                const $parentLabel = $input.closest('.mb-3, .mb-4').find('label').first();
+                                if ($parentLabel.length > 0) {
+                                    questionText = $parentLabel.text().trim();
+                                }
+                            }
+                            
+                            if (type === 'checkbox') {
+                                // For checkboxes, collect all available options
+                                const checkboxGroup = $(`input[name="${name}"]`);
+                                if (checkboxGroup.length > 1) {
+                                    formData[section.key][name] = {
+                                        questionText: questionText,
+                                        selectedOptions: [],
+                                        allOptions: []
+                                    };
+                                    
+                                    checkboxGroup.each(function() {
+                                        const $cb = $(this);
+                                        const cbLabel = $cb.next('label').text().trim() || $cb.val();
+                                        formData[section.key][name].allOptions.push({
+                                            value: $cb.val(),
+                                            label: cbLabel
+                                        });
+                                        if ($cb.is(':checked')) {
+                                            formData[section.key][name].selectedOptions.push({
+                                                value: $cb.val(),
+                                                label: cbLabel
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    // Single checkbox
+                                    formData[section.key][name] = {
+                                        questionText: questionText,
+                                        value: $input.is(':checked'),
+                                        type: 'single-checkbox'
+                                    };
                                 }
                             } else if (type === 'radio') {
-                                if ($input.is(':checked')) {
-                                    formData[section.key][name] = $input.val();
-                                }
+                                // For radio buttons, collect all available options
+                                const radioGroup = $(`input[name="${name}"]`);
+                                formData[section.key][name] = {
+                                    questionText: questionText,
+                                    selectedOption: null,
+                                    allOptions: []
+                                };
+                                
+                                radioGroup.each(function() {
+                                    const $radio = $(this);
+                                    const radioLabel = $radio.next('label').text().trim() || $radio.val();
+                                    formData[section.key][name].allOptions.push({
+                                        value: $radio.val(),
+                                        label: radioLabel
+                                    });
+                                    if ($radio.is(':checked')) {
+                                        formData[section.key][name].selectedOption = {
+                                            value: $radio.val(),
+                                            label: radioLabel
+                                        };
+                                    }
+                                });
+                            } else if ($input.is('select')) {
+                                // For select dropdowns
+                                const selectedValue = $input.val();
+                                formData[section.key][name] = {
+                                    questionText: questionText,
+                                    selectedOption: selectedValue,
+                                    selectedLabel: $input.find('option:selected').text(),
+                                    allOptions: []
+                                };
+                                
+                                $input.find('option').each(function() {
+                                    const $option = $(this);
+                                    if ($option.val()) {
+                                        formData[section.key][name].allOptions.push({
+                                            value: $option.val(),
+                                            label: $option.text().trim()
+                                        });
+                                    }
+                                });
                             } else {
+                                // Text inputs, textareas, etc.
                                 const value = $input.val();
                                 if (value && value.trim() !== '') {
-                                    formData[section.key][name] = value;
+                                    formData[section.key][name] = {
+                                        questionText: questionText,
+                                        value: value.trim(),
+                                        type: type || 'text'
+                                    };
                                 }
                             }
                         }
@@ -5179,38 +5281,39 @@
                     doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, yPosition);
                     yPosition += 15;
                     
-                    // Section 1: Sectors
+                    // Section 1: Sectors with enhanced formatting
                     doc.setFontSize(14);
                     doc.setFont(undefined, 'bold');
                     addWrappedText('Section 1: Sectors', margin);
                     yPosition += 5;
                     
                     doc.setFontSize(10);
-                    doc.setFont(undefined, 'normal');
                     
-                    doc.setFont(undefined, 'bold');
-                    addWrappedText('• Does your business provide products or services within any of the following sectors?', margin + 10);
-                    doc.setFont(undefined, 'normal');
-                    
-                    if (formData.sectors.length > 0) {
-                        const sectorLabels = {
-                            'ai': '🤖 Artificial Intelligence',
-                            'defi': '💰 Decentralized Finance & Digital Assets', 
-                            'robotics': '🦾 Autonomous Robotics'
-                        };
+                    if (formData.sectorsQuestion) {
+                        checkPageBreak(15);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText(`• ${formData.sectorsQuestion.questionText}`, margin + 10, 10, 160);
                         
-                        const selectedSectors = formData.sectors.map(sector => sectorLabels[sector] || sector);
-                        addWrappedText('  Selected: ' + selectedSectors.join(', '), margin + 10);
+                        doc.setFont(undefined, 'normal');
                         
-                        // Show available but not selected sectors for completeness
-                        const allSectors = Object.keys(sectorLabels);
-                        const unselectedSectors = allSectors.filter(sector => !formData.sectors.includes(sector));
-                        if (unselectedSectors.length > 0) {
-                            const unselectedLabels = unselectedSectors.map(sector => sectorLabels[sector]);
-                            addWrappedText('  Not selected: ' + unselectedLabels.join(', '), margin + 10);
+                        // Show all available options and mark selected ones
+                        formData.sectorsQuestion.allOptions.forEach(option => {
+                            const isSelected = formData.sectors.includes(option.value);
+                            const marker = isSelected ? '☑' : '☐';
+                            addWrappedText(`    ${marker} ${option.label}`, margin + 15, 10, 155);
+                        });
+                        
+                        // Summary of selected sectors
+                        if (formData.sectors.length > 0) {
+                            yPosition += 3;
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText('Selected sectors:', margin + 15, 10, 155);
+                            doc.setFont(undefined, 'normal');
+                            const selectedLabels = formData.sectorsQuestion.selectedOptions.map(opt => opt.label);
+                            addWrappedText(selectedLabels.join(', '), margin + 20, 10, 150);
                         }
                     } else {
-                        addWrappedText('  No sectors selected', margin + 10);
+                        addWrappedText('No sector information available', margin + 10);
                     }
                     yPosition += 10;
                     
@@ -5236,62 +5339,103 @@
                         
                         sortedEntries.forEach(([key, value]) => {
                             if (value !== undefined && value !== null && value !== '') {
-                                checkPageBreak();
+                                checkPageBreak(12);
                                 
-                                // Skip empty arrays
-                                if (Array.isArray(value) && value.length === 0) {
-                                    return;
-                                }
-                                
-                                // Format field name with better presentation
-                                let fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
-                                fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-                                
-                                // Handle special field name formatting and common abbreviations
-                                fieldName = fieldName
-                                    .replace(/\bb2b\b/gi, 'B2B')
-                                    .replace(/\bb2c\b/gi, 'B2C')
-                                    .replace(/\bai\b/gi, 'AI')
-                                    .replace(/\bml\b/gi, 'ML')
-                                    .replace(/\bapi\b/gi, 'API')
-                                    .replace(/\burl\b/gi, 'URL')
-                                    .replace(/\burls\b/gi, 'URLs')
-                                    .replace(/\btos\b/gi, 'Terms of Service')
-                                    .replace(/\bsla\b/gi, 'SLA')
-                                    .replace(/\bslas\b/gi, 'SLAs')
-                                    .replace(/\bip\b/gi, 'IP')
-                                    .replace(/\bdefi\b/gi, 'DeFi')
-                                    .replace(/\baml\b/gi, 'AML')
-                                    .replace(/\bkyc\b/gi, 'KYC')
-                                    .replace(/\bcoi\b/gi, 'COI')
-                                    .replace(/\bcois\b/gi, 'COIs')
-                                    .replace(/\bit\b/gi, 'IT')
-                                    .replace(/\bceo\b/gi, 'CEO')
-                                    .replace(/\bcfo\b/gi, 'CFO')
-                                    .replace(/\bcto\b/gi, 'CTO');
-                                
-                                // Format value with proper handling of different types
-                                let displayValue = value;
-                                if (Array.isArray(value)) {
-                                    if (value.length > 0) {
-                                        displayValue = value.join(', ');
-                                    } else {
-                                        return; // Skip empty arrays
+                                // Handle enhanced question objects
+                                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                                    
+                                    // Get question text or format field name as fallback
+                                    let questionText = value.questionText || key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
+                                    questionText = questionText.charAt(0).toUpperCase() + questionText.slice(1);
+                                    
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(`• ${questionText}`, margin + 10, 10, 160);
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    if (value.type === 'single-checkbox') {
+                                        // Single checkbox
+                                        const answer = value.value ? 'Yes' : 'No';
+                                        addWrappedText(`  ${answer}`, margin + 15, 10, 155);
+                                        
+                                    } else if (value.selectedOptions && Array.isArray(value.selectedOptions)) {
+                                        // Multiple choice (checkboxes)
+                                        if (value.selectedOptions.length > 0) {
+                                            addWrappedText('  Selected options:', margin + 15, 10, 155);
+                                            value.selectedOptions.forEach(option => {
+                                                addWrappedText(`    • ${option.label}`, margin + 20, 10, 150);
+                                            });
+                                        } else {
+                                            addWrappedText('  No options selected', margin + 15, 10, 155);
+                                        }
+                                        
+                                        // Show all available options for context
+                                        if (value.allOptions && value.allOptions.length > 1) {
+                                            yPosition += 2;
+                                            addWrappedText('  All available options:', margin + 15, 10, 155);
+                                            value.allOptions.forEach(option => {
+                                                const isSelected = value.selectedOptions.some(sel => sel.value === option.value);
+                                                const marker = isSelected ? '☑' : '☐';
+                                                addWrappedText(`    ${marker} ${option.label}`, margin + 20, 10, 150);
+                                            });
+                                        }
+                                        
+                                    } else if (value.selectedOption) {
+                                        // Radio button or select
+                                        addWrappedText(`  Selected: ${value.selectedOption.label || value.selectedOption}`, margin + 15, 10, 155);
+                                        
+                                        // Show all available options for radio buttons
+                                        if (value.allOptions && value.allOptions.length > 1) {
+                                            yPosition += 2;
+                                            addWrappedText('  All available options:', margin + 15, 10, 155);
+                                            value.allOptions.forEach(option => {
+                                                const isSelected = value.selectedOption && (value.selectedOption.value === option.value || value.selectedOption === option.value);
+                                                const marker = isSelected ? '◉' : '○';
+                                                addWrappedText(`    ${marker} ${option.label}`, margin + 20, 10, 150);
+                                            });
+                                        }
+                                        
+                                    } else if (value.value !== undefined) {
+                                        // Text input, textarea, etc.
+                                        let displayValue = value.value;
+                                        if (typeof displayValue === 'boolean') {
+                                            displayValue = displayValue ? 'Yes' : 'No';
+                                        }
+                                        addWrappedText(`  ${displayValue}`, margin + 15, 10, 155);
                                     }
-                                } else if (typeof value === 'boolean') {
-                                    displayValue = value ? 'Yes' : 'No';
-                                } else if (typeof value === 'string' && value.trim() === '') {
-                                    return; // Skip empty strings
+                                    
+                                } else {
+                                    // Legacy format - handle simple values
+                                    let fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
+                                    fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                                    
+                                    // Handle special field name formatting
+                                    fieldName = fieldName
+                                        .replace(/\bb2b\b/gi, 'B2B')
+                                        .replace(/\bb2c\b/gi, 'B2C')
+                                        .replace(/\bai\b/gi, 'AI')
+                                        .replace(/\bapi\b/gi, 'API')
+                                        .replace(/\burl\b/gi, 'URL');
+                                    
+                                    let displayValue = value;
+                                    if (Array.isArray(value)) {
+                                        if (value.length > 0) {
+                                            displayValue = value.join(', ');
+                                        } else {
+                                            return;
+                                        }
+                                    } else if (typeof value === 'boolean') {
+                                        displayValue = value ? 'Yes' : 'No';
+                                    } else if (typeof value === 'string' && value.trim() === '') {
+                                        return;
+                                    }
+                                    
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(`• ${fieldName}:`, margin + 10, 10, 160);
+                                    doc.setFont(undefined, 'normal');
+                                    addWrappedText(`  ${displayValue}`, margin + 15, 10, 155);
                                 }
                                 
-                                // Add the formatted question and answer
-                                doc.setFont(undefined, 'bold');
-                                addWrappedText(`• ${fieldName}:`, margin + 10, 10, 160);
-                                yPosition -= lineHeight; // Adjust for the line we just added
-                                
-                                doc.setFont(undefined, 'normal');
-                                addWrappedText(`  ${displayValue}`, margin + 10, 10, 160);
-                                yPosition += 2; // Add small spacing between questions
+                                yPosition += 4; // Add spacing between questions
                             }
                         });
                         yPosition += 8; // Section spacing
