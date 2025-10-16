@@ -5057,7 +5057,7 @@
                 };
 
                 // Collect sectors
-                $('input[name="sectors"]:checked').each(function() {
+                $('input[name="sectors[]"]:checked').each(function() {
                     formData.sectors.push($(this).val());
                 });
 
@@ -5092,7 +5092,7 @@
                 }
 
                 sections.forEach(section => {
-                    $(`#step${section.step} input, #step${section.step} textarea, #step${section.step} select`).each(function() {
+                    $(`.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`).each(function() {
                         const $input = $(this);
                         const name = $input.attr('name');
                         const type = $input.attr('type');
@@ -5173,15 +5173,35 @@
                     
                     doc.setFontSize(10);
                     doc.setFont(undefined, 'normal');
+                    
+                    doc.setFont(undefined, 'bold');
+                    addWrappedText('• Does your business provide products or services within any of the following sectors?', margin + 10);
+                    doc.setFont(undefined, 'normal');
+                    
                     if (formData.sectors.length > 0) {
-                        addWrappedText('Selected sectors: ' + formData.sectors.join(', '), margin + 10);
+                        const sectorLabels = {
+                            'ai': '🤖 Artificial Intelligence',
+                            'defi': '💰 Decentralized Finance & Digital Assets', 
+                            'robotics': '🦾 Autonomous Robotics'
+                        };
+                        
+                        const selectedSectors = formData.sectors.map(sector => sectorLabels[sector] || sector);
+                        addWrappedText('  Selected: ' + selectedSectors.join(', '), margin + 10);
+                        
+                        // Show available but not selected sectors for completeness
+                        const allSectors = Object.keys(sectorLabels);
+                        const unselectedSectors = allSectors.filter(sector => !formData.sectors.includes(sector));
+                        if (unselectedSectors.length > 0) {
+                            const unselectedLabels = unselectedSectors.map(sector => sectorLabels[sector]);
+                            addWrappedText('  Not selected: ' + unselectedLabels.join(', '), margin + 10);
+                        }
                     } else {
-                        addWrappedText('No sectors selected', margin + 10);
+                        addWrappedText('  No sectors selected', margin + 10);
                     }
                     yPosition += 10;
                     
-                    // Helper function to add section data
-                    function addSectionData(sectionTitle, sectionData) {
+                    // Helper function to add section data with improved formatting
+                    function addSectionData(sectionTitle, sectionData, sectionNumber = null) {
                         checkPageBreak(20);
                         doc.setFontSize(14);
                         doc.setFont(undefined, 'bold');
@@ -5193,54 +5213,126 @@
                         
                         if (Object.keys(sectionData).length === 0) {
                             addWrappedText('No data entered for this section', margin + 10);
-                            yPosition += 5;
+                            yPosition += 10;
                             return;
                         }
                         
-                        Object.entries(sectionData).forEach(([key, value]) => {
+                        // Sort entries to maintain consistent order
+                        const sortedEntries = Object.entries(sectionData).sort(([a], [b]) => a.localeCompare(b));
+                        
+                        sortedEntries.forEach(([key, value]) => {
                             if (value !== undefined && value !== null && value !== '') {
                                 checkPageBreak();
-                                // Format field name
-                                const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
-                                const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
                                 
-                                // Format value
-                                let displayValue = value;
-                                if (Array.isArray(value)) {
-                                    displayValue = value.join(', ');
+                                // Skip empty arrays
+                                if (Array.isArray(value) && value.length === 0) {
+                                    return;
                                 }
                                 
-                                addWrappedText(`${capitalizedName}: ${displayValue}`, margin + 10);
+                                // Format field name with better presentation
+                                let fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
+                                fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                                
+                                // Handle special field name formatting
+                                fieldName = fieldName
+                                    .replace(/\bb2b\b/g, 'B2B')
+                                    .replace(/\bb2c\b/g, 'B2C')
+                                    .replace(/\bai\b/g, 'AI')
+                                    .replace(/\bml\b/g, 'ML')
+                                    .replace(/\bapi\b/g, 'API')
+                                    .replace(/\burl\b/g, 'URL')
+                                    .replace(/\btos\b/g, 'Terms of Service')
+                                    .replace(/\bsla\b/g, 'SLA')
+                                    .replace(/\bip\b/g, 'IP')
+                                    .replace(/\bdefi\b/g, 'DeFi')
+                                    .replace(/\baml\b/g, 'AML');
+                                
+                                // Format value with proper handling of different types
+                                let displayValue = value;
+                                if (Array.isArray(value)) {
+                                    if (value.length > 0) {
+                                        displayValue = value.join(', ');
+                                    } else {
+                                        return; // Skip empty arrays
+                                    }
+                                } else if (typeof value === 'boolean') {
+                                    displayValue = value ? 'Yes' : 'No';
+                                } else if (typeof value === 'string' && value.trim() === '') {
+                                    return; // Skip empty strings
+                                }
+                                
+                                // Add the formatted question and answer
+                                doc.setFont(undefined, 'bold');
+                                addWrappedText(`• ${fieldName}:`, margin + 10, 10, 160);
+                                yPosition -= lineHeight; // Adjust for the line we just added
+                                
+                                doc.setFont(undefined, 'normal');
+                                addWrappedText(`  ${displayValue}`, margin + 10, 10, 160);
+                                yPosition += 2; // Add small spacing between questions
                             }
                         });
+                        yPosition += 8; // Section spacing
+                    }
+                    
+                    // Add all base sections - ensuring all sections are included in the PDF
+                    addSectionData('Section 2: General Information', formData.generalInfo, 2);
+                    addSectionData('Section 3: Operations', formData.operations, 3);
+                    addSectionData('Section 4: Financials', formData.financials, 4);
+                    addSectionData('Section 5: Contractual Controls', formData.contractualControls, 5);
+                    addSectionData('Section 6: Cybersecurity, Technical & Crime Controls', formData.cybersecurity, 6);
+                    addSectionData('Section 7: Data Backup & Business Continuity', formData.dataBackup, 7);
+                    addSectionData('Section 8: Third Party, Vendor & Supply Chain Controls', formData.thirdParty, 8);
+                    addSectionData('Section 9: Privacy, Data Security & API Controls', formData.privacy, 9);
+                    addSectionData('Section 10: Intellectual Property & Content Governance Controls', formData.intellectualProperty, 10);
+                    addSectionData('Section 11: People, Employment Practices & Insider Controls', formData.employment, 11);
+                    addSectionData('Section 12: Artificial Intelligence Tools & Controls', formData.aiTools, 12);
+                    addSectionData('Section 13: Prior Incidents & Claims', formData.priorIncidents, 13);
+                    
+                    // Conditional sections (only if respective sectors were selected and have data)
+                    // These are added in the order they appear in the UI, which is determined dynamically
+                    let conditionalSectionNumber = 14;
+                    
+                    if (formData.sectors.includes('ai') && Object.keys(formData.ai).length > 0) {
+                        addSectionData(`Section ${conditionalSectionNumber}: Artificial Intelligence (Specialized Questions)`, formData.ai, conditionalSectionNumber);
+                        conditionalSectionNumber++;
+                    }
+                    
+                    if (formData.sectors.includes('defi') && Object.keys(formData.defi).length > 0) {
+                        addSectionData(`Section ${conditionalSectionNumber}: Decentralized Finance & Digital Assets (Specialized Questions)`, formData.defi, conditionalSectionNumber);
+                        conditionalSectionNumber++;
+                    }
+                    
+                    if (formData.sectors.includes('robotics') && Object.keys(formData.robotics).length > 0) {
+                        addSectionData(`Section ${conditionalSectionNumber}: Autonomous Robotics (Specialized Questions)`, formData.robotics, conditionalSectionNumber);
+                        conditionalSectionNumber++;
+                    }
+                    
+                    // Add a note about conditional sections if sectors are selected but no data is present
+                    const selectedConditionalSectors = formData.sectors.filter(sector => ['ai', 'defi', 'robotics'].includes(sector));
+                    const hasConditionalData = 
+                        (formData.sectors.includes('ai') && Object.keys(formData.ai).length > 0) ||
+                        (formData.sectors.includes('defi') && Object.keys(formData.defi).length > 0) ||
+                        (formData.sectors.includes('robotics') && Object.keys(formData.robotics).length > 0);
+                    
+                    if (selectedConditionalSectors.length > 0 && !hasConditionalData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(12);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Specialized Sector Questions', margin);
+                        yPosition += 5;
+                        
+                        doc.setFontSize(10);
+                        doc.setFont(undefined, 'normal');
+                        const sectorNames = selectedConditionalSectors.map(s => {
+                            switch(s) {
+                                case 'ai': return 'Artificial Intelligence';
+                                case 'defi': return 'Decentralized Finance & Digital Assets';
+                                case 'robotics': return 'Autonomous Robotics';
+                                default: return s;
+                            }
+                        });
+                        addWrappedText(`Note: Specialized questions for ${sectorNames.join(', ')} were available but no responses were provided.`, margin + 10);
                         yPosition += 10;
-                    }
-                    
-                    // Add all sections
-                    addSectionData('Section 2: General Information', formData.generalInfo);
-                    addSectionData('Section 3: Operations', formData.operations);
-                    addSectionData('Section 4: Financials', formData.financials);
-                    addSectionData('Section 5: Contractual Controls', formData.contractualControls);
-                    addSectionData('Section 6: Cybersecurity, Technical & Crime Controls', formData.cybersecurity);
-                    addSectionData('Section 7: Data Backup & Business Continuity', formData.dataBackup);
-                    addSectionData('Section 8: Third Party, Vendor & Supply Chain Controls', formData.thirdParty);
-                    addSectionData('Section 9: Privacy, Data Security & API Controls', formData.privacy);
-                    addSectionData('Section 10: Intellectual Property & Content Governance Controls', formData.intellectualProperty);
-                    addSectionData('Section 11: People, Employment Practices & Insider Controls', formData.employment);
-                    addSectionData('Section 12: Artificial Intelligence Tools & Controls', formData.aiTools);
-                    addSectionData('Section 13: Prior Incidents & Claims', formData.priorIncidents);
-                    
-                    // Conditional sections (only if respective sectors were selected)
-                    if (formData.sectors.includes('ai')) {
-                        addSectionData('Section 1: Artificial Intelligence (Additional Questions)', formData.ai);
-                    }
-                    
-                    if (formData.sectors.includes('defi')) {
-                        addSectionData('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', formData.defi);
-                    }
-                    
-                    if (formData.sectors.includes('robotics')) {
-                        addSectionData('Section 3: Autonomous Robotics (Additional Questions)', formData.robotics);
                     }
                     
                     // Footer
