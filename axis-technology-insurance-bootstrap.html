@@ -4197,13 +4197,9 @@
                         💾 Save Progress
                     </button>
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" id="downloadPdfBtn">
+                        <button type="button" class="btn btn-outline-success" id="downloadPdfBtn">
                             📄 Download PDF
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" id="downloadJsPDF">📊 jsPDF (AutoTable Format)</a></li>
-                            <li><a class="dropdown-item" href="#" id="downloadHTMLPDF">🌐 HTML to PDF (Real Tables)</a></li>
-                        </ul>
                     </div>
                     <button type="button" class="btn btn-primary" id="nextBtn">
                         Next →
@@ -4223,10 +4219,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- jsPDF AutoTable plugin for enhanced table formatting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    <!-- html2canvas for HTML element capture -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- html2pdf for HTML to PDF conversion -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 
     <!-- Custom jQuery Script for Form Logic -->
     <script>
@@ -4251,16 +4244,9 @@
                 $('#nextBtn').on('click', nextStep);
                 $('#prevBtn').on('click', prevStep);
                 $('#saveBtn').on('click', saveProgress);
-                // PDF download options
-                $('#downloadJsPDF').on('click', function(e) {
-                    e.preventDefault();
-                    generatePDF();
-                });
+                $('#downloadPdfBtn').on('click', generatePDF);
                 
-                $('#downloadHTMLPDF').on('click', function(e) {
-                    e.preventDefault();
-                    generateHTMLToPDF();
-                });
+
                 $('#submitBtn').on('click', submitForm);
 
                 // Set up conditional logic handlers
@@ -6195,177 +6181,6 @@
                 }
             }
 
-            // Enhanced HTML-to-PDF generation function with comprehensive error handling
-            function generateHTMLToPDF() {
-                try {
-                    // First, try to validate library availability with more thorough checks
-                    if (typeof html2pdf === 'undefined' || typeof html2canvas === 'undefined') {
-                        console.warn('HTML-to-PDF libraries not available, using fallback');
-                        showNotification('🔄 HTML-to-PDF libraries unavailable. Using standard PDF generation...', 'info');
-                        generatePDF();
-                        return;
-                    }
-                    
-                    console.log('HTML-to-PDF libraries detected, starting generation...');
-                    showNotification('🔄 Generating HTML-to-PDF... This may take a moment.', 'info');
-                    
-                    const formData = collectFormData();
-                    
-                    // Create a much simpler, more reliable HTML structure
-                    const htmlContent = generateCompactHTMLContent(formData);
-                    
-                    // Create and configure the temporary element
-                    const tempElement = document.createElement('div');
-                    tempElement.innerHTML = htmlContent;
-                    
-                    // Apply critical styles directly to ensure rendering
-                    Object.assign(tempElement.style, {
-                        position: 'fixed',
-                        top: '-9999px',
-                        left: '0',
-                        width: '794px', // A4 width in pixels
-                        maxWidth: '794px',
-                        fontFamily: 'Arial, Helvetica, sans-serif',
-                        fontSize: '12px',
-                        lineHeight: '1.4',
-                        color: '#000000',
-                        backgroundColor: '#ffffff',
-                        padding: '20px',
-                        boxSizing: 'border-box',
-                        overflow: 'visible'
-                    });
-                    
-                    document.body.appendChild(tempElement);
-                    
-                    // Generate filename
-                    const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
-                    const filename = `Axis-Technology-Insurance-Application-HTML-${timestamp}.pdf`;
-                    
-                    // Simplified configuration for better compatibility
-                    const options = {
-                        margin: [15, 15, 15, 15],
-                        filename: filename,
-                        image: { 
-                            type: 'jpeg', 
-                            quality: 0.9 
-                        },
-                        html2canvas: { 
-                            scale: 2,
-                            useCORS: true,
-                            allowTaint: true,
-                            backgroundColor: '#ffffff',
-                            logging: true,
-                            letterRendering: true,
-                            foreignObjectRendering: false // Disable for better compatibility
-                        },
-                        jsPDF: { 
-                            unit: 'mm', 
-                            format: 'a4', 
-                            orientation: 'portrait',
-                            compress: true
-                        }
-                    };
-                    
-                    console.log('HTML2PDF configuration:', options);
-                    
-                    // Use a promise-based approach with proper error handling
-                    Promise.race([
-                        html2pdf().set(options).from(tempElement).outputPdf('blob'),
-                        new Promise((_, reject) => 
-                            setTimeout(() => reject(new Error('Timeout')), 45000)
-                        )
-                    ]).then(pdfBlob => {
-                        // Clean up
-                        if (document.body.contains(tempElement)) {
-                            document.body.removeChild(tempElement);
-                        }
-                        
-                        // Create download link for the blob
-                        const url = URL.createObjectURL(pdfBlob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-                        
-                        console.log('HTML-to-PDF generation successful');
-                        showNotification('✅ HTML-to-PDF downloaded successfully!', 'success');
-                        
-                    }).catch(error => {
-                        console.error('HTML-to-PDF generation failed:', error);
-                        
-                        // Clean up
-                        if (document.body.contains(tempElement)) {
-                            document.body.removeChild(tempElement);
-                        }
-                        
-                        // Fallback to standard PDF
-                        showNotification('⚠️ HTML-to-PDF failed. Generating standard PDF instead...', 'warning');
-                        setTimeout(() => generatePDF(), 1000);
-                    });
-                    
-                } catch (error) {
-                    console.error('Critical error in generateHTMLToPDF:', error);
-                    showNotification('❌ HTML-to-PDF error. Using standard PDF generation...', 'warning');
-                    setTimeout(() => generatePDF(), 1000);
-                }
-            }
-            
-            // Generate compact, reliable HTML content for PDF conversion
-            function generateCompactHTMLContent(formData) {
-                const timestamp = new Date().toLocaleString();
-                
-                let html = `
-                <div style="font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; color: #000;">
-                    <h1 style="color: #2c5aa0; text-align: center; margin-bottom: 10px; font-size: 18px;">
-                        Axis Technology Insurance Application
-                    </h1>
-                    <p style="text-align: center; margin-bottom: 20px; color: #666; font-size: 10px;">
-                        Generated: ${timestamp}
-                    </p>
-                `;
-                
-                // Section 1: Sectors (simplified)
-                html += `<h2 style="color: #2c5aa0; font-size: 14px; margin: 15px 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Section 1: Sectors</h2>`;
-                html += `<p style="margin-bottom: 10px;"><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>`;
-                
-                if (formData.sectors && formData.sectors.sectors && formData.sectors.sectors.length > 0) {
-                    html += `<ul style="margin: 10px 0; padding-left: 20px;">`;
-                    formData.sectors.sectors.forEach(sector => {
-                        const sectorName = sector === 'ai' ? 'Artificial Intelligence' : 
-                                         sector === 'defi' ? 'Decentralized Finance & Digital Assets' :
-                                         sector === 'robotics' ? 'Autonomous Robotics' : sector;
-                        html += `<li style="margin: 3px 0;">[X] ${sectorName}</li>`;
-                    });
-                    html += `</ul>`;
-                } else {
-                    html += `<p style="margin: 10px 0;">No sectors selected</p>`;
-                }
-                
-                // Section 2: General Information (simplified)
-                html += `<h2 style="color: #2c5aa0; font-size: 14px; margin: 15px 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px;">Section 2: General Information</h2>`;
-                
-                const generalInfo = formData.general || {};
-                const questions = [
-                    { key: 'legal_name', label: 'Legal Name of Organization' },
-                    { key: 'location', label: 'Location of Incorporation' },
-                    { key: 'year_established', label: 'Year Company Established' },
-                    { key: 'num_employees', label: 'Number of Employees' }
-                ];
-                
-                questions.forEach(q => {
-                    if (generalInfo[q.key]) {
-                        html += `<p style="margin: 8px 0;"><strong>${q.label}:</strong> ${generalInfo[q.key]}</p>`;
-                    }
-                });
-                
-                // Close the HTML structure
-                html += `</div>`;
-                
-                return html;
-            }
 
 
 
