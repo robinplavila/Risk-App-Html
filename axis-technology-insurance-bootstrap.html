@@ -5700,21 +5700,39 @@
                                 const value = sectionData[q.field];
                                 addWrappedText(`Answer: ${value || 'Not provided'}`, margin + 20);
                             } else if (q.type === 'table') {
+                                // Create ASCII table for revenue percentages
+                                checkPageBreak(20);
+                                addWrappedText('+---------------------------------+------------+', margin + 20);
+                                addWrappedText('| Activity                        | Percentage |', margin + 20);
+                                addWrappedText('+---------------------------------+------------+', margin + 20);
+                                
                                 q.fields.forEach(field => {
                                     const value = sectionData[field.field] || '0';
-                                    addWrappedText(`${field.label}: ${value}%`, margin + 20);
+                                    const activityPadded = field.label.padEnd(31);
+                                    const percentagePadded = (value + '%').padStart(10);
+                                    addWrappedText(`| ${activityPadded} | ${percentagePadded} |`, margin + 20);
                                 });
+                                
+                                addWrappedText('+---------------------------------+------------+', margin + 20);
                             } else if (q.type === 'risk_areas') {
+                                // Create ASCII table for risk areas
+                                checkPageBreak(25);
+                                addWrappedText('+------------------------------+---------+------------------+', margin + 20);
+                                addWrappedText('| Area                         | Yes/No  | Details          |', margin + 20);
+                                addWrappedText('+------------------------------+---------+------------------+', margin + 20);
+                                
                                 q.fields.forEach(area => {
                                     const selectedValue = sectionData[area.field];
-                                    addWrappedText(`${area.label}:`, margin + 20);
-                                    addWrappedText(`    (•) Yes` + (selectedValue === 'yes' ? ' [SELECTED]' : ''), margin + 25);
-                                    addWrappedText(`    ( ) No` + (selectedValue === 'no' ? ' [SELECTED]' : ''), margin + 25);
-                                    if (selectedValue === 'yes' && sectionData[area.details]) {
-                                        addWrappedText(`    Details: ${sectionData[area.details]}`, margin + 30);
-                                    }
-                                    yPosition += 2;
+                                    const details = selectedValue === 'yes' ? (sectionData[area.details] || 'No details') : 'N/A';
+                                    const areaPadded = area.label.padEnd(28);
+                                    const yesNoStatus = selectedValue === 'yes' ? 'Yes' : (selectedValue === 'no' ? 'No' : '-');
+                                    const yesNoPadded = yesNoStatus.padEnd(7);
+                                    const detailsPadded = (details.length > 16 ? details.substring(0, 13) + '...' : details).padEnd(16);
+                                    
+                                    addWrappedText(`| ${areaPadded} | ${yesNoPadded} | ${detailsPadded} |`, margin + 20);
                                 });
+                                
+                                addWrappedText('+------------------------------+---------+------------------+', margin + 20);
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
@@ -5752,20 +5770,36 @@
                                     }
                                 }
                             } else if (q.type === 'client_table') {
+                                // Create ASCII table for top 3 clients
+                                checkPageBreak(15);
+                                addWrappedText('+----------+----------------------+----------------------+-------------+', margin + 20);
+                                addWrappedText('| Client # | Name                 | Service Provided     | Duration    |', margin + 20);
+                                addWrappedText('+----------+----------------------+----------------------+-------------+', margin + 20);
+                                
+                                for (let i = 1; i <= 3; i++) {
+                                    const client = q.fields[i-1];
+                                    const name = sectionData[client.name] || 'Not provided';
+                                    const service = sectionData[client.service] || 'Not provided';
+                                    const duration = sectionData[client.duration] || 'Not provided';
+                                    const value = sectionData[client.value] || '0';
+                                    
+                                    const clientNumPadded = i.toString().padEnd(8);
+                                    const namePadded = (name.length > 20 ? name.substring(0, 17) + '...' : name).padEnd(20);
+                                    const servicePadded = (service.length > 20 ? service.substring(0, 17) + '...' : service).padEnd(20);
+                                    const durationPadded = (duration.length > 11 ? duration.substring(0, 8) + '...' : duration).padEnd(11);
+                                    
+                                    addWrappedText(`| ${clientNumPadded} | ${namePadded} | ${servicePadded} | ${durationPadded} |`, margin + 20);
+                                }
+                                
+                                addWrappedText('+----------+----------------------+----------------------+-------------+', margin + 20);
+                                addWrappedText('', margin + 20);
+                                addWrappedText('Client Values:', margin + 20);
                                 for (let i = 1; i <= 3; i++) {
                                     const client = q.fields[i-1];
                                     const name = sectionData[client.name];
-                                    const service = sectionData[client.service];
-                                    const duration = sectionData[client.duration];
-                                    const value = sectionData[client.value];
-                                    
-                                    if (name || service || duration || value) {
-                                        addWrappedText(`Client ${i}:`, margin + 20);
-                                        addWrappedText(`  Name: ${name || 'Not provided'}`, margin + 25);
-                                        addWrappedText(`  Service: ${service || 'Not provided'}`, margin + 25);
-                                        addWrappedText(`  Duration: ${duration || 'Not provided'}`, margin + 25);
-                                        addWrappedText(`  Value: $${value || '0'}`, margin + 25);
-                                        yPosition += 2;
+                                    const value = sectionData[client.value] || '0';
+                                    if (name) {
+                                        addWrappedText(`Client ${i}: $${value}`, margin + 25);
                                     }
                                 }
                             }
@@ -5880,16 +5914,26 @@
                                 const value = sectionData[q.field];
                                 addWrappedText(`Answer: $${value || '0'}`, margin + 20);
                             } else if (q.type === 'revenue_table') {
+                                // Create ASCII table for gross revenues
+                                checkPageBreak(20);
+                                addWrappedText('+---------------------------------------+-------------+-------------+-------------+', margin + 20);
+                                addWrappedText('| Period                                | Canada ($)  | USA ($)     | Foreign ($) |', margin + 20);
+                                addWrappedText('+---------------------------------------+-------------+-------------+-------------+', margin + 20);
+                                
                                 q.periods.forEach(period => {
-                                    addWrappedText(`${period.label}:`, margin + 20);
                                     const domestic = sectionData[period.domestic] || '0';
                                     const usa = sectionData[period.usa] || '0';
                                     const foreign = sectionData[period.foreign] || '0';
-                                    addWrappedText(`  Canada: $${domestic}`, margin + 25);
-                                    addWrappedText(`  USA: $${usa}`, margin + 25);
-                                    addWrappedText(`  Foreign: $${foreign}`, margin + 25);
-                                    yPosition += 2;
+                                    
+                                    const periodPadded = (period.label.length > 37 ? period.label.substring(0, 34) + '...' : period.label).padEnd(37);
+                                    const domesticPadded = domestic.padStart(11);
+                                    const usaPadded = usa.padStart(11);
+                                    const foreignPadded = foreign.padStart(11);
+                                    
+                                    addWrappedText(`| ${periodPadded} | ${domesticPadded} | ${usaPadded} | ${foreignPadded} |`, margin + 20);
                                 });
+                                
+                                addWrappedText('+---------------------------------------+-------------+-------------+-------------+', margin + 20);
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
@@ -5905,22 +5949,29 @@
                                     addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin + 25);
                                 }
                             } else if (q.type === 'project_table') {
+                                // Create ASCII table for largest projects
+                                checkPageBreak(20);
+                                addWrappedText('+-----+-------------------------+-------------------------+-------------+-------------+', margin + 20);
+                                addWrappedText('| #   | Project/Contract Name   | Client                  | Value ($)   | Duration    |', margin + 20);
+                                addWrappedText('+-----+-------------------------+-------------------------+-------------+-------------+', margin + 20);
+                                
                                 for (let i = 1; i <= 3; i++) {
                                     const project = q.fields[i-1];
-                                    const name = sectionData[project.name];
-                                    const client = sectionData[project.client];
-                                    const value = sectionData[project.value];
-                                    const duration = sectionData[project.duration];
+                                    const name = sectionData[project.name] || 'Not provided';
+                                    const client = sectionData[project.client] || 'Not provided';
+                                    const value = sectionData[project.value] || '0';
+                                    const duration = sectionData[project.duration] || 'Not provided';
                                     
-                                    if (name || client || value || duration) {
-                                        addWrappedText(`Project ${i}:`, margin + 20);
-                                        addWrappedText(`  Name: ${name || 'Not provided'}`, margin + 25);
-                                        addWrappedText(`  Client: ${client || 'Not provided'}`, margin + 25);
-                                        addWrappedText(`  Value: $${value || '0'}`, margin + 25);
-                                        addWrappedText(`  Duration: ${duration || 'Not provided'}`, margin + 25);
-                                        yPosition += 2;
-                                    }
+                                    const numPadded = i.toString().padEnd(3);
+                                    const namePadded = (name.length > 23 ? name.substring(0, 20) + '...' : name).padEnd(23);
+                                    const clientPadded = (client.length > 23 ? client.substring(0, 20) + '...' : client).padEnd(23);
+                                    const valuePadded = value.padStart(11);
+                                    const durationPadded = (duration.length > 11 ? duration.substring(0, 8) + '...' : duration).padEnd(11);
+                                    
+                                    addWrappedText(`| ${numPadded} | ${namePadded} | ${clientPadded} | ${valuePadded} | ${durationPadded} |`, margin + 20);
                                 }
+                                
+                                addWrappedText('+-----+-------------------------+-------------------------+-------------+-------------+', margin + 20);
                             }
                             
                             yPosition += 8;
