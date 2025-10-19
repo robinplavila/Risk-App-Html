@@ -5389,14 +5389,14 @@
                     
                     // Define all sector options
                     const sectorOptions = [
-                        { value: 'ai', label: '🤖 Artificial Intelligence' },
-                        { value: 'defi', label: '💰 Decentralized Finance & Digital Assets' },
-                        { value: 'robotics', label: '🦾 Autonomous Robotics' }
+                        { value: 'ai', label: 'Artificial Intelligence' },
+                        { value: 'defi', label: 'Decentralized Finance & Digital Assets' },
+                        { value: 'robotics', label: 'Autonomous Robotics' }
                     ];
                     
                     sectorOptions.forEach(option => {
                         const isSelected = formData.sectors.includes(option.value);
-                        const status = isSelected ? '☑️' : '☐';
+                        const status = isSelected ? '[X]' : '[ ]';
                         addWrappedText(`${status} ${option.label}`, margin + 20);
                     });
                     
@@ -5513,7 +5513,7 @@
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
                                     const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '◉' : '◯';
+                                    const status = isSelected ? '(•)' : '( )';
                                     addWrappedText(`${status} ${option.label}`, margin + 20);
                                 });
                                 
