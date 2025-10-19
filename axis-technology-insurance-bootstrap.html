@@ -6195,25 +6195,44 @@
                 }
             }
 
-            // New HTML-to-PDF generation function using html2pdf.js
+            // Enhanced HTML-to-PDF generation function with better error handling
             function generateHTMLToPDF() {
                 try {
+                    // Check if required libraries are loaded
+                    if (typeof html2pdf === 'undefined') {
+                        showNotification('❌ HTML-to-PDF library not available. Please check your internet connection and try again.', 'error');
+                        console.error('html2pdf library not loaded');
+                        return;
+                    }
+                    
+                    if (typeof html2canvas === 'undefined') {
+                        showNotification('❌ HTML2Canvas library not available. Using simplified PDF generation instead.', 'warning');
+                        console.warn('html2canvas library not loaded, falling back to jsPDF');
+                        generatePDF(); // Fallback to regular jsPDF
+                        return;
+                    }
+                    
+                    console.log('Starting HTML-to-PDF generation...');
                     const formData = collectFormData();
                     
-                    // Create HTML content for PDF with proper table structure
-                    const htmlContent = generatePDFHTMLContent(formData);
+                    // Create simplified HTML content for PDF with proper table structure
+                    const htmlContent = generateSimplifiedPDFHTMLContent(formData);
                     
                     // Create a temporary div to hold the content
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = htmlContent;
                     tempDiv.style.position = 'absolute';
                     tempDiv.style.left = '-9999px';
+                    tempDiv.style.top = '0';
                     tempDiv.style.width = '210mm'; // A4 width
                     tempDiv.style.fontFamily = 'Arial, sans-serif';
                     tempDiv.style.fontSize = '12px';
                     tempDiv.style.lineHeight = '1.4';
                     tempDiv.style.color = '#333';
+                    tempDiv.style.backgroundColor = 'white';
                     document.body.appendChild(tempDiv);
+                    
+                    console.log('Temporary div created and styled');
                     
                     // Generate filename with timestamp
                     const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
@@ -6221,36 +6240,258 @@
                     
                     // Configure html2pdf options
                     const options = {
-                        margin: 1,
+                        margin: [10, 10, 10, 10], // top, left, bottom, right in mm
                         filename: filename,
-                        image: { type: 'jpeg', quality: 0.98 },
+                        image: { type: 'jpeg', quality: 0.95 },
                         html2canvas: { 
-                            scale: 2,
+                            scale: 1.5, // Reduced scale for better performance
                             useCORS: true,
-                            allowTaint: true
+                            allowTaint: true,
+                            backgroundColor: '#ffffff',
+                            logging: false, // Disable logging to reduce console noise
+                            width: 794, // A4 width in pixels at 96 DPI
+                            height: 1123 // A4 height in pixels at 96 DPI
                         },
                         jsPDF: { 
-                            unit: 'cm', 
+                            unit: 'mm', 
                             format: 'a4', 
                             orientation: 'portrait' 
-                        }
+                        },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
                     };
                     
-                    // Generate PDF from HTML
+                    console.log('Starting HTML2PDF conversion with options:', options);
+                    showNotification('🔄 Generating HTML-to-PDF... Please wait.', 'info');
+                    
+                    // Generate PDF from HTML with timeout
+                    const timeoutId = setTimeout(() => {
+                        console.error('HTML2PDF generation timeout');
+                        if (document.body.contains(tempDiv)) {
+                            document.body.removeChild(tempDiv);
+                        }
+                        showNotification('⏰ PDF generation timed out. Trying alternative method...', 'warning');
+                        generatePDF(); // Fallback to regular jsPDF
+                    }, 30000); // 30 second timeout
+                    
                     html2pdf().set(options).from(tempDiv).save().then(() => {
-                        // Clean up
-                        document.body.removeChild(tempDiv);
+                        clearTimeout(timeoutId);
+                        console.log('HTML2PDF generation completed successfully');
+                        if (document.body.contains(tempDiv)) {
+                            document.body.removeChild(tempDiv);
+                        }
                         showNotification('✅ HTML-to-PDF downloaded successfully!', 'success');
                     }).catch((error) => {
+                        clearTimeout(timeoutId);
                         console.error('Error generating HTML-to-PDF:', error);
-                        document.body.removeChild(tempDiv);
-                        showNotification('❌ Error generating HTML-to-PDF. Please try again.', 'error');
+                        if (document.body.contains(tempDiv)) {
+                            document.body.removeChild(tempDiv);
+                        }
+                        showNotification('❌ HTML-to-PDF failed. Using standard PDF generation instead.', 'warning');
+                        // Fallback to regular jsPDF
+                        setTimeout(() => generatePDF(), 1000);
                     });
                     
                 } catch (error) {
                     console.error('Error in generateHTMLToPDF:', error);
-                    showNotification('❌ Error generating HTML-to-PDF. Please try again.', 'error');
+                    showNotification('❌ Error generating HTML-to-PDF. Using standard PDF generation instead.', 'warning');
+                    // Fallback to regular jsPDF
+                    setTimeout(() => generatePDF(), 1000);
                 }
+            }
+
+            // Generate simplified HTML content optimized for html2pdf conversion
+            function generateSimplifiedPDFHTMLContent(formData) {
+                const timestamp = new Date().toLocaleString();
+                
+                let html = `
+                    <div style="max-width: 190mm; margin: 0 auto; padding: 5mm; font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; color: #333;">
+                        <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #428bca; padding-bottom: 10px;">
+                            <h1 style="color: #428bca; margin: 0; font-size: 24px;">Axis Technology Insurance Application</h1>
+                            <p style="margin: 5px 0; color: #666; font-size: 11px;">Generated: ${timestamp}</p>
+                        </div>
+                `;
+                
+                // Section 1: Sectors
+                html += generateSimpleSection1HTML(formData.sectors);
+                
+                // Section 2: General Information  
+                html += generateSimpleSection2HTML(formData.generalInfo);
+                
+                // Section 3: Operations
+                html += generateSimpleSection3HTML(formData.operations);
+                
+                // Section 4: Financials
+                html += generateSimpleSection4HTML(formData.financials);
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSimpleSection1HTML(sectorData) {
+                const sectors = [
+                    { key: 'ai', label: 'Artificial Intelligence' },
+                    { key: 'defi', label: 'Decentralized Finance & Digital Assets' },
+                    { key: 'robotics', label: 'Autonomous Robotics' }
+                ];
+                
+                let html = `
+                    <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-size: 18px; margin-bottom: 10px;">Section 1: Sectors</h2>
+                        <p style="margin-bottom: 10px;"><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>
+                        <div style="margin: 10px 0;">
+                `;
+                
+                sectors.forEach(sector => {
+                    const isSelected = sectorData && sectorData.includes(sector.key);
+                    const checkbox = isSelected ? '[X]' : '[ ]';
+                    html += `<p style="margin: 5px 0; font-size: 11px;">${checkbox} ${sector.label}</p>`;
+                });
+                
+                html += '</div></div>';
+                return html;
+            }
+
+            function generateSimpleSection2HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-size: 18px; margin-bottom: 10px;">Section 2: General Information</h2>
+                `;
+                
+                const questions = [
+                    { field: 'legal_name', question: '1. Legal Name of Organization' },
+                    { field: 'location_incorporation', question: '2. Location of Incorporation' },
+                    { field: 'mailing_address', question: '3. Mailing Address' },
+                    { field: 'subsidiaries', question: '4. List all subsidiaries' },
+                    { field: 'physical_locations', question: '5. List all Physical Locations' },
+                    { field: 'urls', question: '6. List all URLs' },
+                    { field: 'year_established', question: '7. Year Company Established' },
+                    { field: 'employees', question: '8. Number of Employees' }
+                ];
+                
+                questions.forEach(q => {
+                    const value = sectionData && sectionData[q.field];
+                    if (value) {
+                        html += `
+                            <div style="margin-bottom: 8px; font-size: 11px;">
+                                <strong>${q.question}</strong><br>
+                                Answer: ${value}
+                            </div>
+                        `;
+                    }
+                });
+                
+                // Handle employees outside Canada question
+                if (sectionData && sectionData.employees_outside_canada !== undefined) {
+                    html += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <strong>9. Are any Employees based outside of Canada?</strong><br>
+                            ${sectionData.employees_outside_canada === 'yes' ? '(•) Yes' : '( ) Yes'}<br>
+                            ${sectionData.employees_outside_canada === 'no' ? '(•) No' : '( ) No'}
+                    `;
+                    
+                    if (sectionData.employees_outside_canada === 'yes' && sectionData.employee_countries) {
+                        html += `<br><em>Countries:</em> ${sectionData.employee_countries}`;
+                    }
+                    html += '</div>';
+                }
+                
+                // Breach Response Contact
+                if (sectionData && (sectionData.breach_contact_name || sectionData.breach_contact_email)) {
+                    html += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <strong>10. Breach Response Contact</strong><br>
+                            ${sectionData.breach_contact_name ? `Name: ${sectionData.breach_contact_name}<br>` : ''}
+                            ${sectionData.breach_contact_title ? `Title: ${sectionData.breach_contact_title}<br>` : ''}
+                            ${sectionData.breach_contact_email ? `Email: ${sectionData.breach_contact_email}<br>` : ''}
+                            ${sectionData.breach_contact_phone ? `Phone: ${sectionData.breach_contact_phone}<br>` : ''}
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSimpleSection3HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-size: 18px; margin-bottom: 10px;">Section 3: Operations</h2>
+                `;
+                
+                if (!sectionData) {
+                    html += '<p style="font-size: 11px; color: #666;">No operations data available.</p></div>';
+                    return html;
+                }
+                
+                // Question 1: Services description
+                if (sectionData.services_description) {
+                    html += `
+                        <div style="margin-bottom: 12px; font-size: 11px;">
+                            <strong>1. Please describe the services and technology products that your organization provides:</strong><br>
+                            ${sectionData.services_description}
+                        </div>
+                    `;
+                }
+                
+                // Question 2: Revenue table - simplified
+                const revenueData = sectionData.revenue_percentages;
+                if (revenueData) {
+                    html += `
+                        <div style="margin-bottom: 12px; font-size: 11px;">
+                            <strong>2. Percentage of revenue derived from each activity:</strong><br>
+                            <div style="margin-top: 5px;">
+                                Software Development: ${revenueData.software || '0'}%<br>
+                                SaaS: ${revenueData.saas || '0'}%<br>
+                                Consulting: ${revenueData.consulting || '0'}%<br>
+                                Hardware: ${revenueData.hardware || '0'}%<br>
+                                Other: ${revenueData.other || '0'}%
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSimpleSection4HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px; font-size: 18px; margin-bottom: 10px;">Section 4: Financials</h2>
+                `;
+                
+                if (!sectionData) {
+                    html += '<p style="font-size: 11px; color: #666;">No financial data available.</p></div>';
+                    return html;
+                }
+                
+                // Financial year end
+                if (sectionData.financial_year_end) {
+                    html += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <strong>1. Financial Year End:</strong><br>
+                            ${sectionData.financial_year_end}
+                        </div>
+                    `;
+                }
+                
+                // Revenue data - simplified
+                const revenueData = sectionData.revenue_data;
+                if (revenueData) {
+                    html += `
+                        <div style="margin-bottom: 12px; font-size: 11px;">
+                            <strong>2. Gross Revenues by Region:</strong><br>
+                            <div style="margin-top: 5px;">
+                                Period 1 - Canada: $${revenueData.period1_canada || '0'} | USA: $${revenueData.period1_usa || '0'} | Foreign: $${revenueData.period1_foreign || '0'}<br>
+                                Period 2 - Canada: $${revenueData.period2_canada || '0'} | USA: $${revenueData.period2_usa || '0'} | Foreign: $${revenueData.period2_foreign || '0'}<br>
+                                Period 3 - Canada: $${revenueData.period3_canada || '0'} | USA: $${revenueData.period3_usa || '0'} | Foreign: $${revenueData.period3_foreign || '0'}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+                return html;
             }
 
             // Generate HTML content with proper table structure for PDF conversion
