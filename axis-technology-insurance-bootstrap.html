@@ -4012,29 +4012,74 @@
 
                         <div class="mb-4 ai-agent-conditional" style="display: none;">
                             <label class="form-label">14. Have you assessed whether the outputs or actions of your AI agents could result in:</label>
-                            <div class="mb-3">
-                                <small class="text-muted">Check one that best describes your assessment level:</small>
+                            
+                            <!-- Privacy Law Violations -->
+                            <div class="mb-4">
+                                <strong class="d-block mb-2">Violations of privacy laws (e.g., GDPR, CCPA)?</strong>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_privacy_assessment" id="privacy_full" value="full_review">
+                                    <label class="form-check-label" for="privacy_full">
+                                        Yes – full legal/compliance review conducted
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_privacy_assessment" id="privacy_partial" value="partial_assessment">
+                                    <label class="form-check-label" for="privacy_partial">
+                                        Partial or informal assessment
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_privacy_assessment" id="privacy_none" value="not_reviewed">
+                                    <label class="form-check-label" for="privacy_none">
+                                        Not yet reviewed
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_risk_assessment" id="ai_assessment_full" value="full_review">
-                                <label class="form-check-label" for="ai_assessment_full">
-                                    <strong>Yes – full legal/compliance review conducted</strong><br>
-                                    <small class="text-muted">Comprehensive assessment of privacy law violations (GDPR, CCPA), IP infringement, and regulatory risks</small>
-                                </label>
+
+                            <!-- IP Rights Infringement -->
+                            <div class="mb-4">
+                                <strong class="d-block mb-2">Infringement of third-party IP rights?</strong>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_ip_assessment" id="ip_full" value="full_review">
+                                    <label class="form-check-label" for="ip_full">
+                                        Yes – full legal/compliance review conducted
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_ip_assessment" id="ip_partial" value="partial_assessment">
+                                    <label class="form-check-label" for="ip_partial">
+                                        Partial or informal assessment
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_ip_assessment" id="ip_none" value="not_reviewed">
+                                    <label class="form-check-label" for="ip_none">
+                                        Not yet reviewed
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_risk_assessment" id="ai_assessment_partial" value="partial_assessment">
-                                <label class="form-check-label" for="ai_assessment_partial">
-                                    <strong>Partial or informal assessment</strong><br>
-                                    <small class="text-muted">Some evaluation conducted but not comprehensive</small>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="ai_risk_assessment" id="ai_assessment_none" value="not_reviewed">
-                                <label class="form-check-label" for="ai_assessment_none">
-                                    <strong>Not yet reviewed</strong><br>
-                                    <small class="text-muted">No formal assessment has been conducted</small>
-                                </label>
+
+                            <!-- Defamation, Discrimination, Regulatory Violations -->
+                            <div class="mb-4">
+                                <strong class="d-block mb-2">Defamation, discrimination, or regulatory violations?</strong>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_defamation_assessment" id="defamation_full" value="full_review">
+                                    <label class="form-check-label" for="defamation_full">
+                                        Yes – full legal/compliance review conducted
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_defamation_assessment" id="defamation_partial" value="partial_assessment">
+                                    <label class="form-check-label" for="defamation_partial">
+                                        Partial or informal assessment
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ai_defamation_assessment" id="defamation_none" value="not_reviewed">
+                                    <label class="form-check-label" for="defamation_none">
+                                        Not yet reviewed
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -4837,7 +4882,9 @@
                         $('#ai_agents_description').val('');
                         $('input[name="ai_autonomous_action"]').prop('checked', false);
                         $('input[name="ai_controls[]"]').prop('checked', false);
-                        $('input[name="ai_risk_assessment"]').prop('checked', false);
+                        $('input[name="ai_privacy_assessment"]').prop('checked', false);
+                        $('input[name="ai_ip_assessment"]').prop('checked', false);
+                        $('input[name="ai_defamation_assessment"]').prop('checked', false);
                         $('input[name="ai_contractual_limitations"]').prop('checked', false);
                         $('input[name="ai_critical_systems"]').prop('checked', false);
                         $('input[name="ai_logs_version_control"]').prop('checked', false);
