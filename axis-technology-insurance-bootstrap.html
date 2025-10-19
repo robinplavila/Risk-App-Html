@@ -607,7 +607,8 @@
 
                         <div class="mb-3">
                             <label for="subsidiaries" class="form-label">3. List all subsidiaries & Location of Incorporation</label>
-                            <textarea class="form-control" id="subsidiaries" name="subsidiaries" rows="3" placeholder="List each subsidiary and its location of incorporation"></textarea>
+                            <textarea class="form-control" id="subsidiaries" name="subsidiaries" rows="3" placeholder="List each subsidiary with full legal name and its location of incorporation"></textarea>
+                            <small class="form-text text-muted">Please provide the complete legal name of each subsidiary and its jurisdiction of incorporation.</small>
                         </div>
 
                         <div class="mb-3">
@@ -684,6 +685,10 @@
                                     <input class="form-check-input" type="radio" name="mergers_acquisitions" id="mergers_no" value="no">
                                     <label class="form-check-label" for="mergers_no">No</label>
                                 </div>
+                            </div>
+                            <div class="conditional-field mt-3" id="mergers_details" style="display: none;">
+                                <label for="mergers_description" class="form-label">Please provide details:</label>
+                                <textarea class="form-control" id="mergers_description" name="mergers_description" rows="3" placeholder="Please describe the mergers, acquisitions, or divestitures including timeline, entities involved, and current status..."></textarea>
                             </div>
                         </div>
                         
@@ -4089,6 +4094,17 @@
                     }
                 });
 
+                // Mergers/acquisitions conditional logic
+                $('input[name="mergers_acquisitions"]').on('change', function() {
+                    const $details = $('#mergers_details');
+                    if ($(this).val() === 'yes') {
+                        $details.slideDown(400);
+                    } else {
+                        $details.slideUp(400);
+                        $('#mergers_description').val('');
+                    }
+                });
+
                 // Business structure change conditional logic
                 $('input[name="business_structure_change"]').on('change', function() {
                     const $details = $('#structure_change_details');
@@ -4944,6 +4960,7 @@
                         // Trigger conditional logic
                         $('input[name="employees_outside_canada"]:checked').trigger('change');
                         $('input[name="business_structure_change"]:checked').trigger('change');
+                        $('input[name="mergers_acquisitions"]:checked').trigger('change');
                         $('input[name="sell_tangible_products"]:checked').trigger('change');
                         $('.high-risk-select').trigger('change');
                         $('.revenue-input').trigger('input');
