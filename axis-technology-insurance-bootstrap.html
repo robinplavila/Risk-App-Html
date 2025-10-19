@@ -1325,12 +1325,24 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="engagement_contract_split" class="form-label">3. What percentage of engagements are under your own vs customer-provided contract?</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="engagement_contract_split" name="engagement_contract_split" min="0" max="100" placeholder="0">
-                                <span class="input-group-text">% (Your own contracts)</span>
+                            <label class="form-label">3. What percentage of engagements are under your own vs customer-provided contract?</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="own_contract_percentage" class="form-label">% of own contracts</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="own_contract_percentage" name="own_contract_percentage" min="0" max="100" placeholder="0">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="customer_contract_percentage" class="form-label">% of customer contracts</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="customer_contract_percentage" name="customer_contract_percentage" min="0" max="100" placeholder="0">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
                             </div>
-                            <small class="form-text text-muted">The remaining percentage will be customer-provided contracts</small>
+                            <small class="form-text text-muted">The total should equal 100%</small>
                         </div>
 
                         <div class="mb-4">
