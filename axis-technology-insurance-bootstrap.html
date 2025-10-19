@@ -4196,6 +4196,9 @@
                     <button type="button" class="btn btn-outline-primary" id="saveBtn">
                         💾 Save Progress
                     </button>
+                    <button type="button" class="btn btn-outline-success" id="downloadPdfBtn">
+                        📄 Download PDF
+                    </button>
                     <button type="button" class="btn btn-primary" id="nextBtn">
                         Next →
                     </button>
@@ -4236,6 +4239,7 @@
                 $('#nextBtn').on('click', nextStep);
                 $('#prevBtn').on('click', prevStep);
                 $('#saveBtn').on('click', saveProgress);
+                $('#downloadPdfBtn').on('click', generatePDF);
                 $('#submitBtn').on('click', submitForm);
 
                 // Set up conditional logic handlers
