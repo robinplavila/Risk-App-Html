@@ -5264,7 +5264,7 @@
                 };
 
                 // Collect sectors
-                $('input[name="sectors"]:checked').each(function() {
+                $('input[name="sectors[]"]:checked').each(function() {
                     formData.sectors.push($(this).val());
                 });
 
@@ -5299,7 +5299,7 @@
                 }
 
                 sections.forEach(section => {
-                    $(`#step${section.step} input, #step${section.step} textarea, #step${section.step} select`).each(function() {
+                    $(`.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`).each(function() {
                         const $input = $(this);
                         const name = $input.attr('name');
                         const type = $input.attr('type');
@@ -5372,20 +5372,176 @@
                     doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, yPosition);
                     yPosition += 15;
                     
-                    // Section 1: Sectors
+                    // Section 1: Sectors - Enhanced with questions and options
+                    checkPageBreak(20);
                     doc.setFontSize(14);
                     doc.setFont(undefined, 'bold');
                     addWrappedText('Section 1: Sectors', margin);
                     yPosition += 5;
                     
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin + 10);
+                    yPosition += 3;
+                    
                     doc.setFontSize(10);
                     doc.setFont(undefined, 'normal');
-                    if (formData.sectors.length > 0) {
-                        addWrappedText('Selected sectors: ' + formData.sectors.join(', '), margin + 10);
-                    } else {
-                        addWrappedText('No sectors selected', margin + 10);
-                    }
+                    
+                    // Define all sector options
+                    const sectorOptions = [
+                        { value: 'ai', label: '🤖 Artificial Intelligence' },
+                        { value: 'defi', label: '💰 Decentralized Finance & Digital Assets' },
+                        { value: 'robotics', label: '🦾 Autonomous Robotics' }
+                    ];
+                    
+                    sectorOptions.forEach(option => {
+                        const isSelected = formData.sectors.includes(option.value);
+                        const status = isSelected ? '☑️' : '☐';
+                        addWrappedText(`${status} ${option.label}`, margin + 20);
+                    });
+                    
                     yPosition += 10;
+                    
+                    // Enhanced function for Section 2 with questions and selected options
+                    function addSection2WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 2: General Information', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 2 questions with their field names
+                        const section2Questions = [
+                            {
+                                question: '1. Legal Name of Organization',
+                                field: 'legal_name',
+                                type: 'text'
+                            },
+                            {
+                                question: 'Location of Incorporation',
+                                field: 'incorporation_location',
+                                type: 'text'
+                            },
+                            {
+                                question: '2. Mailing Address',
+                                field: 'mailing_address',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '3. List all subsidiaries & Location of Incorporation',
+                                field: 'subsidiaries',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '4. List all Physical Locations',
+                                field: 'physical_locations',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '5. List all URLs',
+                                field: 'urls',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '6. Year Company Established',
+                                field: 'year_established',
+                                type: 'number'
+                            },
+                            {
+                                question: '7. Number of Employees',
+                                field: 'num_employees',
+                                type: 'number'
+                            },
+                            {
+                                question: '8. Are any Employees based outside of Canada?',
+                                field: 'employees_outside_canada',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    question: 'If yes, list the country and the number of employees in each:',
+                                    field: 'employees_outside_list'
+                                }
+                            },
+                            {
+                                question: '9. Breach Response Contact',
+                                fields: [
+                                    { field: 'breach_contact_name', label: 'Name' },
+                                    { field: 'breach_contact_title', label: 'Title' },
+                                    { field: 'breach_contact_email', label: 'Email' },
+                                    { field: 'breach_contact_phone', label: 'Phone' }
+                                ],
+                                type: 'composite'
+                            },
+                            {
+                                question: '10. Any recent or planned mergers, acquisitions, or divestitures?',
+                                field: 'mergers_acquisitions',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    question: 'Please provide details:',
+                                    field: 'mergers_description'
+                                }
+                            }
+                        ];
+                        
+                        section2Questions.forEach(q => {
+                            checkPageBreak(15);
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 2;
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
+                            
+                            if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
+                                const value = sectionData[q.field];
+                                if (value) {
+                                    addWrappedText(`Answer: ${value}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: Not provided', margin + 20);
+                                }
+                            } else if (q.type === 'radio') {
+                                const selectedValue = sectionData[q.field];
+                                q.options.forEach(option => {
+                                    const isSelected = selectedValue === option.value;
+                                    const status = isSelected ? '◉' : '◯';
+                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                });
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && selectedValue === q.followUp.condition) {
+                                    yPosition += 2;
+                                    doc.setFont(undefined, 'italic');
+                                    addWrappedText(q.followUp.question, margin + 25);
+                                    doc.setFont(undefined, 'normal');
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                    } else {
+                                        addWrappedText('Answer: Not provided', margin + 30);
+                                    }
+                                }
+                            } else if (q.type === 'composite') {
+                                q.fields.forEach(field => {
+                                    const value = sectionData[field.field];
+                                    addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 20);
+                                });
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
                     
                     // Helper function to add section data
                     function addSectionData(sectionTitle, sectionData) {
@@ -5423,8 +5579,11 @@
                         yPosition += 10;
                     }
                     
-                    // Add all sections
-                    addSectionData('Section 2: General Information', formData.generalInfo);
+                    // Section 2: General Information - Enhanced with questions and options
+                    addSection2WithQuestions(formData.generalInfo);
+                    
+                    // Add all other sections
+                    //addSectionData('Section 2: General Information', formData.generalInfo);
                     addSectionData('Section 3: Operations', formData.operations);
                     addSectionData('Section 4: Financials', formData.financials);
                     addSectionData('Section 5: Contractual Controls', formData.contractualControls);
