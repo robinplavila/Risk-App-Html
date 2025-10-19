@@ -763,11 +763,16 @@
                                         <tr>
                                             <td>Critical Infrastructure</td>
                                             <td>
-                                                <select class="form-select high-risk-select" name="risk_critical_infrastructure" data-details="critical_infrastructure_details">
-                                                    <option value="">Select...</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
-                                                </select>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_critical_infrastructure" id="critical_infrastructure_yes" value="yes" data-details="critical_infrastructure_details">
+                                                        <label class="form-check-label" for="critical_infrastructure_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_critical_infrastructure" id="critical_infrastructure_no" value="no" data-details="critical_infrastructure_details">
+                                                        <label class="form-check-label" for="critical_infrastructure_no">No</label>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control risk-details" name="critical_infrastructure_details" placeholder="Provide details..." disabled>
@@ -776,11 +781,16 @@
                                         <tr>
                                             <td>Financial Services</td>
                                             <td>
-                                                <select class="form-select high-risk-select" name="risk_financial_services" data-details="financial_services_details">
-                                                    <option value="">Select...</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
-                                                </select>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_financial_services" id="financial_services_yes" value="yes" data-details="financial_services_details">
+                                                        <label class="form-check-label" for="financial_services_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_financial_services" id="financial_services_no" value="no" data-details="financial_services_details">
+                                                        <label class="form-check-label" for="financial_services_no">No</label>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control risk-details" name="financial_services_details" placeholder="Provide details..." disabled>
@@ -789,11 +799,16 @@
                                         <tr>
                                             <td>Healthcare</td>
                                             <td>
-                                                <select class="form-select high-risk-select" name="risk_healthcare" data-details="healthcare_details">
-                                                    <option value="">Select...</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
-                                                </select>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_healthcare" id="healthcare_yes" value="yes" data-details="healthcare_details">
+                                                        <label class="form-check-label" for="healthcare_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_healthcare" id="healthcare_no" value="no" data-details="healthcare_details">
+                                                        <label class="form-check-label" for="healthcare_no">No</label>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control risk-details" name="healthcare_details" placeholder="Provide details..." disabled>
@@ -802,14 +817,145 @@
                                         <tr>
                                             <td>Government/Defense</td>
                                             <td>
-                                                <select class="form-select high-risk-select" name="risk_government" data-details="government_details">
-                                                    <option value="">Select...</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
-                                                </select>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_government" id="government_yes" value="yes" data-details="government_details">
+                                                        <label class="form-check-label" for="government_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_government" id="government_no" value="no" data-details="government_details">
+                                                        <label class="form-check-label" for="government_no">No</label>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control risk-details" name="government_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aerospace</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_aerospace" id="aerospace_yes" value="yes" data-details="aerospace_details">
+                                                        <label class="form-check-label" for="aerospace_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_aerospace" id="aerospace_no" value="no" data-details="aerospace_details">
+                                                        <label class="form-check-label" for="aerospace_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="aerospace_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rail</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_rail" id="rail_yes" value="yes" data-details="rail_details">
+                                                        <label class="form-check-label" for="rail_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_rail" id="rail_no" value="no" data-details="rail_details">
+                                                        <label class="form-check-label" for="rail_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="rail_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mining/Oil & Gas</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_mining_oil_gas" id="mining_oil_gas_yes" value="yes" data-details="mining_oil_gas_details">
+                                                        <label class="form-check-label" for="mining_oil_gas_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_mining_oil_gas" id="mining_oil_gas_no" value="no" data-details="mining_oil_gas_details">
+                                                        <label class="form-check-label" for="mining_oil_gas_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="mining_oil_gas_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Energy</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_energy" id="energy_yes" value="yes" data-details="energy_details">
+                                                        <label class="form-check-label" for="energy_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_energy" id="energy_no" value="no" data-details="energy_details">
+                                                        <label class="form-check-label" for="energy_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="energy_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Adult Entertainment/Gambling</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_adult_entertainment" id="adult_entertainment_yes" value="yes" data-details="adult_entertainment_details">
+                                                        <label class="form-check-label" for="adult_entertainment_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_adult_entertainment" id="adult_entertainment_no" value="no" data-details="adult_entertainment_details">
+                                                        <label class="form-check-label" for="adult_entertainment_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="adult_entertainment_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semi-Conductors</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_semiconductors" id="semiconductors_yes" value="yes" data-details="semiconductors_details">
+                                                        <label class="form-check-label" for="semiconductors_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_semiconductors" id="semiconductors_no" value="no" data-details="semiconductors_details">
+                                                        <label class="form-check-label" for="semiconductors_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="semiconductors_details" placeholder="Provide details..." disabled>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Architecture/Engineering</td>
+                                            <td>
+                                                <div class="d-flex gap-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_architecture_engineering" id="architecture_engineering_yes" value="yes" data-details="architecture_engineering_details">
+                                                        <label class="form-check-label" for="architecture_engineering_yes">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input high-risk-radio" type="radio" name="risk_architecture_engineering" id="architecture_engineering_no" value="no" data-details="architecture_engineering_details">
+                                                        <label class="form-check-label" for="architecture_engineering_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control risk-details" name="architecture_engineering_details" placeholder="Provide details..." disabled>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -4190,7 +4336,7 @@
                     }
                 });
 
-                // High-risk areas conditional logic
+                // High-risk areas conditional logic (dropdowns - legacy)
                 $('.high-risk-select').on('change', function() {
                     const detailsName = $(this).data('details');
                     const $detailsInput = $(`input[name="${detailsName}"]`);
@@ -4199,6 +4345,20 @@
                         $detailsInput.prop('disabled', false).attr('required', true);
                         $detailsInput.closest('td').removeClass('text-muted');
                     } else {
+                        $detailsInput.prop('disabled', true).attr('required', false).val('');
+                        $detailsInput.closest('td').addClass('text-muted');
+                    }
+                });
+
+                // High-risk areas conditional logic (radio buttons)
+                $('.high-risk-radio').on('change', function() {
+                    const detailsName = $(this).data('details');
+                    const $detailsInput = $(`input[name="${detailsName}"]`);
+                    
+                    if ($(this).val() === 'yes' && $(this).is(':checked')) {
+                        $detailsInput.prop('disabled', false).attr('required', true);
+                        $detailsInput.closest('td').removeClass('text-muted');
+                    } else if ($(this).val() === 'no' && $(this).is(':checked')) {
                         $detailsInput.prop('disabled', true).attr('required', false).val('');
                         $detailsInput.closest('td').addClass('text-muted');
                     }
@@ -4963,6 +5123,7 @@
                         $('input[name="mergers_acquisitions"]:checked').trigger('change');
                         $('input[name="sell_tangible_products"]:checked').trigger('change');
                         $('.high-risk-select').trigger('change');
+                        $('.high-risk-radio:checked').trigger('change');
                         $('.revenue-input').trigger('input');
                         
                         // Trigger conditional section logic
