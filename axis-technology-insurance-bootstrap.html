@@ -4354,7 +4354,7 @@
         let defiStepEnabled = false;
         let roboticsStepEnabled = false;
 
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             let currentStep = 1;
             let totalSteps = 13; // Base steps, conditional steps (14-16) added when sectors selected
             const formData = {};
@@ -4372,6 +4372,21 @@
                 $('#saveBtn').on('click', saveProgress);
                 $('#downloadPdfBtn').on('click', generatePDF);
                 
+                // Fallback event listeners for when jQuery is not available
+                try {
+                    const pdfBtn = document.querySelector('button[aria-expanded="false"]') || 
+                                  document.querySelector('button[data-bs-toggle="dropdown"]') ||
+                                  document.querySelector('.dropdown-toggle');
+                    if (pdfBtn) {
+                        pdfBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            generatePDF();
+                        });
+                    }
+                } catch (e) {
+                    console.warn('Could not set up fallback PDF button listener:', e);
+                }
 
                 $('#submitBtn').on('click', submitForm);
 
@@ -5400,9 +5415,10 @@
                     robotics: {}
                 };
 
-                // Collect sectors
-                $('input[name="sectors[]"]:checked').each(function() {
-                    formData.sectors.push($(this).val());
+                // Collect sectors using vanilla JavaScript
+                const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
+                sectorInputs.forEach(input => {
+                    formData.sectors.push(input.value);
                 });
 
                 // Collect all form inputs by section
@@ -5421,40 +5437,47 @@
                     { step: 13, key: 'priorIncidents' }
                 ];
 
-                // Add conditional sections based on their current step numbers (dynamic)
-                if (aiStepEnabled) {
-                    const aiStep = $('#ai-section').attr('data-section');
+                // Add conditional sections based on their current step numbers (dynamic) - using vanilla JS
+                const aiSection = document.getElementById('ai-section');
+                if (aiSection && typeof aiStepEnabled !== 'undefined' && aiStepEnabled) {
+                    const aiStep = aiSection.getAttribute('data-section');
                     if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
                 }
-                if (defiStepEnabled) {
-                    const defiStep = $('#defi-section').attr('data-section');
+                
+                const defiSection = document.getElementById('defi-section');
+                if (defiSection && typeof defiStepEnabled !== 'undefined' && defiStepEnabled) {
+                    const defiStep = defiSection.getAttribute('data-section');
                     if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
                 }
-                if (roboticsStepEnabled) {
-                    const roboticsStep = $('#robotics-section').attr('data-section');
+                
+                const roboticsSection = document.getElementById('robotics-section');
+                if (roboticsSection && typeof roboticsStepEnabled !== 'undefined' && roboticsStepEnabled) {
+                    const roboticsStep = roboticsSection.getAttribute('data-section');
                     if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
                 }
 
                 sections.forEach(section => {
-                    $(`.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`).each(function() {
-                        const $input = $(this);
-                        const name = $input.attr('name');
-                        const type = $input.attr('type');
+                    const sectionSelector = `.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`;
+                    const inputs = document.querySelectorAll(sectionSelector);
+                    
+                    inputs.forEach(input => {
+                        const name = input.getAttribute('name');
+                        const type = input.getAttribute('type');
                         
                         if (name) {
                             if (type === 'checkbox') {
                                 if (!formData[section.key][name]) {
                                     formData[section.key][name] = [];
                                 }
-                                if ($input.is(':checked')) {
-                                    formData[section.key][name].push($input.val());
+                                if (input.checked) {
+                                    formData[section.key][name].push(input.value);
                                 }
                             } else if (type === 'radio') {
-                                if ($input.is(':checked')) {
-                                    formData[section.key][name] = $input.val();
+                                if (input.checked) {
+                                    formData[section.key][name] = input.value;
                                 }
                             } else {
-                                const value = $input.val();
+                                const value = input.value;
                                 if (value && value.trim() !== '') {
                                     formData[section.key][name] = value;
                                 }
@@ -5468,8 +5491,21 @@
 
             function generatePDF() {
                 try {
-                    // Collect all form data
-                    const formData = collectFormData();
+                    // Collect all form data (with fallback if jQuery-dependent functions fail)
+                    let formData;
+                    try {
+                        formData = collectFormData();
+                    } catch (error) {
+                        console.warn('collectFormData failed, using fallback method:', error);
+                        formData = collectFormDataFallback();
+                    }
+                    
+                    // Check if html2pdf is available
+                    if (typeof html2pdf === 'undefined') {
+                        // Fallback: create a simple text-based report
+                        downloadTextReport(formData);
+                        return;
+                    }
                     
                     // Generate HTML content for PDF
                     const htmlContent = generatePDFHTMLContent(formData);
@@ -5529,6 +5565,108 @@
                 } catch (error) {
                     console.error('Error in PDF generation:', error);
                     showNotification('❌ Error generating PDF. Please try again.', 'error');
+                }
+            }
+
+            // Fallback data collection method that works without jQuery
+            function collectFormDataFallback() {
+                const formData = {
+                    submissionDate: new Date().toLocaleDateString(),
+                    submissionTime: new Date().toLocaleTimeString(),
+                    sectors: [],
+                    generalInfo: {},
+                    operations: {},
+                    financials: {},
+                    contractualControls: {},
+                    cybersecurity: {},
+                    dataBackup: {},
+                    thirdParty: {},
+                    privacy: {},
+                    intellectualProperty: {},
+                    employment: {},
+                    aiTools: {},
+                    priorIncidents: {},
+                    ai: {},
+                    defi: {},
+                    robotics: {}
+                };
+
+                // Collect sectors using vanilla JavaScript
+                const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
+                sectorInputs.forEach(input => {
+                    formData.sectors.push(input.value);
+                });
+
+                // Collect all visible form inputs
+                const allInputs = document.querySelectorAll('input, textarea, select');
+                allInputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    const type = input.getAttribute('type');
+                    
+                    if (name && name !== 'sectors[]') {
+                        if (type === 'checkbox') {
+                            if (input.checked) {
+                                if (!formData.generalInfo[name]) {
+                                    formData.generalInfo[name] = [];
+                                }
+                                formData.generalInfo[name].push(input.value);
+                            }
+                        } else if (type === 'radio') {
+                            if (input.checked) {
+                                formData.generalInfo[name] = input.value;
+                            }
+                        } else {
+                            const value = input.value;
+                            if (value && value.trim() !== '') {
+                                formData.generalInfo[name] = value;
+                            }
+                        }
+                    }
+                });
+
+                return formData;
+            }
+
+            // Fallback text report download
+            function downloadTextReport(formData) {
+                let report = `Axis Technology Insurance Application\n`;
+                report += `Generated: ${formData.submissionDate} ${formData.submissionTime}\n`;
+                report += `========================================\n\n`;
+                
+                report += `1. SECTORS\n`;
+                if (formData.sectors.length > 0) {
+                    formData.sectors.forEach(sector => {
+                        report += `[X] ${sector.charAt(0).toUpperCase() + sector.slice(1)}\n`;
+                    });
+                } else {
+                    report += `No sectors selected\n`;
+                }
+                
+                report += `\n2. GENERAL INFORMATION\n`;
+                Object.entries(formData.generalInfo).forEach(([key, value]) => {
+                    if (value) {
+                        const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                        const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                        report += `${capitalizedName}: ${value}\n`;
+                    }
+                });
+                
+                // Create and download the text file
+                const blob = new Blob([report], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Axis-Insurance-Application-${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Show notification - using simple alert as fallback
+                if (typeof showNotification === 'function') {
+                    showNotification('✅ Report downloaded as text file (PDF libraries not available)', 'success');
+                } else {
+                    alert('Report downloaded successfully as text file!');
                 }
             }
 
@@ -6050,6 +6188,236 @@
 
             // Show welcome message
             showNotification('Welcome! Your progress will be automatically saved. Use Ctrl+Arrow keys for quick navigation.', 'info');
+        });
+    </script>
+
+    <!-- Standalone PDF Generation Script - Independent of jQuery -->
+    <script>
+        // Standalone PDF generation that works without jQuery dependencies
+        function generateStandalonePDF() {
+            console.log('Standalone PDF generation triggered');
+            
+            // Collect form data using vanilla JavaScript
+            const formData = {
+                submissionDate: new Date().toLocaleDateString(),
+                submissionTime: new Date().toLocaleTimeString(),
+                sectors: [],
+                generalInfo: {}
+            };
+
+            // Collect sectors
+            const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
+            sectorInputs.forEach(input => {
+                formData.sectors.push(input.value);
+            });
+
+            // Collect all other form data
+            const allInputs = document.querySelectorAll('input:not([name="sectors[]"]), textarea, select');
+            allInputs.forEach(input => {
+                const name = input.getAttribute('name');
+                const type = input.getAttribute('type');
+                
+                if (name) {
+                    if (type === 'checkbox') {
+                        if (input.checked) {
+                            if (!formData.generalInfo[name]) {
+                                formData.generalInfo[name] = [];
+                            }
+                            formData.generalInfo[name].push(input.value);
+                        }
+                    } else if (type === 'radio') {
+                        if (input.checked) {
+                            formData.generalInfo[name] = input.value;
+                        }
+                    } else {
+                        const value = input.value;
+                        if (value && value.trim() !== '') {
+                            formData.generalInfo[name] = value;
+                        }
+                    }
+                }
+            });
+
+            console.log('Collected form data:', formData);
+
+            // Generate HTML content for PDF
+            let htmlContent = `
+                <div style="max-width: 210mm; margin: 0 auto; padding: 10mm; font-family: Arial, sans-serif; color: #333;">
+                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #428bca; padding-bottom: 15px;">
+                        <h1 style="color: #428bca; margin: 0; font-size: 24px;">🛡️ Axis Technology Insurance Application</h1>
+                        <p style="margin: 10px 0; color: #666; font-size: 12px;">Generated: ${formData.submissionDate} at ${formData.submissionTime}</p>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h2 style="color: #428bca; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Section 1: Sectors</h2>
+                        <div style="margin: 15px 0;">
+                            <p style="font-weight: bold; margin: 10px 0;">Selected Business Sectors:</p>
+            `;
+
+            if (formData.sectors.length > 0) {
+                formData.sectors.forEach(sector => {
+                    const sectorName = sector === 'ai' ? 'Artificial Intelligence' :
+                                     sector === 'defi' ? 'Decentralized Finance & Digital Assets' :
+                                     sector === 'robotics' ? 'Autonomous Robotics' : sector;
+                    htmlContent += `<p style="margin: 5px 0 5px 20px;">✅ ${sectorName}</p>`;
+                });
+            } else {
+                htmlContent += `<p style="margin: 5px 0 5px 20px; color: #666;">No sectors selected</p>`;
+            }
+
+            htmlContent += `
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <h2 style="color: #428bca; font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 8px;">Section 2: Form Data</h2>
+                        <div style="margin: 15px 0;">
+            `;
+
+            if (Object.keys(formData.generalInfo).length > 0) {
+                Object.entries(formData.generalInfo).forEach(([key, value]) => {
+                    if (value) {
+                        const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                        const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                        const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                        htmlContent += `
+                            <div style="margin: 10px 0;">
+                                <span style="font-weight: bold; color: #333;">${capitalizedName}:</span>
+                                <span style="margin-left: 10px; color: #555;">${displayValue}</span>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                htmlContent += `<p style="color: #666;">No additional data entered</p>`;
+            }
+
+            htmlContent += `
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 10px; color: #666; text-align: center;">
+                        <p>Generated by Axis Technology Insurance Application System</p>
+                        <p>For internal use only - Contains confidential information</p>
+                    </div>
+                </div>
+            `;
+
+            // Check if html2pdf is available
+            if (typeof html2pdf === 'undefined') {
+                console.log('html2pdf not available, generating text report');
+                downloadTextReport(formData);
+                return;
+            }
+
+            // Create temporary div for PDF generation
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlContent;
+            tempDiv.style.position = 'absolute';
+            tempDiv.style.left = '-9999px';
+            tempDiv.style.top = '-9999px';
+            document.body.appendChild(tempDiv);
+
+            // PDF options
+            const options = {
+                margin: [10, 10, 10, 10],
+                filename: `Axis-Insurance-Application-${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf()
+                .set(options)
+                .from(tempDiv)
+                .save()
+                .then(() => {
+                    document.body.removeChild(tempDiv);
+                    alert('✅ PDF downloaded successfully!');
+                })
+                .catch((error) => {
+                    if (document.body.contains(tempDiv)) {
+                        document.body.removeChild(tempDiv);
+                    }
+                    console.error('PDF generation error:', error);
+                    downloadTextReport(formData);
+                });
+        }
+
+        // Fallback text report function
+        function downloadTextReport(formData) {
+            let report = `Axis Technology Insurance Application\n`;
+            report += `Generated: ${formData.submissionDate} at ${formData.submissionTime}\n`;
+            report += `${'='.repeat(50)}\n\n`;
+            
+            report += `SELECTED SECTORS:\n`;
+            if (formData.sectors.length > 0) {
+                formData.sectors.forEach(sector => {
+                    const sectorName = sector === 'ai' ? 'Artificial Intelligence' :
+                                     sector === 'defi' ? 'Decentralized Finance & Digital Assets' :
+                                     sector === 'robotics' ? 'Autonomous Robotics' : sector;
+                    report += `✓ ${sectorName}\n`;
+                });
+            } else {
+                report += `No sectors selected\n`;
+            }
+            
+            report += `\nFORM DATA:\n`;
+            Object.entries(formData.generalInfo).forEach(([key, value]) => {
+                if (value) {
+                    const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                    const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                    const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                    report += `${capitalizedName}: ${displayValue}\n`;
+                }
+            });
+            
+            // Create and download text file
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Axis-Insurance-Application-${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Report downloaded as text file (PDF libraries not available)');
+        }
+
+        // Set up event listener when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Setting up standalone PDF button listener');
+            
+            // Find and set up PDF button
+            const pdfButton = document.querySelector('button[data-bs-toggle="dropdown"]') || 
+                             document.querySelector('.dropdown-toggle') ||
+                             document.querySelector('button[aria-expanded]');
+            
+            if (pdfButton) {
+                console.log('Found PDF button, adding listener');
+                pdfButton.addEventListener('click', function(e) {
+                    console.log('PDF button clicked');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    generateStandalonePDF();
+                });
+            } else {
+                console.warn('PDF button not found');
+                // Fallback: add listener to any button with PDF text
+                const allButtons = document.querySelectorAll('button');
+                allButtons.forEach(btn => {
+                    if (btn.textContent.includes('PDF') || btn.textContent.includes('Download')) {
+                        btn.addEventListener('click', function(e) {
+                            console.log('PDF download triggered via fallback');
+                            e.preventDefault();
+                            generateStandalonePDF();
+                        });
+                    }
+                });
+            }
         });
     </script>
 </body>
