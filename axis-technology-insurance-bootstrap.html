@@ -6414,6 +6414,474 @@
                         yPosition += 5;
                     }
                     
+                    // Enhanced function for Section 8 with questions and selected options
+                    function addSection8WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 8: Third Party, Vendor & Supply Chain Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 8 questions with their field names  
+                        const section8Questions = [
+                            {
+                                question: '1. What steps are taken when bringing on a new customer to assess potential risks to your business?',
+                                field: 'customer_risk_assessment',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal risk assessment is conducted before onboarding new customers.' },
+                                    { value: '2', label: 'Vetting is mostly informal, relying on relationship history or perceived reputation, with some credit or legal checks performed, but these are not standardized.' },
+                                    { value: '3', label: 'The company uses a risk-based onboarding process including financial, operational, and legal reviews for high-risk customers.' },
+                                    { value: '4', label: 'A formal customer risk assessment framework is in place, including KYC, creditworthiness, contract risk, regulatory exposure, and service capacity evaluation.' }
+                                ]
+                            },
+                            {
+                                question: '2. Do you have a formal due diligence process to evaluate potential risks when onboarding new vendors or suppliers?',
+                                field: 'vendor_due_diligence',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Vendors are onboarded informally with no checks or documentation.' },
+                                    { value: '2', label: 'Basic vetting is performed, such as checking references and requiring insurance certificates from vendors, but reviews of insurance and risk factors are inconsistent and formal risk assessments are rare.' },
+                                    { value: '3', label: 'Onboarding includes documented review of insurance, security, and financial risk, with sign-off by relevant departments.' },
+                                    { value: '4', label: 'A structured onboarding workflow is in place, including insurance verification, legal review, risk scoring, and approval gates for higher-risk vendors.' }
+                                ]
+                            },
+                            {
+                                question: '3. How does your organization assess and monitor the cybersecurity posture of third-party vendors, and what steps are taken if a vendor is found to pose elevated risk?',
+                                field: 'vendor_cybersecurity_assessment',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'We don\'t currently assess vendor cybersecurity posture and rely on vendors to manage their own risks.' },
+                                    { value: '2', label: 'We conduct basic due diligence when onboarding vendors, such as reviewing security questionnaires, but we don\'t monitor risk on an ongoing basis.' },
+                                    { value: '3', label: 'We assess vendor cyber risk at onboarding and periodically review key vendors\' security posture. If a vendor is found to pose elevated risk, we may request remediation or consider contract changes.' },
+                                    { value: '4', label: 'We use continuous monitoring tools (e.g., third-party risk scoring or threat intelligence platforms) to track vendor cybersecurity posture in real time. High-risk vendors trigger formal escalation protocols, including audits, contractual enforcement, or offboarding if necessary.' }
+                                ]
+                            },
+                            {
+                                question: '4. Do you have redundant systems or alternate suppliers in place to minimize disruption if a critical third party fails or is unavailable?',
+                                field: 'redundant_systems',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'We rely on single providers for critical services and would face major disruption if one failed.' },
+                                    { value: '2', label: 'We are aware of possible alternates but have no formal agreements or automated systems. Switching would be manual and could be delayed.' },
+                                    { value: '3', label: 'We have identified and maintain relationships with alternate suppliers, or have partial redundant systems for critical functions. However, these are not fully integrated or routinely tested, so some disruption could still occur.' },
+                                    { value: '4', label: 'We have fully redundant systems and formal agreements with alternative suppliers, along with tested failover processes, to ensure minimal disruption in the event of a critical third-party failure. These contingencies are regularly reviewed and tested as part of our business continuity program.' }
+                                ]
+                            },
+                            {
+                                question: '5. Do your vendors agree to take responsibility if they mishandle personal or confidential information?',
+                                field: 'vendor_liability',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'There are no contract terms addressing vendor responsibility for data mishandling.' },
+                                    { value: '2', label: 'Many vendor contracts include general confidentiality or data protection clauses, but the enforceability, scope, and presence of liability terms vary.' },
+                                    { value: '3', label: 'Vendor agreements include specific data handling obligations, breach notification requirements, and indemnity clauses.' },
+                                    { value: '4', label: 'All vendor agreements involving sensitive data include legally vetted, standardized language on liability, data safeguards, breach response, and indemnification for damages.' }
+                                ]
+                            },
+                            {
+                                question: '6. Do your critical vendors provide proof of strong security practices (like SOC 2 or ISO 27001), and how often is that reviewed?',
+                                field: 'vendor_security_certifications',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Vendors do not provide security certifications or attestations.' },
+                                    { value: '2', label: 'Some vendors provide security documentation, but its presence and quality are inconsistent, and reviews are infrequent.' },
+                                    { value: '3', label: 'Critical vendors are required to provide security certifications (e.g., SOC 2, ISO 27001), and these are reviewed annually.' },
+                                    { value: '4', label: 'All critical vendors must maintain current security certifications, which are reviewed regularly and integrated into vendor risk management processes.' }
+                                ]
+                            },
+                            {
+                                question: '7. Do you require vendors to notify you if they experience a security breach or incident?',
+                                field: 'vendor_breach_notification',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Vendors are not required to notify us of security incidents.' },
+                                    { value: '2', label: 'Some contracts include breach notification language, but timelines and requirements are inconsistent.' },
+                                    { value: '3', label: 'Vendor contracts require prompt notification of security incidents, with defined timelines and information requirements.' },
+                                    { value: '4', label: 'Comprehensive breach notification requirements are in place, including specific timelines, escalation procedures, and impact assessment protocols.' }
+                                ]
+                            },
+                            {
+                                question: '8. How do you track and manage the risks associated with your supply chain?',
+                                field: 'supply_chain_risk_management',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Supply chain risks are not formally tracked or managed.' },
+                                    { value: '2', label: 'Basic supplier information is maintained, but risk assessment is limited to financial or operational concerns.' },
+                                    { value: '3', label: 'A supply chain risk register is maintained, with periodic review of key suppliers and risk mitigation strategies.' },
+                                    { value: '4', label: 'Comprehensive supply chain risk management includes continuous monitoring, risk scoring, scenario planning, and integration with enterprise risk management.' }
+                                ]
+                            },
+                            {
+                                question: '9. Do you conduct regular audits or assessments of your most critical third-party relationships?',
+                                field: 'third_party_audits',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No regular audits or assessments are conducted.' },
+                                    { value: '2', label: 'Informal reviews of vendor performance occur occasionally, but there are no structured audits.' },
+                                    { value: '3', label: 'Periodic assessments are conducted for critical vendors, including performance and compliance reviews.' },
+                                    { value: '4', label: 'Systematic audits and assessments are performed on a regular schedule, with standardized criteria and documented findings.' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section8Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 9 with questions and selected options
+                    function addSection9WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 9: Privacy, Data Security & API Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 9 questions with their field names  
+                        const section9Questions = [
+                            {
+                                question: '1. Do you collect, store, or process customer data?',
+                                field: 'collect_customer_data',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    fields: [
+                                        { field: 'contact_info_records', label: 'Contact information records' },
+                                        { field: 'personal_health_data_records', label: 'Personal health data records' },
+                                        { field: 'payment_card_data_records', label: 'Payment card data records' },
+                                        { field: 'financial_records_records', label: 'Financial records' },
+                                        { field: 'government_id_numbers_records', label: 'Government ID numbers records' },
+                                        { field: 'biometric_data_records', label: 'Biometric data records' }
+                                    ]
+                                }
+                            },
+                            {
+                                question: '2. Do you have formal policies governing the collection, use, storage, and disposal of personal or sensitive data?',
+                                field: 'data_governance_policies',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal policies exist for data governance.' },
+                                    { value: '2', label: 'Basic policies are in place but may be incomplete or not regularly updated.' },
+                                    { value: '3', label: 'Comprehensive data governance policies exist and are regularly reviewed and updated.' },
+                                    { value: '4', label: 'Mature data governance framework with detailed policies, procedures, and regular compliance monitoring.' }
+                                ]
+                            },
+                            {
+                                question: '3. Do you provide privacy notices to individuals whose data you collect, and do you obtain appropriate consent?',
+                                field: 'privacy_notices_consent',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No privacy notices are provided, and consent is not obtained.' },
+                                    { value: '2', label: 'Basic privacy notices are provided in some cases, but consent processes are inconsistent.' },
+                                    { value: '3', label: 'Clear privacy notices are provided, and appropriate consent is obtained for data collection and use.' },
+                                    { value: '4', label: 'Comprehensive privacy program with detailed notices, granular consent mechanisms, and regular compliance reviews.' }
+                                ]
+                            },
+                            {
+                                question: '4. Do you have processes in place to respond to individual requests regarding their personal data (access, correction, deletion)?',
+                                field: 'data_subject_requests',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal process exists for handling individual data requests.' },
+                                    { value: '2', label: 'Basic processes exist but may not cover all types of requests or have clear timelines.' },
+                                    { value: '3', label: 'Formal processes are in place to handle data subject requests within required timeframes.' },
+                                    { value: '4', label: 'Comprehensive data subject rights program with automated workflows and tracking systems.' }
+                                ]
+                            },
+                            {
+                                question: '5. How is sensitive data encrypted, both at rest and in transit?',
+                                field: 'data_encryption',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Sensitive data is not systematically encrypted.' },
+                                    { value: '2', label: 'Some encryption is used, but coverage is inconsistent or uses outdated methods.' },
+                                    { value: '3', label: 'Strong encryption is used for sensitive data both at rest and in transit.' },
+                                    { value: '4', label: 'Enterprise-grade encryption with key management, regular rotation, and compliance monitoring.' }
+                                ]
+                            },
+                            {
+                                question: '6. Do you conduct regular privacy impact assessments when implementing new systems or processes?',
+                                field: 'privacy_impact_assessments',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Privacy impact assessments are not conducted.' },
+                                    { value: '2', label: 'PIAs are conducted occasionally for major projects but not systematically.' },
+                                    { value: '3', label: 'PIAs are required for new systems and processes that handle personal data.' },
+                                    { value: '4', label: 'Comprehensive privacy-by-design approach with mandatory PIAs and ongoing privacy monitoring.' }
+                                ]
+                            },
+                            {
+                                question: '7. How do you ensure third-party service providers protect personal data according to your standards?',
+                                field: 'third_party_data_protection',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No specific requirements for third-party data protection.' },
+                                    { value: '2', label: 'Basic contractual requirements, but monitoring and enforcement are limited.' },
+                                    { value: '3', label: 'Comprehensive data protection agreements with regular monitoring and compliance checks.' },
+                                    { value: '4', label: 'Rigorous third-party data protection program with due diligence, ongoing monitoring, and audit rights.' }
+                                ]
+                            },
+                            {
+                                question: '8. Do you have an incident response plan specifically for privacy breaches?',
+                                field: 'privacy_breach_response',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No specific privacy breach response plan exists.' },
+                                    { value: '2', label: 'Basic incident response procedures that may cover privacy breaches.' },
+                                    { value: '3', label: 'Dedicated privacy breach response plan with notification procedures.' },
+                                    { value: '4', label: 'Comprehensive privacy incident response with automated workflows, stakeholder communication, and regulatory compliance.' }
+                                ]
+                            },
+                            {
+                                question: '9. How do you manage data retention and ensure secure disposal of personal data?',
+                                field: 'data_retention_disposal',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal data retention or disposal policies exist.' },
+                                    { value: '2', label: 'Basic retention guidelines but disposal processes are inconsistent.' },
+                                    { value: '3', label: 'Formal data retention schedule with secure disposal procedures.' },
+                                    { value: '4', label: 'Comprehensive data lifecycle management with automated retention and certified secure disposal.' }
+                                ]
+                            },
+                            {
+                                question: '10. Do you provide regular privacy and data protection training to employees?',
+                                field: 'privacy_training',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal privacy training is provided to employees.' },
+                                    { value: '2', label: 'Basic privacy awareness included in general security training.' },
+                                    { value: '3', label: 'Regular privacy training provided to all employees handling personal data.' },
+                                    { value: '4', label: 'Comprehensive privacy training program with role-specific modules and regular updates.' }
+                                ]
+                            },
+                            {
+                                question: '11. How do you monitor and audit compliance with privacy regulations and internal data protection policies?',
+                                field: 'privacy_compliance_monitoring',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal monitoring or auditing of privacy compliance.' },
+                                    { value: '2', label: 'Occasional reviews of privacy practices and compliance.' },
+                                    { value: '3', label: 'Regular internal audits and compliance monitoring for privacy requirements.' },
+                                    { value: '4', label: 'Continuous compliance monitoring with automated tools, regular audits, and corrective action tracking.' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section9Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                });
+                                
+                                // Handle follow-up fields for data collection question
+                                if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
+                                    yPosition += 5;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText('Data Types and Record Counts:', margin + 30);
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    q.followUp.fields.forEach(field => {
+                                        const recordCount = sectionData[field.field];
+                                        if (recordCount) {
+                                            addWrappedText(`${field.label}: ${recordCount} records`, margin + 40);
+                                        }
+                                    });
+                                }
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 10 with questions and selected options
+                    function addSection10WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 10: Intellectual Property & Content Governance Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 10 questions with their field names  
+                        const section10Questions = [
+                            {
+                                question: '1. Do your contracts with customers, partners, or distributors include indemnification provisions that make you responsible for IP infringement claims?',
+                                field: 'ip_indemnification_provisions',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'We haven\'t reviewed our contracts for IP indemnity exposure and are unsure whether such provisions exist.' },
+                                    { value: '2', label: 'Some contracts include IP indemnities, but we accept them as-is without negotiation or risk transfer strategies.' },
+                                    { value: '3', label: 'We review IP indemnity provisions case-by-case and seek to limit or share liability where possible, often with legal input.' },
+                                    { value: '4', label: 'We have a formal process for reviewing and negotiating IP indemnities, consistently limit our exposure through contract language, and align coverage with our insurance program to ensure claims are insurable.' }
+                                ]
+                            },
+                            {
+                                question: '2. What is your plan if your company is accused of infringing someone else\'s IP?',
+                                field: 'ip_infringement_plan',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No plan or insurance is in place to address IP disputes.' },
+                                    { value: '2', label: 'Leadership relies on legal counsel and a general dispute response approach, but there is no documented or detailed plan specific to IP disputes.' },
+                                    { value: '3', label: 'A formal incident response process is in place, including legal review and insurance support.' },
+                                    { value: '4', label: 'The company has a documented IP risk response plan, legal counsel on standby, indemnification strategies, and intellectual property insurance.' }
+                                ]
+                            },
+                            {
+                                question: '3. How do you monitor and manage the use of third-party software licenses?',
+                                field: 'third_party_license_monitoring',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Software is used without tracking licenses or usage rights.' },
+                                    { value: '2', label: 'Teams manage licensing informally with a partial inventory and some tools to track third-party software, but tracking is incomplete and decentralized.' },
+                                    { value: '3', label: 'License use is tracked and reviewed regularly, with controls to prevent unauthorized or expired use.' },
+                                    { value: '4', label: 'Comprehensive license management includes automated tracking, compliance monitoring, and regular audits by legal or procurement teams.' }
+                                ]
+                            },
+                            {
+                                question: '4. Do you have processes in place to ensure that your products or services don\'t infringe on existing patents, trademarks, or copyrights?',
+                                field: 'ip_infringement_prevention',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal processes are in place to check for potential IP infringement.' },
+                                    { value: '2', label: 'Basic IP searches are conducted informally during product development, but there are no standard procedures or documentation.' },
+                                    { value: '3', label: 'Regular IP clearance procedures are followed, including patent and trademark searches before product launches.' },
+                                    { value: '4', label: 'Comprehensive IP due diligence is conducted throughout the product development lifecycle, with legal review and documented clearance processes.' }
+                                ]
+                            },
+                            {
+                                question: '5. How do you protect your own intellectual property (patents, trademarks, trade secrets)?',
+                                field: 'own_ip_protection',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal IP protection strategy is in place.' },
+                                    { value: '2', label: 'Some IP assets are protected (e.g., trademarks registered), but protection is inconsistent and reactive.' },
+                                    { value: '3', label: 'Active IP protection program including trademark and patent filings, trade secret policies, and employee agreements.' },
+                                    { value: '4', label: 'Comprehensive IP strategy with portfolio management, regular IP audits, enforcement procedures, and strategic filing programs.' }
+                                ]
+                            },
+                            {
+                                question: '6. Do you have content moderation or review processes for user-generated content on your platforms?',
+                                field: 'content_moderation',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No content moderation processes are in place.' },
+                                    { value: '2', label: 'Basic content moderation through automated filtering or reactive reporting, but coverage is limited.' },
+                                    { value: '3', label: 'Regular content moderation combining automated tools and human review for policy violations.' },
+                                    { value: '4', label: 'Comprehensive content governance with proactive monitoring, clear policies, appeals processes, and regular policy updates.' }
+                                ]
+                            },
+                            {
+                                question: '7. How do you handle DMCA takedown requests or other IP-related complaints?',
+                                field: 'dmca_takedown_process',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal process exists for handling IP complaints or takedown requests.' },
+                                    { value: '2', label: 'Basic procedures for responding to takedown requests, but processes may be inconsistent.' },
+                                    { value: '3', label: 'Established DMCA and IP complaint procedures with designated personnel and response timelines.' },
+                                    { value: '4', label: 'Comprehensive IP complaint management system with automated workflows, legal review, and compliance tracking.' }
+                                ]
+                            },
+                            {
+                                question: '8. Do you have policies governing employee creation and ownership of IP during their employment?',
+                                field: 'employee_ip_policies',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal policies exist regarding employee IP creation or ownership.' },
+                                    { value: '2', label: 'Basic employment agreements include some IP assignment clauses, but policies are not comprehensive.' },
+                                    { value: '3', label: 'Clear IP policies and assignment agreements are in place for all employees involved in creative or technical work.' },
+                                    { value: '4', label: 'Comprehensive IP employment policies with invention disclosure processes, compensation frameworks, and regular training.' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section10Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
                     // Enhanced function for Section 7 with questions and selected options
                     function addSection7WithQuestions(sectionData) {
                         checkPageBreak(20);
@@ -6637,13 +7105,19 @@
                     // Section 7: Data Backup & Business Continuity & Supply Chain Controls - Enhanced with questions and options
                     addSection7WithQuestions(formData.dataBackup);
                     
+                    // Section 8: Third Party, Vendor & Supply Chain Controls - Enhanced with questions and options
+                    addSection8WithQuestions(formData.thirdParty);
+                    
+                    // Section 9: Privacy, Data Security & API Controls - Enhanced with questions and options
+                    addSection9WithQuestions(formData.privacy);
+                    
+                    // Section 10: Intellectual Property & Content Governance Controls - Enhanced with questions and options
+                    addSection10WithQuestions(formData.intellectualProperty);
+                    
                     // Add all other sections
                     //addSectionData('Section 2: General Information', formData.generalInfo);
                     //addSectionData('Section 3: Operations', formData.operations);
                     //addSectionData('Section 4: Financials', formData.financials);
-                    addSectionData('Section 8: Third Party, Vendor & Supply Chain Controls', formData.thirdParty);
-                    addSectionData('Section 9: Privacy, Data Security & API Controls', formData.privacy);
-                    addSectionData('Section 10: Intellectual Property & Content Governance Controls', formData.intellectualProperty);
                     addSectionData('Section 11: People, Employment Practices & Insider Controls', formData.employment);
                     addSectionData('Section 12: Artificial Intelligence Tools & Controls', formData.aiTools);
                     addSectionData('Section 13: Prior Incidents & Claims', formData.priorIncidents);
