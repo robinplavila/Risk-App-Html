@@ -4342,6 +4342,84 @@
 
     <!-- Bootstrap JS and jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script>
+        // jQuery fallback if CDN fails
+        if (typeof jQuery === 'undefined') {
+            document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>');
+        }
+        // If still no jQuery, provide comprehensive fallback
+        if (typeof jQuery === 'undefined') {
+            window.$ = window.jQuery = function(selector) {
+                if (typeof selector === 'function') {
+                    // Document ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', selector);
+                    } else {
+                        selector();
+                    }
+                    return;
+                }
+                // Basic selector functionality
+                const elements = document.querySelectorAll(selector);
+                return {
+                    length: elements.length,
+                    each: function(callback) {
+                        elements.forEach((el, index) => callback.call(el, index));
+                        return this;
+                    },
+                    val: function() {
+                        return elements[0] ? elements[0].value : '';
+                    },
+                    attr: function(name) {
+                        return elements[0] ? elements[0].getAttribute(name) : '';
+                    },
+                    is: function(condition) {
+                        if (condition === ':checked') {
+                            return elements[0] ? elements[0].checked : false;
+                        }
+                        return elements[0] ? elements[0].matches(condition) : false;
+                    },
+                    on: function(event, handler) {
+                        elements.forEach(el => el.addEventListener(event, handler));
+                        return this;
+                    },
+                    click: function(handler) {
+                        if (handler) {
+                            return this.on('click', handler);
+                        } else {
+                            elements.forEach(el => el.click());
+                            return this;
+                        }
+                    },
+                    addClass: function(className) {
+                        elements.forEach(el => el.classList.add(className));
+                        return this;
+                    },
+                    removeClass: function(className) {
+                        elements.forEach(el => el.classList.remove(className));
+                        return this;
+                    },
+                    prop: function(prop, value) {
+                        if (value !== undefined) {
+                            elements.forEach(el => el[prop] = value);
+                            return this;
+                        }
+                        return elements[0] ? elements[0][prop] : undefined;
+                    },
+                    text: function(text) {
+                        if (text !== undefined) {
+                            elements.forEach(el => el.textContent = text);
+                            return this;
+                        }
+                        return elements[0] ? elements[0].textContent : '';
+                    },
+                    push: function(value) {
+                        Array.prototype.push.call(this, value);
+                    }
+                };
+            };
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- html2pdf.js for HTML-to-PDF conversion -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -5415,10 +5493,9 @@
                     robotics: {}
                 };
 
-                // Collect sectors using vanilla JavaScript
-                const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
-                sectorInputs.forEach(input => {
-                    formData.sectors.push(input.value);
+                // Collect sectors using jQuery
+                $('input[name="sectors[]"]:checked').each(function() {
+                    formData.sectors.push($(this).val());
                 });
 
                 // Collect all form inputs by section
@@ -5437,47 +5514,40 @@
                     { step: 13, key: 'priorIncidents' }
                 ];
 
-                // Add conditional sections based on their current step numbers (dynamic) - using vanilla JS
-                const aiSection = document.getElementById('ai-section');
-                if (aiSection && typeof aiStepEnabled !== 'undefined' && aiStepEnabled) {
-                    const aiStep = aiSection.getAttribute('data-section');
+                // Add conditional sections based on their current step numbers (dynamic)
+                if (typeof aiStepEnabled !== 'undefined' && aiStepEnabled) {
+                    const aiStep = $('#ai-section').attr('data-section');
                     if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
                 }
-                
-                const defiSection = document.getElementById('defi-section');
-                if (defiSection && typeof defiStepEnabled !== 'undefined' && defiStepEnabled) {
-                    const defiStep = defiSection.getAttribute('data-section');
+                if (typeof defiStepEnabled !== 'undefined' && defiStepEnabled) {
+                    const defiStep = $('#defi-section').attr('data-section');
                     if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
                 }
-                
-                const roboticsSection = document.getElementById('robotics-section');
-                if (roboticsSection && typeof roboticsStepEnabled !== 'undefined' && roboticsStepEnabled) {
-                    const roboticsStep = roboticsSection.getAttribute('data-section');
+                if (typeof roboticsStepEnabled !== 'undefined' && roboticsStepEnabled) {
+                    const roboticsStep = $('#robotics-section').attr('data-section');
                     if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
                 }
 
                 sections.forEach(section => {
-                    const sectionSelector = `.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`;
-                    const inputs = document.querySelectorAll(sectionSelector);
-                    
-                    inputs.forEach(input => {
-                        const name = input.getAttribute('name');
-                        const type = input.getAttribute('type');
+                    $(`.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`).each(function() {
+                        const $input = $(this);
+                        const name = $input.attr('name');
+                        const type = $input.attr('type');
                         
                         if (name) {
                             if (type === 'checkbox') {
                                 if (!formData[section.key][name]) {
                                     formData[section.key][name] = [];
                                 }
-                                if (input.checked) {
-                                    formData[section.key][name].push(input.value);
+                                if ($input.is(':checked')) {
+                                    formData[section.key][name].push($input.val());
                                 }
                             } else if (type === 'radio') {
-                                if (input.checked) {
-                                    formData[section.key][name] = input.value;
+                                if ($input.is(':checked')) {
+                                    formData[section.key][name] = $input.val();
                                 }
                             } else {
-                                const value = input.value;
+                                const value = $input.val();
                                 if (value && value.trim() !== '') {
                                     formData[section.key][name] = value;
                                 }
@@ -5491,18 +5561,41 @@
 
             function generatePDF() {
                 try {
-                    // Collect all form data (with fallback if jQuery-dependent functions fail)
+                    console.log('PDF generation started');
+                    console.log('jQuery available:', typeof $ !== 'undefined');
+                    console.log('html2pdf available:', typeof html2pdf !== 'undefined');
+                    
+                    // Collect all form data using jQuery as requested
                     let formData;
                     try {
                         formData = collectFormData();
+                        console.log('Form data collected successfully:', formData);
                     } catch (error) {
-                        console.warn('collectFormData failed, using fallback method:', error);
-                        formData = collectFormDataFallback();
+                        console.error('jQuery collectFormData failed:', error);
+                        try {
+                            formData = collectFormDataFallback();
+                            console.log('Fallback data collected:', formData);
+                        } catch (fallbackError) {
+                            console.error('Fallback also failed:', fallbackError);
+                            alert('Error collecting form data. Please refresh and try again.');
+                            return;
+                        }
+                    }
+                    
+                    // Validate that we have some data
+                    if (!formData || (formData.sectors.length === 0 && Object.keys(formData.generalInfo).length === 0)) {
+                        console.warn('No form data collected, generating basic report');
+                        formData = {
+                            submissionDate: new Date().toLocaleDateString(),
+                            submissionTime: new Date().toLocaleTimeString(),
+                            sectors: ['Sample data - no sectors selected'],
+                            generalInfo: { note: 'No additional data entered' }
+                        };
                     }
                     
                     // Check if html2pdf is available
                     if (typeof html2pdf === 'undefined') {
-                        // Fallback: create a simple text-based report
+                        console.log('html2pdf not available, using text report fallback');
                         downloadTextReport(formData);
                         return;
                     }
@@ -6191,52 +6284,104 @@
         });
     </script>
 
-    <!-- Standalone PDF Generation Script - Independent of jQuery -->
+    <!-- Enhanced PDF Generation Script - Using jQuery as requested -->
     <script>
-        // Standalone PDF generation that works without jQuery dependencies
+        // Enhanced PDF generation that uses jQuery
         function generateStandalonePDF() {
             console.log('Standalone PDF generation triggered');
+            console.log('jQuery status:', typeof $ !== 'undefined' ? 'Available' : 'Not available');
             
-            // Collect form data using vanilla JavaScript
-            const formData = {
-                submissionDate: new Date().toLocaleDateString(),
-                submissionTime: new Date().toLocaleTimeString(),
-                sectors: [],
-                generalInfo: {}
-            };
-
-            // Collect sectors
-            const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
-            sectorInputs.forEach(input => {
-                formData.sectors.push(input.value);
-            });
-
-            // Collect all other form data
-            const allInputs = document.querySelectorAll('input:not([name="sectors[]"]), textarea, select');
-            allInputs.forEach(input => {
-                const name = input.getAttribute('name');
-                const type = input.getAttribute('type');
-                
-                if (name) {
-                    if (type === 'checkbox') {
-                        if (input.checked) {
-                            if (!formData.generalInfo[name]) {
-                                formData.generalInfo[name] = [];
-                            }
-                            formData.generalInfo[name].push(input.value);
-                        }
-                    } else if (type === 'radio') {
-                        if (input.checked) {
-                            formData.generalInfo[name] = input.value;
-                        }
-                    } else {
-                        const value = input.value;
-                        if (value && value.trim() !== '') {
-                            formData.generalInfo[name] = value;
-                        }
-                    }
+            let formData;
+            
+            // Try to use the main collectFormData function first (jQuery-based)
+            if (typeof collectFormData === 'function') {
+                try {
+                    formData = collectFormData();
+                    console.log('Using main collectFormData (jQuery):', formData);
+                } catch (error) {
+                    console.warn('Main collectFormData failed:', error);
+                    formData = null;
                 }
-            });
+            }
+            
+            // Fallback data collection if main function failed
+            if (!formData) {
+                console.log('Using fallback data collection');
+                formData = {
+                    submissionDate: new Date().toLocaleDateString(),
+                    submissionTime: new Date().toLocaleTimeString(),
+                    sectors: [],
+                    generalInfo: {}
+                };
+
+                // Collect sectors - try jQuery first, then vanilla JS
+                if (typeof $ !== 'undefined') {
+                    $('input[name="sectors[]"]:checked').each(function() {
+                        formData.sectors.push($(this).val());
+                    });
+                } else {
+                    const sectorInputs = document.querySelectorAll('input[name="sectors[]"]:checked');
+                    sectorInputs.forEach(input => {
+                        formData.sectors.push(input.value);
+                    });
+                }
+
+                // Collect all other form data - prefer jQuery when available
+                if (typeof $ !== 'undefined') {
+                    $('input:not([name="sectors[]"]), textarea, select').each(function() {
+                        const $input = $(this);
+                        const name = $input.attr('name');
+                        const type = $input.attr('type');
+                        
+                        if (name) {
+                            if (type === 'checkbox') {
+                                if ($input.is(':checked')) {
+                                    if (!formData.generalInfo[name]) {
+                                        formData.generalInfo[name] = [];
+                                    }
+                                    formData.generalInfo[name].push($input.val());
+                                }
+                            } else if (type === 'radio') {
+                                if ($input.is(':checked')) {
+                                    formData.generalInfo[name] = $input.val();
+                                }
+                            } else {
+                                const value = $input.val();
+                                if (value && value.trim() !== '') {
+                                    formData.generalInfo[name] = value;
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Vanilla JS fallback
+                    const allInputs = document.querySelectorAll('input:not([name="sectors[]"]), textarea, select');
+                    allInputs.forEach(input => {
+                        const name = input.getAttribute('name');
+                        const type = input.getAttribute('type');
+                        
+                        if (name) {
+                            if (type === 'checkbox') {
+                                if (input.checked) {
+                                    if (!formData.generalInfo[name]) {
+                                        formData.generalInfo[name] = [];
+                                    }
+                                    formData.generalInfo[name].push(input.value);
+                                }
+                            } else if (type === 'radio') {
+                                if (input.checked) {
+                                    formData.generalInfo[name] = input.value;
+                                }
+                            } else {
+                                const value = input.value;
+                                if (value && value.trim() !== '') {
+                                    formData.generalInfo[name] = value;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
 
             console.log('Collected form data:', formData);
 
