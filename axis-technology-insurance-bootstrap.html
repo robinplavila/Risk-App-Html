@@ -6084,6 +6084,505 @@
                         yPosition += 5;
                     }
                     
+                    // Enhanced function for Section 5 with questions and selected options
+                    function addSection5WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 5: Contractual Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 5 questions with their field names  
+                        const section5Questions = [
+                            {
+                                question: '1. Do you require all employees to sign a confidentiality agreement?',
+                                field: 'employee_confidentiality',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '2. Are employees required to agree not to solicit customers when they leave your organization?',
+                                field: 'employee_non_solicitation',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '3. Do you require third parties with whom you exchange confidential information to sign a confidentiality agreement?',
+                                field: 'third_party_confidentiality',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '4. Do you require third parties that process personal information on your behalf to sign a data processing agreement?',
+                                field: 'data_processing_agreement',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '5. Do you review third party contracts to ensure they include appropriate security standards for your relationship?',
+                                field: 'contract_security_review',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '6. Do you require cyber insurance or security standards in contracts with key partners or suppliers?',
+                                field: 'partner_security_requirements',
+                                type: 'textarea'
+                            }
+                        ];
+                        
+                        section5Questions.forEach(q => {
+                            checkPageBreak(15);
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 2;
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData[q.field];
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const status = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 6 with questions and selected options
+                    function addSection6WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 6: Cybersecurity, Technical & Crime Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 6 questions with their field names  
+                        const section6Questions = [
+                            {
+                                question: '1. Who is responsible for overseeing cybersecurity on a day-to-day basis?',
+                                field: 'cybersecurity_responsibility',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No one is formally responsible for cybersecurity.', label: 'No one is formally responsible for cybersecurity.' },
+                                    { value: 'Cybersecurity responsibilities are informally assigned, usually handled part-time by IT, operations, or a designated staff member.', label: 'Cybersecurity responsibilities are informally assigned, usually handled part-time by IT, operations, or a designated staff member.' },
+                                    { value: 'A full-time staff member or external provider is responsible, with defined oversight.', label: 'A full-time staff member or external provider is responsible, with defined oversight.' },
+                                    { value: 'A qualified internal or external CISO manages cybersecurity with clear authority, reporting, and board-level oversight.', label: 'A qualified internal or external CISO manages cybersecurity with clear authority, reporting, and board-level oversight.' }
+                                ]
+                            },
+                            {
+                                question: '2. Is there a formal cybersecurity policy in place for employees to follow?',
+                                field: 'cybersecurity_policy',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No cybersecurity policy exists.', label: 'No cybersecurity policy exists.' },
+                                    { value: 'A policy exists and is shared with employees during onboarding but it may be outdated or not consistently distributed to all staff beyond initial hiring.', label: 'A policy exists and is shared with employees during onboarding but it may be outdated or not consistently distributed to all staff beyond initial hiring.' },
+                                    { value: 'The policy is current, distributed to all employees, and acknowledged in writing.', label: 'The policy is current, distributed to all employees, and acknowledged in writing.' },
+                                    { value: 'A comprehensive, regularly updated policy is enforced and supported with training and accountability mechanisms.', label: 'A comprehensive, regularly updated policy is enforced and supported with training and accountability mechanisms.' }
+                                ]
+                            },
+                            {
+                                question: '3. Do all team members receive regular training to help them recognize cyber threats and scams?',
+                                field: 'cyber_training',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No cybersecurity training is provided.', label: 'No cybersecurity training is provided.' },
+                                    { value: 'Most employees receive annual training, but it may be informal, one-time, or not consistently tracked.', label: 'Most employees receive annual training, but it may be informal, one-time, or not consistently tracked.' },
+                                    { value: 'All employees receive mandatory cybersecurity training annually.', label: 'All employees receive mandatory cybersecurity training annually.' },
+                                    { value: 'Training is ongoing, tailored by role, and includes phishing simulations and tracking of completion and performance.', label: 'Training is ongoing, tailored by role, and includes phishing simulations and tracking of completion and performance.' }
+                                ]
+                            },
+                            {
+                                question: '4. Is multi-factor authentication (MFA) required for accessing company systems, email, and cloud tools remotely?',
+                                field: 'mfa_requirement',
+                                type: 'radio',
+                                options: [
+                                    { value: 'MFA is not used.', label: 'MFA is not used.' },
+                                    { value: 'MFA is required for remote access to critical systems and used for some other users or systems, but overall implementation is inconsistent.', label: 'MFA is required for remote access to critical systems and used for some other users or systems, but overall implementation is inconsistent.' },
+                                    { value: 'MFA is enforced for all users across remote and cloud environments.', label: 'MFA is enforced for all users across remote and cloud environments.' },
+                                    { value: 'MFA is universally enforced, regularly tested, and monitored for compliance and anomalies.', label: 'MFA is universally enforced, regularly tested, and monitored for compliance and anomalies.' }
+                                ]
+                            },
+                            {
+                                question: '5. Is remote access to your internal or cloud systems restricted to secure methods like VPN or SSO and protected with MFA?',
+                                field: 'remote_access_security',
+                                type: 'radio',
+                                options: [
+                                    { value: 'Remote access is open or unmanaged.', label: 'Remote access is open or unmanaged.' },
+                                    { value: 'Remote access typically relies on passwords and may use VPN or SSO, but secure controls like MFA are not consistently applied.', label: 'Remote access typically relies on passwords and may use VPN or SSO, but secure controls like MFA are not consistently applied.' },
+                                    { value: 'Secure access (VPN or SSO) with MFA is required for all remote users.', label: 'Secure access (VPN or SSO) with MFA is required for all remote users.' },
+                                    { value: 'Remote access is tightly controlled with policy enforcement, MFA, and centralized access logging.', label: 'Remote access is tightly controlled with policy enforcement, MFA, and centralized access logging.' }
+                                ]
+                            },
+                            {
+                                question: '6. What tools or protections secure employee devices and email from cyber threats?',
+                                field: 'device_protection',
+                                type: 'radio',
+                                options: [
+                                    { value: 'Devices and email are not protected by security tools.', label: 'Devices and email are not protected by security tools.' },
+                                    { value: 'Basic antivirus, standard endpoint protection, and email filtering are in place.', label: 'Basic antivirus, standard endpoint protection, and email filtering are in place.' },
+                                    { value: 'Devices are protected by centrally managed EDR, and email systems have advanced filtering and threat detection.', label: 'Devices are protected by centrally managed EDR, and email systems have advanced filtering and threat detection.' },
+                                    { value: 'A layered security stack is deployed across all devices and email accounts, including EDR, DLP, and sandboxing.', label: 'A layered security stack is deployed across all devices and email accounts, including EDR, DLP, and sandboxing.' }
+                                ]
+                            },
+                            {
+                                question: '7. How is user access managed, including setting, adjusting, and promptly removing access?',
+                                field: 'user_access_management',
+                                type: 'radio',
+                                options: [
+                                    { value: 'Access is granted manually and rarely updated.', label: 'Access is granted manually and rarely updated.' },
+                                    { value: 'Access rights are adjusted as needed and reviewed occasionally, with revocation upon termination, though delays may occur.', label: 'Access rights are adjusted as needed and reviewed occasionally, with revocation upon termination, though delays may occur.' },
+                                    { value: 'Role-based access controls are in place with regular access reviews.', label: 'Role-based access controls are in place with regular access reviews.' },
+                                    { value: 'Access is centrally managed, provisioned by role, reviewed quarterly, and automatically revoked upon role change or termination.', label: 'Access is centrally managed, provisioned by role, reviewed quarterly, and automatically revoked upon role change or termination.' }
+                                ]
+                            },
+                            {
+                                question: '8. Do you collect and review activity logs across your IT environment?',
+                                field: 'activity_logs',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No activity logs are collected or retained.', label: 'No activity logs are collected or retained.' },
+                                    { value: 'Logs are collected from key systems but are not actively monitored, and reviews are performed reactively.', label: 'Logs are collected from key systems but are not actively monitored, and reviews are performed reactively.' },
+                                    { value: 'Centralized log management is in place with routine review and alerting.', label: 'Centralized log management is in place with routine review and alerting.' },
+                                    { value: 'Logs are collected, analyzed with SIEM tools, and reviewed proactively with incident response integration.', label: 'Logs are collected, analyzed with SIEM tools, and reviewed proactively with incident response integration.' }
+                                ]
+                            },
+                            {
+                                question: '9. Do you use tools or services to identify cyber threats or unusual system activity in real time?',
+                                field: 'threat_detection',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No tools are used to monitor system activity or threats.', label: 'No tools are used to monitor system activity or threats.' },
+                                    { value: 'Basic alerts come from standard antivirus or firewall tools, with some real-time monitoring in place, though it is not centrally managed.', label: 'Basic alerts come from standard antivirus or firewall tools, with some real-time monitoring in place, though it is not centrally managed.' },
+                                    { value: 'Real-time threat detection tools are used and monitored by internal or external IT/security teams.', label: 'Real-time threat detection tools are used and monitored by internal or external IT/security teams.' },
+                                    { value: 'A fully integrated threat detection and response system (e.g., MDR, SIEM) monitors activity 24/7 with alerting and escalation.', label: 'A fully integrated threat detection and response system (e.g., MDR, SIEM) monitors activity 24/7 with alerting and escalation.' }
+                                ]
+                            },
+                            {
+                                question: '10. How does your organization manage aging technology and ensure software and systems stay updated and supported?',
+                                field: 'technology_management',
+                                type: 'radio',
+                                options: [
+                                    { value: 'Software updates and patching are done irregularly or not at all.', label: 'Software updates and patching are done irregularly or not at all.' },
+                                    { value: 'Most systems are updated periodically, though some legacy systems remain unsupported, and updates often occur reactively without a set schedule.', label: 'Most systems are updated periodically, though some legacy systems remain unsupported, and updates often occur reactively without a set schedule.' },
+                                    { value: 'Key systems are tracked, security patches are regularly applied, and major upgrades are planned every few years, though some older systems remain in use if still functional.', label: 'Key systems are tracked, security patches are regularly applied, and major upgrades are planned every few years, though some older systems remain in use if still functional.' },
+                                    { value: 'Systems are proactively monitored for EOL/EOS, with automated patching and lifecycle management to maintain secure, supported software.', label: 'Systems are proactively monitored for EOL/EOS, with automated patching and lifecycle management to maintain secure, supported software.' }
+                                ]
+                            },
+                            {
+                                question: '11. Are firewalls in place to protect the network perimeter and to segment internal networks?',
+                                field: 'firewall_protection',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '12. Are internal/external vulnerability scans or penetration tests of your network performed?',
+                                field: 'vulnerability_scans',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'vulnerability_frequency_methods',
+                                    label: 'If yes, frequency and methods:'
+                                }
+                            },
+                            {
+                                question: '13. Do you restrict user access/permissions to a need-to-know basis?',
+                                field: 'user_access_restrictions',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '14. Are unused/unneeded network services and ports disabled or closed promptly?',
+                                field: 'unused_services',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '15. Name your service provider for each function:',
+                                field: 'service_providers',
+                                type: 'composite',
+                                subfields: [
+                                    { field: 'datacenter_provider', label: 'Data center/cloud hosting' },
+                                    { field: 'managed_security_provider', label: 'Managed security service' },
+                                    { field: 'security_monitoring_provider', label: 'Security event/alert monitoring' },
+                                    { field: 'managed_it_provider', label: 'Managed IT service provider' }
+                                ]
+                            },
+                            {
+                                question: '16. Do you have a formal procedure for departing employees that includes revoking access to systems and recovery of all company devices/credentials?',
+                                field: 'departing_employee_procedure',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '17. Do you require more than one person to approve high-risk financial transactions like wire transfers?',
+                                field: 'dual_approval_financial',
+                                type: 'radio',
+                                options: [
+                                    { value: 'No approval process is required; a single individual can execute high-risk transactions.', label: 'No approval process is required; a single individual can execute high-risk transactions.' },
+                                    { value: 'Dual approval is expected for some transactions and occasionally required, but it is not consistently applied, enforced, or documented.', label: 'Dual approval is expected for some transactions and occasionally required, but it is not consistently applied, enforced, or documented.' },
+                                    { value: 'A dual-approval policy is enforced for all high-risk transactions (e.g., wire transfers, bank account changes), with audit trail documentation.', label: 'A dual-approval policy is enforced for all high-risk transactions (e.g., wire transfers, bank account changes), with audit trail documentation.' },
+                                    { value: 'Dual authorization is mandatory for all high-risk transactions, embedded in financial systems, with tiered thresholds, role-based permissions, fraud alerts, and periodic audits to verify compliance.', label: 'Dual authorization is mandatory for all high-risk transactions, embedded in financial systems, with tiered thresholds, role-based permissions, fraud alerts, and periodic audits to verify compliance.' }
+                                ]
+                            },
+                            {
+                                question: '18. What controls are in place to prevent and detect financial fraud, including scams targeting incoming and outgoing wire transfers or internal theft?',
+                                field: 'financial_fraud_controls',
+                                type: 'radio',
+                                options: [
+                                    { value: ' No formal controls or monitoring systems are in place; the company relies on trust or informal checks.', label: 'No formal controls or monitoring systems are in place; the company relies on trust or informal checks.' },
+                                    { value: 'Basic safeguards exist, such as accounting software permissions and finance team reviews, with some vendor verification and fraud awareness efforts, but proactive measures against risks like phishing, business email compromise, or internal theft are limited, and monitoring is minimal.', label: 'Basic safeguards exist, such as accounting software permissions and finance team reviews, with some vendor verification and fraud awareness efforts, but proactive measures against risks like phishing, business email compromise, or internal theft are limited, and monitoring is minimal.' },
+                                    { value: 'Documented fraud prevention policies exist, with training, vendor validation, audit logs, and periodic financial audits or reconciliations.', label: 'Documented fraud prevention policies exist, with training, vendor validation, audit logs, and periodic financial audits or reconciliations.' },
+                                    { value: 'A formal fraud prevention framework is in place, including dual controls, transaction monitoring, fraud detection tools, employee training, whistleblower protections, and regular testing or audits of financial systems.', label: 'A formal fraud prevention framework is in place, including dual controls, transaction monitoring, fraud detection tools, employee training, whistleblower protections, and regular testing or audits of financial systems.' }
+                                ]
+                            }
+                        ];
+                        
+                        section6Questions.forEach(q => {
+                            checkPageBreak(15);
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 2;
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData[q.field];
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const status = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${status} ${option.label}`, margin + 20, 9, 150);
+                                });
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && fieldValue === q.followUp.condition) {
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 20);
+                                    doc.setFont(undefined, 'normal');
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                    }
+                                }
+                            } else if (q.type === 'composite' && q.subfields) {
+                                q.subfields.forEach(subfield => {
+                                    const subfieldValue = sectionData[subfield.field];
+                                    if (subfieldValue) {
+                                        addWrappedText(`${subfield.label}: ${subfieldValue}`, margin + 20);
+                                    }
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 7 with questions and selected options
+                    function addSection7WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 7: Data Backup & Business Continuity & Supply Chain Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 7 questions with their field names  
+                        const section7Questions = [
+                            {
+                                question: '1. What processes are in place to quickly detect and respond to data breaches or unauthorized access?',
+                                field: 'breach_detection_response',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal detection or response process exists.' },
+                                    { value: '2', label: 'Incidents are handled reactively when staff notice something suspicious, supported by basic detection tools like antivirus and system logs, but incident response is largely ad hoc.' },
+                                    { value: '3', label: 'A defined incident response plan exists, with detection tools, trained responders, and escalation protocols.' },
+                                    { value: '4', label: 'A comprehensive incident response program includes 24/7 monitoring, real-time alerting, runbooks, tabletop testing, and post-incident review.' }
+                                ]
+                            },
+                            {
+                                question: '2. Do you have a communications plan to protect your company\'s reputation in the event of a major issue or breach?',
+                                field: 'communications_plan',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No communications plan exists for handling incidents.' },
+                                    { value: '2', label: 'Incident responses are generally handled by PR or leadership, supported by a basic communications plan with draft statements and designated spokespersons, but there is no formal protocol.' },
+                                    { value: '3', label: 'A formal reputational risk communications plan is documented, with media, legal, and customer messaging protocols.' },
+                                    { value: '4', label: 'The company maintains a comprehensive communications playbook for crisis events, including breach notification, regulatory guidance, and stakeholder outreach, tested regularly through simulations.' }
+                                ]
+                            },
+                            {
+                                question: '3. Do you have backup systems to recover data after a cyber incident or outage?',
+                                field: 'backup_systems',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No backup systems exist.' },
+                                    { value: '2', label: 'Regular backups are taken and stored offsite or in the cloud, but not all data is covered, testing is limited, and updates may not be consistent.' },
+                                    { value: '3', label: 'Backups are automated, encrypted, and tested periodically for critical systems.' },
+                                    { value: '4', label: 'An enterprise-grade backup and recovery system is in place with real-time replication, frequent testing, and integration into the overall incident response strategy.' }
+                                ]
+                            },
+                            {
+                                question: '4. If systems go down, how quickly can you get your critical data and operations back online?',
+                                field: 'recovery_time',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'There is no defined recovery timeframe; recovery would be improvised.' },
+                                    { value: '2', label: 'A target recovery window is defined for key systems (e.g., 48–72 hours), but for other areas recovery could take several days, and there are no documented targets.' },
+                                    { value: '3', label: 'Recovery goals (RTOs) are set by system tier, with most critical services recoverable within 24 hours.' },
+                                    { value: '4', label: 'Rapid recovery (RTO < 4 hours for critical systems) is enabled via automated failover, and performance against RTOs is tested and validated.' }
+                                ]
+                            },
+                            {
+                                question: '5. Do you maintain business continuity and disaster recovery plans, and what are your key recovery goals?',
+                                field: 'continuity_recovery_plans',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal plans exist.' },
+                                    { value: '2', label: 'Recovery plans exist with defined Recovery Time Objectives and Recovery Point Objectives and some written procedures, but they are not thoroughly tested or fully aligned to recovery goals.' },
+                                    { value: '3', label: 'BCP and DRP are documented, with role assignments, key systems prioritized, and regular stakeholder reviews.' },
+                                    { value: '4', label: 'Continuity and disaster recovery plans are fully developed, tested regularly, and aligned to business impact analyses with clearly defined and measured RTOs/RPOs.' }
+                                ]
+                            },
+                            {
+                                question: '6. How often are recovery plans tested, and what improvements have resulted?',
+                                field: 'recovery_testing',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Recovery plans are never tested.' },
+                                    { value: '2', label: 'Recovery plans are reviewed occasionally and tested annually, with some lessons learned incorporated, but exercises are not frequent or comprehensive.' },
+                                    { value: '3', label: 'Tests are conducted at least twice per year, with results documented and improvements tracked.' },
+                                    { value: '4', label: 'Plans are tested regularly using realistic scenarios (e.g., tabletop and live failover), with continuous improvement cycles and executive oversight.' }
+                                ]
+                            },
+                            {
+                                question: '7. Do you rely on third parties for critical business operations (Cloud providers, managed IT, payment processors, API data)?',
+                                field: 'third_party_reliance',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'key_suppliers',
+                                    label: 'Please list key suppliers and functions they support:'
+                                }
+                            },
+                            {
+                                question: '8. Does your business continuity or disaster recovery plan specifically address prolonged outages of critical third-party services?',
+                                field: 'third_party_outage_plan',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Our business continuity and disaster recovery plans do not specifically address prolonged outages of critical third-party services.' },
+                                    { value: '2', label: 'Our plans generally mention third-party risks, but do not include detailed strategies for extended outages of critical providers.' },
+                                    { value: '3', label: 'Our plans include scenarios for disruptions to critical third-party services, but they are not deeply detailed or regularly tested.' },
+                                    { value: '4', label: 'Our business continuity and disaster recovery plans explicitly cover prolonged outages of critical third-party services, with documented procedures, alternate arrangements, and regular testing.' }
+                                ]
+                            },
+                            {
+                                question: '9. Have you assessed how a primary cloud provider outage would impact your operations, and does your continuity plan address this?',
+                                field: 'cloud_provider_assessment',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No assessment has been done, and no contingency exists for cloud service failure.' },
+                                    { value: '2', label: 'Cloud risks are informally acknowledged, with documented impacts of downtime and some alternate communication or manual processes identified, but they are not fully integrated into formal planning.' },
+                                    { value: '3', label: 'Cloud dependency is mapped in continuity plans, and mitigations (e.g., data export, failover zones) are in place.' },
+                                    { value: '4', label: 'Cloud risk is deeply integrated into BCP, with multi-region failover, vendor SLAs, and automated recovery tested regularly.' }
+                                ]
+                            },
+                            {
+                                question: '10. How do you investigate and address the root cause of major security incidents, service problems, or customer complaints?',
+                                field: 'incident_investigation',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Root cause is not formally investigated; focus is only on fixing the immediate issue.' },
+                                    { value: '2', label: 'Issues are discussed internally, with root cause reviews and some documentation or follow-up for significant incidents, but lessons learned and corrective actions are applied inconsistently.' },
+                                    { value: '3', label: 'A structured post-incident review (PIR) process is used for all major events, with documented corrective actions.' },
+                                    { value: '4', label: 'Formal root cause analysis is conducted with executive oversight, cross-functional input, tracked improvements, and trend analysis.' }
+                                ]
+                            }
+                        ];
+                        
+                        section7Questions.forEach(q => {
+                            checkPageBreak(15);
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 2;
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData[q.field];
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const status = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${status} ${option.label}`, margin + 20, 9, 150);
+                                });
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && fieldValue === q.followUp.condition) {
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 20);
+                                    doc.setFont(undefined, 'normal');
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                    }
+                                }
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
                     // Helper function to add section data
                     function addSectionData(sectionTitle, sectionData) {
                         checkPageBreak(20);
@@ -6129,13 +6628,19 @@
                     // Section 4: Financials - Enhanced with questions and options
                     addSection4WithQuestions(formData.financials);
                     
+                    // Section 5: Contractual Controls - Enhanced with questions and options
+                    addSection5WithQuestions(formData.contractualControls);
+                    
+                    // Section 6: Cybersecurity, Technical & Crime Controls - Enhanced with questions and options
+                    addSection6WithQuestions(formData.cybersecurity);
+                    
+                    // Section 7: Data Backup & Business Continuity & Supply Chain Controls - Enhanced with questions and options
+                    addSection7WithQuestions(formData.dataBackup);
+                    
                     // Add all other sections
                     //addSectionData('Section 2: General Information', formData.generalInfo);
                     //addSectionData('Section 3: Operations', formData.operations);
                     //addSectionData('Section 4: Financials', formData.financials);
-                    addSectionData('Section 5: Contractual Controls', formData.contractualControls);
-                    addSectionData('Section 6: Cybersecurity, Technical & Crime Controls', formData.cybersecurity);
-                    addSectionData('Section 7: Data Backup & Business Continuity', formData.dataBackup);
                     addSectionData('Section 8: Third Party, Vendor & Supply Chain Controls', formData.thirdParty);
                     addSectionData('Section 9: Privacy, Data Security & API Controls', formData.privacy);
                     addSectionData('Section 10: Intellectual Property & Content Governance Controls', formData.intellectualProperty);
