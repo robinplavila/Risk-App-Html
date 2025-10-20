@@ -412,6 +412,134 @@
             }
         }
 
+        /* PDF-specific styles for html2pdf conversion */
+        .pdf-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 10mm;
+            background: white;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #428bca;
+            padding-bottom: 10px;
+        }
+
+        .pdf-header h1 {
+            color: #428bca;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .pdf-header .timestamp {
+            margin: 5px 0;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .pdf-section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-section-title {
+            color: #428bca;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-question {
+            margin: 10px 0;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .pdf-answer {
+            margin: 5px 0 0 20px;
+            color: #555;
+        }
+
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 11px;
+        }
+
+        .pdf-table th {
+            background-color: #428bca;
+            color: white;
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .pdf-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .pdf-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .pdf-checkbox {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .pdf-radio {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .pdf-field-group {
+            margin: 10px 0;
+        }
+
+        .pdf-field-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .pdf-field-value {
+            color: #555;
+            margin-left: 5px;
+        }
+
+        /* Print media styles for better PDF output */
+        @media print {
+            .pdf-container {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .pdf-section {
+                page-break-inside: avoid;
+            }
+            
+            .pdf-table {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Hidden class for PDF content */
+        .pdf-content {
+            display: none;
+        }
+
         /* Loading States */
         .btn.loading {
             position: relative;
@@ -4215,10 +4343,8 @@
     <!-- Bootstrap JS and jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jsPDF for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- jsPDF AutoTable plugin for enhanced table formatting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <!-- html2pdf.js for HTML-to-PDF conversion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 
     <!-- Custom jQuery Script for Form Logic -->
@@ -5342,846 +5468,68 @@
 
             function generatePDF() {
                 try {
-                    const { jsPDF } = window.jspdf;
-                    const doc = new jsPDF();
-                    
                     // Collect all form data
                     const formData = collectFormData();
                     
-                    let yPosition = 20;
-                    const pageHeight = doc.internal.pageSize.height;
-                    const margin = 20;
-                    const lineHeight = 6;
+                    // Generate HTML content for PDF
+                    const htmlContent = generatePDFHTMLContent(formData);
                     
-                    // Helper function to add new page if needed
-                    function checkPageBreak(additionalHeight = 15) {
-                        if (yPosition + additionalHeight > pageHeight - margin) {
-                            doc.addPage();
-                            yPosition = 20;
+                    // Create a temporary div to hold the HTML content
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = htmlContent;
+                    tempDiv.classList.add('pdf-content');
+                    tempDiv.style.position = 'absolute';
+                    tempDiv.style.left = '-9999px';
+                    tempDiv.style.top = '-9999px';
+                    document.body.appendChild(tempDiv);
+                    
+                    // Configure html2pdf options
+                    const options = {
+                        margin: [10, 10, 10, 10], // mm: top, left, bottom, right
+                        filename: `Axis-Technology-Insurance-Application-${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.pdf`,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { 
+                            scale: 2, 
+                            useCORS: true,
+                            letterRendering: true,
+                            allowTaint: false 
+                        },
+                        jsPDF: { 
+                            unit: 'mm', 
+                            format: 'a4', 
+                            orientation: 'portrait',
+                            compress: true
+                        },
+                        pagebreak: { 
+                            mode: ['avoid-all', 'css', 'legacy'],
+                            before: '.pdf-section',
+                            after: '.pdf-page-break'
                         }
-                    }
+                    };
                     
-                    // Helper function to add text with word wrapping
-                    function addWrappedText(text, x, fontSize = 10, maxWidth = 170) {
-                        doc.setFontSize(fontSize);
-                        const splitText = doc.splitTextToSize(text, maxWidth);
-                        splitText.forEach(line => {
-                            checkPageBreak();
-                            doc.text(line, x, yPosition);
-                            yPosition += lineHeight;
+                    // Generate PDF using html2pdf
+                    html2pdf()
+                        .set(options)
+                        .from(tempDiv)
+                        .save()
+                        .then(() => {
+                            // Clean up temporary div
+                            document.body.removeChild(tempDiv);
+                            showNotification('✅ PDF downloaded successfully using HTML-to-PDF conversion!', 'success');
+                        })
+                        .catch((error) => {
+                            // Clean up temporary div on error
+                            if (document.body.contains(tempDiv)) {
+                                document.body.removeChild(tempDiv);
+                            }
+                            console.error('Error generating PDF with html2pdf:', error);
+                            showNotification('❌ Error generating PDF. Please try again.', 'error');
                         });
-                    }
-                    
-                    // Header
-                    doc.setFontSize(18);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Axis Technology Insurance Application', margin, yPosition);
-                    yPosition += 10;
-                    
-                    doc.setFontSize(10);
-                    doc.setFont(undefined, 'normal');
-                    doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, yPosition);
-                    yPosition += 15;
-                    
-                    // Section 1: Sectors - Enhanced with questions and options
-                    checkPageBreak(20);
-                    doc.setFontSize(14);
-                    doc.setFont(undefined, 'bold');
-                    addWrappedText('Section 1: Sectors', margin);
-                    yPosition += 5;
-                    
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
-                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin + 10);
-                    yPosition += 3;
-                    
-                    doc.setFontSize(10);
-                    doc.setFont(undefined, 'normal');
-                    
-                    // Define all sector options
-                    const sectorOptions = [
-                        { value: 'ai', label: 'Artificial Intelligence' },
-                        { value: 'defi', label: 'Decentralized Finance & Digital Assets' },
-                        { value: 'robotics', label: 'Autonomous Robotics' }
-                    ];
-                    
-                    sectorOptions.forEach(option => {
-                        const isSelected = formData.sectors.includes(option.value);
-                        const status = isSelected ? '[X]' : '[ ]';
-                        addWrappedText(`${status} ${option.label}`, margin + 20);
-                    });
-                    
-                    yPosition += 10;
-                    
-                    // Enhanced function for Section 2 with questions and selected options
-                    function addSection2WithQuestions(sectionData) {
-                        checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 2: General Information', margin);
-                        yPosition += 5;
-                        
-                        // Define all Section 2 questions with their field names  
-                        const section2Questions = [
-                            {
-                                question: '1. Legal Name of Organization',
-                                field: 'legal_name',
-                                type: 'text'
-                            },
-                            {
-                                question: 'Location of Incorporation',
-                                field: 'incorporation_location',
-                                type: 'text'
-                            },
-                            {
-                                question: '2. Mailing Address',
-                                field: 'mailing_address',
-                                type: 'textarea'
-                            },
-                            {
-                                question: '3. List all subsidiaries & Location of Incorporation',
-                                field: 'subsidiaries',
-                                type: 'textarea'
-                            },
-                            {
-                                question: '4. List all Physical Locations',
-                                field: 'physical_locations',
-                                type: 'textarea'
-                            },
-                            {
-                                question: '5. List all URLs',
-                                field: 'urls',
-                                type: 'textarea'
-                            },
-                            {
-                                question: '6. Year Company Established',
-                                field: 'year_established',
-                                type: 'number'
-                            },
-                            {
-                                question: '7. Number of Employees',
-                                field: 'num_employees',
-                                type: 'number'
-                            },
-                            {
-                                question: '8. Are any Employees based outside of Canada?',
-                                field: 'employees_outside_canada',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    question: 'If yes, list the country and the number of employees in each:',
-                                    field: 'employees_outside_list'
-                                }
-                            },
-                            {
-                                question: '9. Breach Response Contact',
-                                fields: [
-                                    { field: 'breach_contact_name', label: 'Name' },
-                                    { field: 'breach_contact_title', label: 'Title' },
-                                    { field: 'breach_contact_email', label: 'Email' },
-                                    { field: 'breach_contact_phone', label: 'Phone' }
-                                ],
-                                type: 'composite'
-                            },
-                            {
-                                question: '10. Any recent or planned mergers, acquisitions, or divestitures?',
-                                field: 'mergers_acquisitions',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    question: 'Please provide details:',
-                                    field: 'mergers_description'
-                                }
-                            }
-                        ];
-                        
-                        section2Questions.forEach(q => {
-                            checkPageBreak(15);
-                            doc.setFontSize(11);
-                            doc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
-                            yPosition += 2;
-                            
-                            doc.setFontSize(10);
-                            doc.setFont(undefined, 'normal');
-                            
-                            if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
-                                const value = sectionData[q.field];
-                                if (value) {
-                                    addWrappedText(`Answer: ${value}`, margin + 20);
-                                } else {
-                                    addWrappedText('Answer: Not provided', margin + 20);
-                                }
-                            } else if (q.type === 'radio') {
-                                const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
-                                });
-                                
-                                // Handle follow-up questions
-                                if (q.followUp && selectedValue === q.followUp.condition) {
-                                    yPosition += 2;
-                                    doc.setFont(undefined, 'italic');
-                                    addWrappedText(q.followUp.question, margin + 25);
-                                    doc.setFont(undefined, 'normal');
-                                    const followUpValue = sectionData[q.followUp.field];
-                                    if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
-                                    } else {
-                                        addWrappedText('Answer: Not provided', margin + 30);
-                                    }
-                                }
-                            } else if (q.type === 'composite') {
-                                q.fields.forEach(field => {
-                                    const value = sectionData[field.field];
-                                    addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 20);
-                                });
-                            }
-                            
-                            yPosition += 8;
-                        });
-                        
-                        yPosition += 5;
-                    }
-                    
-                    // Enhanced function for Section 3 with questions and selected options
-                    function addSection3WithQuestions(sectionData) {
-                        checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 3: Operations', margin);
-                        yPosition += 5;
-                        
-                        // Define all Section 3 questions with their field names  
-                        const section3Questions = [
-                            {
-                                question: '1. Briefly describe the services and/or technology products your company provides',
-                                field: 'services_description',
-                                type: 'textarea'
-                            },
-                            {
-                                question: '2. Percentage of revenue derived from each activity',
-                                type: 'table',
-                                fields: [
-                                    { field: 'revenue_software', label: 'Custom Software Development' },
-                                    { field: 'revenue_saas', label: 'Software as a Service' },
-                                    { field: 'revenue_consulting', label: 'Consulting Services' },
-                                    { field: 'revenue_hardware', label: 'Hardware' },
-                                    { field: 'revenue_other', label: 'Other' }
-                                ]
-                            },
-                            {
-                                question: '3. Do you operate in any of the following areas?',
-                                type: 'risk_areas',
-                                fields: [
-                                    { field: 'risk_critical_infrastructure', label: 'Critical Infrastructure', details: 'critical_infrastructure_details' },
-                                    { field: 'risk_financial_services', label: 'Financial Services', details: 'financial_services_details' },
-                                    { field: 'risk_healthcare', label: 'Healthcare', details: 'healthcare_details' },
-                                    { field: 'risk_government', label: 'Government/Defense', details: 'government_details' },
-                                    { field: 'risk_aerospace', label: 'Aerospace', details: 'aerospace_details' },
-                                    { field: 'risk_rail', label: 'Rail', details: 'rail_details' },
-                                    { field: 'risk_mining_oil_gas', label: 'Mining/Oil & Gas', details: 'mining_oil_gas_details' },
-                                    { field: 'risk_energy', label: 'Energy', details: 'energy_details' },
-                                    { field: 'risk_adult_entertainment', label: 'Adult Entertainment/Gambling', details: 'adult_entertainment_details' },
-                                    { field: 'risk_semiconductors', label: 'Semi-Conductors', details: 'semiconductors_details' },
-                                    { field: 'risk_architecture_engineering', label: 'Architecture/Engineering', details: 'architecture_engineering_details' }
-                                ]
-                            },
-                            {
-                                question: '4. Do you sell tangible products?',
-                                field: 'sell_tangible_products',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    fields: [
-                                        { field: 'tangible_products_description', label: 'Product description' },
-                                        { field: 'tangible_products_revenue', label: '% Revenue' }
-                                    ]
-                                }
-                            },
-                            {
-                                question: '5. Do you (or your subcontractors) install hardware at client sites?',
-                                field: 'install_hardware',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    field: 'hardware_installation_revenue',
-                                    label: '% revenue'
-                                }
-                            },
-                            {
-                                question: '6. Do you provide hosting services to third parties?',
-                                field: 'hosting_services',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    subQuestion: 'If yes, do you use:',
-                                    field: 'hosting_infrastructure',
-                                    options: [
-                                        { value: 'own', label: 'Own Infrastructure' },
-                                        { value: 'third_party', label: 'Third Party' }
-                                    ],
-                                    thirdPartyFields: [
-                                        { field: 'third_party_name', label: 'Provider name' },
-                                        { field: 'third_party_tier', label: 'Tier rating' }
-                                    ]
-                                }
-                            },
-                            {
-                                question: '7. Do you use artificial intelligence (AI) or machine learning (ML) tools in your business operations?',
-                                field: 'ai_ml_usage',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    field: 'ai_ml_description',
-                                    label: 'Details'
-                                }
-                            },
-                            {
-                                question: '8. Do you provide any managed IT services?',
-                                field: 'managed_it_services',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    field: 'managed_it_revenue',
-                                    label: '% revenue'
-                                }
-                            },
-                            {
-                                question: '9. Approximately how many customers do you have?',
-                                field: 'customer_count',
-                                type: 'number'
-                            },
-                            {
-                                question: '10. List the top 3 clients over the past 3 years',
-                                type: 'client_table',
-                                fields: [
-                                    { name: 'client_1_name', service: 'client_1_service', duration: 'client_1_duration', value: 'client_1_value' },
-                                    { name: 'client_2_name', service: 'client_2_service', duration: 'client_2_duration', value: 'client_2_value' },
-                                    { name: 'client_3_name', service: 'client_3_service', duration: 'client_3_duration', value: 'client_3_value' }
-                                ]
-                            }
-                        ];
-                        
-                        section3Questions.forEach(q => {
-                            checkPageBreak(15);
-                            doc.setFontSize(11);
-                            doc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
-                            yPosition += 2;
-                            
-                            doc.setFontSize(10);
-                            doc.setFont(undefined, 'normal');
-                            
-                            if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
-                                const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin + 20);
-                            } else if (q.type === 'table') {
-                                // Create AutoTable for revenue percentages
-                                checkPageBreak(30);
-                                
-                                const tableData = q.fields.map(field => {
-                                    const value = sectionData[field.field] || '0';
-                                    return [field.label, value + '%'];
-                                });
-                                
-                                doc.autoTable({
-                                    head: [['Activity', 'Percentage']],
-                                    body: tableData,
-                                    startY: yPosition + 5,
-                                    margin: { left: margin },
-                                    styles: {
-                                        fontSize: 10,
-                                        cellPadding: 3
-                                    },
-                                    headStyles: {
-                                        fillColor: [66, 139, 202],
-                                        textColor: 255,
-                                        fontStyle: 'bold'
-                                    },
-                                    alternateRowStyles: {
-                                        fillColor: [245, 245, 245]
-                                    }
-                                });
-                                
-                                yPosition = doc.lastAutoTable.finalY + 10;
-                            } else if (q.type === 'risk_areas') {
-                                // Create AutoTable for risk areas
-                                checkPageBreak(35);
-                                
-                                const tableData = q.fields.map(area => {
-                                    const selectedValue = sectionData[area.field];
-                                    const details = selectedValue === 'yes' ? (sectionData[area.details] || 'No details') : 'N/A';
-                                    const yesNoStatus = selectedValue === 'yes' ? 'Yes' : (selectedValue === 'no' ? 'No' : '-');
-                                    
-                                    return [
-                                        area.label,
-                                        yesNoStatus,
-                                        details.length > 25 ? details.substring(0, 22) + '...' : details
-                                    ];
-                                });
-                                
-                                doc.autoTable({
-                                    head: [['Area', 'Yes/No', 'Details']],
-                                    body: tableData,
-                                    startY: yPosition + 5,
-                                    margin: { left: margin },
-                                    styles: {
-                                        fontSize: 9,
-                                        cellPadding: 3
-                                    },
-                                    headStyles: {
-                                        fillColor: [66, 139, 202],
-                                        textColor: 255,
-                                        fontStyle: 'bold'
-                                    },
-                                    alternateRowStyles: {
-                                        fillColor: [245, 245, 245]
-                                    },
-                                    columnStyles: {
-                                        0: { cellWidth: 60 },
-                                        1: { cellWidth: 25, halign: 'center' },
-                                        2: { cellWidth: 50 }
-                                    }
-                                });
-                                
-                                yPosition = doc.lastAutoTable.finalY + 10;
-                            } else if (q.type === 'radio') {
-                                const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
-                                });
-                                
-                                // Handle follow-up questions
-                                if (q.followUp && selectedValue === q.followUp.condition) {
-                                    yPosition += 2;
-                                    if (q.followUp.fields) {
-                                        q.followUp.fields.forEach(field => {
-                                            const value = sectionData[field.field];
-                                            addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 25);
-                                        });
-                                    } else if (q.followUp.field) {
-                                        const followUpValue = sectionData[q.followUp.field];
-                                        addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin + 25);
-                                    }
-                                    if (q.followUp.subQuestion) {
-                                        addWrappedText(q.followUp.subQuestion, margin + 25);
-                                        const subValue = sectionData[q.followUp.field];
-                                        q.followUp.options.forEach(option => {
-                                            const isSelected = subValue === option.value;
-                                            const status = isSelected ? '(•)' : '( )';
-                                            addWrappedText(`${status} ${option.label}`, margin + 30);
-                                        });
-                                        if (subValue === 'third_party' && q.followUp.thirdPartyFields) {
-                                            q.followUp.thirdPartyFields.forEach(field => {
-                                                const value = sectionData[field.field];
-                                                addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 35);
-                                            });
-                                        }
-                                    }
-                                }
-                            } else if (q.type === 'client_table') {
-                                // Create AutoTable for top 3 clients
-                                checkPageBreak(25);
-                                
-                                const tableData = [];
-                                for (let i = 1; i <= 3; i++) {
-                                    const client = q.fields[i-1];
-                                    const name = sectionData[client.name] || 'Not provided';
-                                    const service = sectionData[client.service] || 'Not provided';
-                                    const duration = sectionData[client.duration] || 'Not provided';
-                                    const value = sectionData[client.value] || '0';
-                                    
-                                    tableData.push([
-                                        i.toString(),
-                                        name.length > 25 ? name.substring(0, 22) + '...' : name,
-                                        service.length > 25 ? service.substring(0, 22) + '...' : service,
-                                        duration,
-                                        '$' + value
-                                    ]);
-                                }
-                                
-                                doc.autoTable({
-                                    head: [['#', 'Client Name', 'Service Provided', 'Duration', 'Value ($)']],
-                                    body: tableData,
-                                    startY: yPosition + 5,
-                                    margin: { left: margin },
-                                    styles: {
-                                        fontSize: 9,
-                                        cellPadding: 3
-                                    },
-                                    headStyles: {
-                                        fillColor: [66, 139, 202],
-                                        textColor: 255,
-                                        fontStyle: 'bold'
-                                    },
-                                    alternateRowStyles: {
-                                        fillColor: [245, 245, 245]
-                                    },
-                                    columnStyles: {
-                                        0: { cellWidth: 15, halign: 'center' },
-                                        1: { cellWidth: 40 },
-                                        2: { cellWidth: 40 },
-                                        3: { cellWidth: 25 },
-                                        4: { cellWidth: 25, halign: 'right' }
-                                    }
-                                });
-                                
-                                yPosition = doc.lastAutoTable.finalY + 10;
-                            }
-                            
-                            yPosition += 8;
-                        });
-                        
-                        yPosition += 5;
-                    }
-                    
-                    // Enhanced function for Section 4 with questions and selected options
-                    function addSection4WithQuestions(sectionData) {
-                        checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 4: Financials', margin);
-                        yPosition += 5;
-                        
-                        // Define all Section 4 questions with their field names  
-                        const section4Questions = [
-                            {
-                                question: '1. Date of financial year end',
-                                field: 'financial_year_end',
-                                type: 'date'
-                            },
-                            {
-                                question: '2. Provide gross revenues for:',
-                                type: 'revenue_table',
-                                periods: [
-                                    {
-                                        label: 'Last completed fiscal year end',
-                                        domestic: 'revenue_last_domestic',
-                                        usa: 'revenue_last_usa',
-                                        foreign: 'revenue_last_foreign'
-                                    },
-                                    {
-                                        label: 'Estimate for current fiscal year end',
-                                        domestic: 'revenue_current_domestic',
-                                        usa: 'revenue_current_usa',
-                                        foreign: 'revenue_current_foreign'
-                                    },
-                                    {
-                                        label: 'Estimate for next completed fiscal year end',
-                                        domestic: 'revenue_next_domestic',
-                                        usa: 'revenue_next_usa',
-                                        foreign: 'revenue_next_foreign'
-                                    }
-                                ]
-                            },
-                            {
-                                question: '3. Percentage of sales business to business',
-                                field: 'sales_b2b_percentage',
-                                type: 'percentage'
-                            },
-                            {
-                                question: '4. Percentage of sales business to consumer',
-                                field: 'sales_b2c_percentage',
-                                type: 'percentage'
-                            },
-                            {
-                                question: '5. Average contract value',
-                                field: 'average_contract_value',
-                                type: 'currency'
-                            },
-                            {
-                                question: '6. Do any single clients represent more than 5% of your total annual revenue?',
-                                field: 'single_client_5_percent',
-                                type: 'radio',
-                                options: [
-                                    { value: 'yes', label: 'Yes' },
-                                    { value: 'no', label: 'No' }
-                                ],
-                                followUp: {
-                                    condition: 'yes',
-                                    field: 'client_5_percent_description',
-                                    label: 'Details'
-                                }
-                            },
-                            {
-                                question: '7. List your largest 3 Projects or Contracts in the past 2 years',
-                                type: 'project_table',
-                                fields: [
-                                    { name: 'project_1_name', client: 'project_1_client', value: 'project_1_value', duration: 'project_1_duration' },
-                                    { name: 'project_2_name', client: 'project_2_client', value: 'project_2_value', duration: 'project_2_duration' },
-                                    { name: 'project_3_name', client: 'project_3_client', value: 'project_3_value', duration: 'project_3_duration' }
-                                ]
-                            },
-                            {
-                                question: '8. Total payroll',
-                                field: 'total_payroll',
-                                type: 'currency'
-                            }
-                        ];
-                        
-                        section4Questions.forEach(q => {
-                            checkPageBreak(15);
-                            doc.setFontSize(11);
-                            doc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
-                            yPosition += 2;
-                            
-                            doc.setFontSize(10);
-                            doc.setFont(undefined, 'normal');
-                            
-                            if (q.type === 'text' || q.type === 'textarea' || q.type === 'number' || q.type === 'date') {
-                                const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin + 20);
-                            } else if (q.type === 'percentage') {
-                                const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || '0'}%`, margin + 20);
-                            } else if (q.type === 'currency') {
-                                const value = sectionData[q.field];
-                                addWrappedText(`Answer: $${value || '0'}`, margin + 20);
-                            } else if (q.type === 'revenue_table') {
-                                // Create AutoTable for gross revenues
-                                checkPageBreak(30);
-                                
-                                const tableData = q.periods.map(period => {
-                                    const domestic = sectionData[period.domestic] || '0';
-                                    const usa = sectionData[period.usa] || '0';
-                                    const foreign = sectionData[period.foreign] || '0';
-                                    
-                                    return [
-                                        period.label,
-                                        '$' + domestic,
-                                        '$' + usa,
-                                        '$' + foreign
-                                    ];
-                                });
-                                
-                                doc.autoTable({
-                                    head: [['Period', 'Canada ($)', 'USA ($)', 'Foreign ($)']],
-                                    body: tableData,
-                                    startY: yPosition + 5,
-                                    margin: { left: margin },
-                                    styles: {
-                                        fontSize: 9,
-                                        cellPadding: 3
-                                    },
-                                    headStyles: {
-                                        fillColor: [66, 139, 202],
-                                        textColor: 255,
-                                        fontStyle: 'bold'
-                                    },
-                                    alternateRowStyles: {
-                                        fillColor: [245, 245, 245]
-                                    },
-                                    columnStyles: {
-                                        0: { cellWidth: 60 },
-                                        1: { cellWidth: 30, halign: 'right' },
-                                        2: { cellWidth: 30, halign: 'right' },
-                                        3: { cellWidth: 30, halign: 'right' }
-                                    }
-                                });
-                                
-                                yPosition = doc.lastAutoTable.finalY + 10;
-                            } else if (q.type === 'radio') {
-                                const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
-                                });
-                                
-                                // Handle follow-up questions
-                                if (q.followUp && selectedValue === q.followUp.condition) {
-                                    yPosition += 2;
-                                    const followUpValue = sectionData[q.followUp.field];
-                                    addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin + 25);
-                                }
-                            } else if (q.type === 'project_table') {
-                                // Create AutoTable for largest projects
-                                checkPageBreak(25);
-                                
-                                const tableData = [];
-                                for (let i = 1; i <= 3; i++) {
-                                    const project = q.fields[i-1];
-                                    const name = sectionData[project.name] || 'Not provided';
-                                    const client = sectionData[project.client] || 'Not provided';
-                                    const value = sectionData[project.value] || '0';
-                                    const duration = sectionData[project.duration] || 'Not provided';
-                                    
-                                    tableData.push([
-                                        i.toString(),
-                                        name.length > 30 ? name.substring(0, 27) + '...' : name,
-                                        client.length > 25 ? client.substring(0, 22) + '...' : client,
-                                        '$' + value,
-                                        duration
-                                    ]);
-                                }
-                                
-                                doc.autoTable({
-                                    head: [['#', 'Project/Contract Name', 'Client', 'Value ($)', 'Duration']],
-                                    body: tableData,
-                                    startY: yPosition + 5,
-                                    margin: { left: margin },
-                                    styles: {
-                                        fontSize: 9,
-                                        cellPadding: 3
-                                    },
-                                    headStyles: {
-                                        fillColor: [66, 139, 202],
-                                        textColor: 255,
-                                        fontStyle: 'bold'
-                                    },
-                                    alternateRowStyles: {
-                                        fillColor: [245, 245, 245]
-                                    },
-                                    columnStyles: {
-                                        0: { cellWidth: 15, halign: 'center' },
-                                        1: { cellWidth: 45 },
-                                        2: { cellWidth: 35 },
-                                        3: { cellWidth: 25, halign: 'right' },
-                                        4: { cellWidth: 25 }
-                                    }
-                                });
-                                
-                                yPosition = doc.lastAutoTable.finalY + 10;
-                            }
-                            
-                            yPosition += 8;
-                        });
-                        
-                        yPosition += 5;
-                    }
-                    
-                    // Helper function to add section data
-                    function addSectionData(sectionTitle, sectionData) {
-                        checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText(sectionTitle, margin);
-                        yPosition += 5;
-                        
-                        doc.setFontSize(10);
-                        doc.setFont(undefined, 'normal');
-                        
-                        if (Object.keys(sectionData).length === 0) {
-                            addWrappedText('No data entered for this section', margin + 10);
-                            yPosition += 5;
-                            return;
-                        }
-                        
-                        Object.entries(sectionData).forEach(([key, value]) => {
-                            if (value !== undefined && value !== null && value !== '') {
-                                checkPageBreak();
-                                // Format field name
-                                const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
-                                const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-                                
-                                // Format value
-                                let displayValue = value;
-                                if (Array.isArray(value)) {
-                                    displayValue = value.join(', ');
-                                }
-                                
-                                addWrappedText(`${capitalizedName}: ${displayValue}`, margin + 10);
-                            }
-                        });
-                        yPosition += 10;
-                    }
-                    
-                    // Section 2: General Information - Enhanced with questions and options
-                    addSection2WithQuestions(formData.generalInfo);
-                    
-                    // Section 3: Operations - Enhanced with questions and options
-                    addSection3WithQuestions(formData.operations);
-                    
-                    // Section 4: Financials - Enhanced with questions and options
-                    addSection4WithQuestions(formData.financials);
-                    
-                    // Add all other sections
-                    //addSectionData('Section 2: General Information', formData.generalInfo);
-                    //addSectionData('Section 3: Operations', formData.operations);
-                    //addSectionData('Section 4: Financials', formData.financials);
-                    addSectionData('Section 5: Contractual Controls', formData.contractualControls);
-                    addSectionData('Section 6: Cybersecurity, Technical & Crime Controls', formData.cybersecurity);
-                    addSectionData('Section 7: Data Backup & Business Continuity', formData.dataBackup);
-                    addSectionData('Section 8: Third Party, Vendor & Supply Chain Controls', formData.thirdParty);
-                    addSectionData('Section 9: Privacy, Data Security & API Controls', formData.privacy);
-                    addSectionData('Section 10: Intellectual Property & Content Governance Controls', formData.intellectualProperty);
-                    addSectionData('Section 11: People, Employment Practices & Insider Controls', formData.employment);
-                    addSectionData('Section 12: Artificial Intelligence Tools & Controls', formData.aiTools);
-                    addSectionData('Section 13: Prior Incidents & Claims', formData.priorIncidents);
-                    
-                    // Conditional sections (only if respective sectors were selected)
-                    if (formData.sectors.includes('ai')) {
-                        addSectionData('Section 1: Artificial Intelligence (Additional Questions)', formData.ai);
-                    }
-                    
-                    if (formData.sectors.includes('defi')) {
-                        addSectionData('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', formData.defi);
-                    }
-                    
-                    if (formData.sectors.includes('robotics')) {
-                        addSectionData('Section 3: Autonomous Robotics (Additional Questions)', formData.robotics);
-                    }
-                    
-                    // Footer
-                    const pageCount = doc.internal.getNumberOfPages();
-                    for (let i = 1; i <= pageCount; i++) {
-                        doc.setPage(i);
-                        doc.setFontSize(8);
-                        doc.setFont(undefined, 'normal');
-                        doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width - 40, doc.internal.pageSize.height - 10);
-                        doc.text('Axis Technology Insurance Application', margin, doc.internal.pageSize.height - 10);
-                    }
-                    
-                    // Generate filename with timestamp
-                    const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
-                    const filename = `Axis-Technology-Insurance-Application-${timestamp}.pdf`;
-                    
-                    // Save the PDF
-                    doc.save(filename);
-                    
-                    showNotification('✅ PDF downloaded successfully!', 'success');
                     
                 } catch (error) {
-                    console.error('Error generating PDF:', error);
+                    console.error('Error in PDF generation:', error);
                     showNotification('❌ Error generating PDF. Please try again.', 'error');
-                }
             }
-
-
 
 
             // Generate HTML content with proper table structure for PDF conversion
@@ -6189,10 +5537,10 @@
                 const timestamp = new Date().toLocaleString();
                 
                 let html = `
-                    <div style="max-width: 190mm; margin: 0 auto; padding: 10mm;">
-                        <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #428bca; padding-bottom: 10px;">
-                            <h1 style="color: #428bca; margin: 0;">Axis Technology Insurance Application</h1>
-                            <p style="margin: 5px 0; color: #666;">Submitted: ${timestamp}</p>
+                    <div class="pdf-container">
+                        <div class="pdf-header">
+                            <h1>🛡️ Axis Technology Insurance Application</h1>
+                            <div class="timestamp">Submitted: ${timestamp}</div>
                         </div>
                 `;
                 
@@ -6223,16 +5571,16 @@
                 ];
                 
                 let html = `
-                    <div style="margin-bottom: 20px;">
-                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 1: Sectors</h2>
-                        <p><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>
-                        <div style="margin: 10px 0;">
+                    <div class="pdf-section">
+                        <h2 class="pdf-section-title">Section 1: Sectors</h2>
+                        <div class="pdf-question">Does your business provide products or services within any of the following sectors?</div>
+                        <div class="pdf-field-group">
                 `;
                 
                 sectors.forEach(sector => {
                     const isSelected = sectorData.includes(sector.key);
                     const checkbox = isSelected ? '[X]' : '[ ]';
-                    html += `<p style="margin: 5px 0;">${checkbox} ${sector.label}</p>`;
+                    html += `<div class="pdf-answer"><span class="pdf-checkbox">${checkbox}</span> ${sector.label}</div>`;
                 });
                 
                 html += '</div></div>';
@@ -6241,27 +5589,27 @@
 
             function generateSection2HTML(sectionData) {
                 let html = `
-                    <div style="margin-bottom: 20px;">
-                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 2: General Information</h2>
+                    <div class="pdf-section">
+                        <h2 class="pdf-section-title">Section 2: General Information</h2>
                 `;
                 
                 const questions = [
                     { field: 'legal_name', question: '1. Legal Name of Organization' },
-                    { field: 'location_incorporation', question: '2. Location of Incorporation' },
+                    { field: 'incorporation_location', question: '2. Location of Incorporation' },
                     { field: 'mailing_address', question: '3. Mailing Address' },
                     { field: 'subsidiaries', question: '4. List all subsidiaries & Location of Incorporation' },
                     { field: 'physical_locations', question: '5. List all Physical Locations' },
                     { field: 'urls', question: '6. List all URLs' },
                     { field: 'year_established', question: '7. Year Company Established' },
-                    { field: 'employees', question: '8. Number of Employees' }
+                    { field: 'num_employees', question: '8. Number of Employees' }
                 ];
                 
                 questions.forEach(q => {
                     const value = sectionData[q.field] || 'Not provided';
                     html += `
-                        <div style="margin: 10px 0;">
-                            <p style="margin: 0; font-weight: bold;">${q.question}</p>
-                            <p style="margin: 5px 0 0 20px;">Answer: ${value}</p>
+                        <div class="pdf-field-group">
+                            <div class="pdf-question">${q.question}</div>
+                            <div class="pdf-answer">${value}</div>
                         </div>
                     `;
                 });
@@ -6269,19 +5617,23 @@
                 // Handle employees outside Canada question
                 if (sectionData.employees_outside_canada) {
                     html += `
-                        <div style="margin: 10px 0;">
-                            <p style="margin: 0; font-weight: bold;">9. Are any Employees based outside of Canada?</p>
-                            <p style="margin: 5px 0 0 20px;">(•) Yes</p>
-                            <p style="margin: 0 0 0 20px;">( ) No</p>
-                            ${sectionData.employees_countries ? `<p style="margin: 5px 0 0 40px;"><strong>If yes, list countries:</strong> ${sectionData.employees_countries}</p>` : ''}
+                        <div class="pdf-field-group">
+                            <div class="pdf-question">9. Are any Employees based outside of Canada?</div>
+                            <div class="pdf-answer">
+                                <span class="pdf-radio">(•)</span> Yes<br>
+                                <span class="pdf-radio">( )</span> No
+                            </div>
+                            ${sectionData.employees_outside_list ? `<div class="pdf-answer"><strong>Countries:</strong> ${sectionData.employees_outside_list}</div>` : ''}
                         </div>
                     `;
                 } else {
                     html += `
-                        <div style="margin: 10px 0;">
-                            <p style="margin: 0; font-weight: bold;">9. Are any Employees based outside of Canada?</p>
-                            <p style="margin: 5px 0 0 20px;">( ) Yes</p>
-                            <p style="margin: 0 0 0 20px;">(•) No</p>
+                        <div class="pdf-field-group">
+                            <div class="pdf-question">9. Are any Employees based outside of Canada?</div>
+                            <div class="pdf-answer">
+                                <span class="pdf-radio">( )</span> Yes<br>
+                                <span class="pdf-radio">(•)</span> No
+                            </div>
                         </div>
                     `;
                 }
@@ -6289,10 +5641,14 @@
                 // Breach Response Contact
                 if (sectionData.breach_contact_name || sectionData.breach_contact_email) {
                     html += `
-                        <div style="margin: 10px 0;">
-                            <p style="margin: 0; font-weight: bold;">10. Breach Response Contact</p>
-                            <p style="margin: 5px 0 0 20px;"><strong>Name:</strong> ${sectionData.breach_contact_name || 'Not provided'}</p>
-                            <p style="margin: 5px 0 0 20px;"><strong>Email:</strong> ${sectionData.breach_contact_email || 'Not provided'}</p>
+                        <div class="pdf-field-group">
+                            <div class="pdf-question">10. Breach Response Contact</div>
+                            <div class="pdf-answer">
+                                <span class="pdf-field-label">Name:</span> <span class="pdf-field-value">${sectionData.breach_contact_name || 'Not provided'}</span><br>
+                                <span class="pdf-field-label">Title:</span> <span class="pdf-field-value">${sectionData.breach_contact_title || 'Not provided'}</span><br>
+                                <span class="pdf-field-label">Email:</span> <span class="pdf-field-value">${sectionData.breach_contact_email || 'Not provided'}</span><br>
+                                <span class="pdf-field-label">Phone:</span> <span class="pdf-field-value">${sectionData.breach_contact_phone || 'Not provided'}</span>
+                            </div>
                         </div>
                     `;
                 }
@@ -6303,41 +5659,49 @@
 
             function generateSection3HTML(sectionData) {
                 let html = `
-                    <div style="margin-bottom: 20px;">
-                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 3: Operations</h2>
+                    <div class="pdf-section">
+                        <h2 class="pdf-section-title">Section 3: Operations</h2>
                 `;
                 
-                // Revenue table with HTML table structure
+                // Services description
                 html += `
-                    <div style="margin: 15px 0;">
-                        <p style="margin: 0; font-weight: bold;">2. Percentage of revenue derived from each activity</p>
-                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">1. Briefly describe the services and/or technology products your company provides</div>
+                        <div class="pdf-answer">${sectionData.services_description || 'Not provided'}</div>
+                    </div>
+                `;
+                
+                // Revenue table with PDF table structure
+                html += `
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">2. Percentage of revenue derived from each activity</div>
+                        <table class="pdf-table">
                             <thead>
-                                <tr style="background-color: #428bca; color: white;">
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Activity</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Percentage</th>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th style="text-align: right;">Percentage</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="background-color: #f9f9f9;">
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Custom Software Development</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_software || '0'}%</td>
+                                <tr>
+                                    <td>Custom Software Development</td>
+                                    <td style="text-align: right;">${sectionData.revenue_software || '0'}%</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Software as a Service</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_saas || '0'}%</td>
-                                </tr>
-                                <tr style="background-color: #f9f9f9;">
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Consulting Services</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_consulting || '0'}%</td>
+                                    <td>Software as a Service</td>
+                                    <td style="text-align: right;">${sectionData.revenue_saas || '0'}%</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Hardware</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_hardware || '0'}%</td>
+                                    <td>Consulting Services</td>
+                                    <td style="text-align: right;">${sectionData.revenue_consulting || '0'}%</td>
                                 </tr>
-                                <tr style="background-color: #f9f9f9;">
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Other</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_other || '0'}%</td>
+                                <tr>
+                                    <td>Hardware</td>
+                                    <td style="text-align: right;">${sectionData.revenue_hardware || '0'}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Other</td>
+                                    <td style="text-align: right;">${sectionData.revenue_other || '0'}%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -6346,14 +5710,14 @@
                 
                 // Risk areas table
                 html += `
-                    <div style="margin: 15px 0;">
-                        <p style="margin: 0; font-weight: bold;">3. Do you operate in any of the following areas?</p>
-                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">3. Do you operate in any of the following areas?</div>
+                        <table class="pdf-table">
                             <thead>
-                                <tr style="background-color: #428bca; color: white;">
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Area</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">Yes/No</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Details</th>
+                                <tr>
+                                    <th>Area</th>
+                                    <th style="text-align: center;">Yes/No</th>
+                                    <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -6362,20 +5726,27 @@
                 const riskAreas = [
                     { field: 'risk_critical_infrastructure', label: 'Critical Infrastructure', details: 'critical_infrastructure_details' },
                     { field: 'risk_financial_services', label: 'Financial Services', details: 'financial_services_details' },
-                    { field: 'risk_healthcare', label: 'Healthcare', details: 'healthcare_details' }
+                    { field: 'risk_healthcare', label: 'Healthcare', details: 'healthcare_details' },
+                    { field: 'risk_government', label: 'Government/Defense', details: 'government_details' },
+                    { field: 'risk_aerospace', label: 'Aerospace', details: 'aerospace_details' },
+                    { field: 'risk_rail', label: 'Rail', details: 'rail_details' },
+                    { field: 'risk_mining_oil_gas', label: 'Mining/Oil & Gas', details: 'mining_oil_gas_details' },
+                    { field: 'risk_energy', label: 'Energy', details: 'energy_details' },
+                    { field: 'risk_adult_entertainment', label: 'Adult Entertainment/Gambling', details: 'adult_entertainment_details' },
+                    { field: 'risk_semiconductors', label: 'Semi-Conductors', details: 'semiconductors_details' },
+                    { field: 'risk_architecture_engineering', label: 'Architecture/Engineering', details: 'architecture_engineering_details' }
                 ];
                 
-                riskAreas.forEach((area, index) => {
+                riskAreas.forEach((area) => {
                     const selectedValue = sectionData[area.field];
                     const details = selectedValue === 'yes' ? (sectionData[area.details] || 'No details') : 'N/A';
                     const yesNoStatus = selectedValue === 'yes' ? 'Yes' : (selectedValue === 'no' ? 'No' : '-');
-                    const bgColor = index % 2 === 0 ? 'background-color: #f9f9f9;' : '';
                     
                     html += `
-                        <tr style="${bgColor}">
-                            <td style="padding: 8px; border: 1px solid #ddd;">${area.label}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${yesNoStatus}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${details}</td>
+                        <tr>
+                            <td>${area.label}</td>
+                            <td style="text-align: center;">${yesNoStatus}</td>
+                            <td>${details}</td>
                         </tr>
                     `;
                 });
@@ -6388,16 +5759,16 @@
                 
                 // Top 3 clients table
                 html += `
-                    <div style="margin: 15px 0;">
-                        <p style="margin: 0; font-weight: bold;">10. List the top 3 clients over the past 3 years</p>
-                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">10. List the top 3 clients over the past 3 years</div>
+                        <table class="pdf-table">
                             <thead>
-                                <tr style="background-color: #428bca; color: white;">
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">#</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Client Name</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Service Provided</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Duration</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Value ($)</th>
+                                <tr>
+                                    <th style="text-align: center;">#</th>
+                                    <th>Client Name</th>
+                                    <th>Service Provided</th>
+                                    <th>Duration</th>
+                                    <th style="text-align: right;">Value ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -6408,15 +5779,14 @@
                     const service = sectionData[`client_${i}_service`] || 'Not provided';
                     const duration = sectionData[`client_${i}_duration`] || 'Not provided';
                     const value = sectionData[`client_${i}_value`] || '0';
-                    const bgColor = (i - 1) % 2 === 0 ? 'background-color: #f9f9f9;' : '';
                     
                     html += `
-                        <tr style="${bgColor}">
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${service}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${duration}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${value}</td>
+                        <tr>
+                            <td style="text-align: center;">${i}</td>
+                            <td>${name}</td>
+                            <td>${service}</td>
+                            <td>${duration}</td>
+                            <td style="text-align: right;">$${value}</td>
                         </tr>
                     `;
                 }
@@ -6433,59 +5803,83 @@
 
             function generateSection4HTML(sectionData) {
                 let html = `
-                    <div style="margin-bottom: 20px;">
-                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 4: Financials</h2>
+                    <div class="pdf-section">
+                        <h2 class="pdf-section-title">Section 4: Financials</h2>
+                `;
+                
+                // Financial year end
+                html += `
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">1. Date of financial year end</div>
+                        <div class="pdf-answer">${sectionData.financial_year_end || 'Not provided'}</div>
+                    </div>
                 `;
                 
                 // Gross revenues table
                 html += `
-                    <div style="margin: 15px 0;">
-                        <p style="margin: 0; font-weight: bold;">2. Provide gross revenues for</p>
-                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">2. Provide gross revenues for</div>
+                        <table class="pdf-table">
                             <thead>
-                                <tr style="background-color: #428bca; color: white;">
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Period</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Canada ($)</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">USA ($)</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Foreign ($)</th>
+                                <tr>
+                                    <th>Period</th>
+                                    <th style="text-align: right;">Canada ($)</th>
+                                    <th style="text-align: right;">USA ($)</th>
+                                    <th style="text-align: right;">Foreign ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="background-color: #f9f9f9;">
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Last completed fiscal year end</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_domestic || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_usa || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_foreign || '0'}</td>
+                                <tr>
+                                    <td>Last completed fiscal year end</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_last_domestic || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_last_usa || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_last_foreign || '0'}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Estimate for current fiscal year end</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_domestic || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_usa || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_foreign || '0'}</td>
+                                    <td>Estimate for current fiscal year end</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_current_domestic || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_current_usa || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_current_foreign || '0'}</td>
                                 </tr>
-                                <tr style="background-color: #f9f9f9;">
-                                    <td style="padding: 8px; border: 1px solid #ddd;">Estimate for next completed fiscal year end</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_domestic || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_usa || '0'}</td>
-                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_foreign || '0'}</td>
+                                <tr>
+                                    <td>Estimate for next completed fiscal year end</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_next_domestic || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_next_usa || '0'}</td>
+                                    <td style="text-align: right;">$${sectionData.revenue_next_foreign || '0'}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 `;
                 
+                // B2B and B2C percentages
+                html += `
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">3. Percentage of sales business to business</div>
+                        <div class="pdf-answer">${sectionData.sales_b2b_percentage || '0'}%</div>
+                    </div>
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">4. Percentage of sales business to consumer</div>
+                        <div class="pdf-answer">${sectionData.sales_b2c_percentage || '0'}%</div>
+                    </div>
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">5. Average contract value</div>
+                        <div class="pdf-answer">$${sectionData.average_contract_value || '0'}</div>
+                    </div>
+                `;
+                
                 // Largest projects table
                 html += `
-                    <div style="margin: 15px 0;">
-                        <p style="margin: 0; font-weight: bold;">7. List your largest 3 Projects or Contracts in the past 2 years</p>
-                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                    <div class="pdf-field-group">
+                        <div class="pdf-question">7. List your largest 3 Projects or Contracts in the past 2 years</div>
+                        <table class="pdf-table">
                             <thead>
-                                <tr style="background-color: #428bca; color: white;">
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">#</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Project/Contract Name</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Client</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Value ($)</th>
-                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Duration</th>
+                                <tr>
+                                    <th style="text-align: center;">#</th>
+                                    <th>Project/Contract Name</th>
+                                    <th>Client</th>
+                                    <th style="text-align: right;">Value ($)</th>
+                                    <th>Duration</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -6496,15 +5890,14 @@
                     const client = sectionData[`project_${i}_client`] || 'Not provided';
                     const value = sectionData[`project_${i}_value`] || '0';
                     const duration = sectionData[`project_${i}_duration`] || 'Not provided';
-                    const bgColor = (i - 1) % 2 === 0 ? 'background-color: #f9f9f9;' : '';
                     
                     html += `
-                        <tr style="${bgColor}">
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${client}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${value}</td>
-                            <td style="padding: 8px; border: 1px solid #ddd;">${duration}</td>
+                        <tr>
+                            <td style="text-align: center;">${i}</td>
+                            <td>${name}</td>
+                            <td>${client}</td>
+                            <td style="text-align: right;">$${value}</td>
+                            <td>${duration}</td>
                         </tr>
                     `;
                 }
@@ -6520,7 +5913,7 @@
             }
 
             function generateOtherSectionsHTML(formData) {
-                let html = '<div style="margin-top: 20px;">';
+                let html = '';
                 
                 const otherSections = [
                     { key: 'contractualControls', title: 'Section 5: Contractual Controls' },
@@ -6538,17 +5931,59 @@
                     const sectionData = formData[section.key];
                     if (sectionData && Object.keys(sectionData).length > 0) {
                         html += `
-                            <div style="margin-bottom: 15px;">
-                                <h3 style="color: #428bca; font-size: 14px; margin-bottom: 10px;">${section.title}</h3>
+                            <div class="pdf-section">
+                                <h2 class="pdf-section-title">${section.title}</h2>
                         `;
                         
                         Object.entries(sectionData).forEach(([key, value]) => {
                             if (value && value.toString().trim() !== '') {
-                                html += `<p style="margin: 3px 0;"><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</p>`;
+                                const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                                const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                                html += `
+                                    <div class="pdf-field-group">
+                                        <span class="pdf-field-label">${capitalizedName}:</span>
+                                        <span class="pdf-field-value">${value}</span>
+                                    </div>
+                                `;
                             }
                         });
                         
                         html += '</div>';
+                    }
+                });
+                
+                // Add conditional sections
+                if (formData.sectors && formData.sectors.includes('ai') && formData.ai) {
+                    html += generateConditionalSectionHTML('Section 14: Artificial Intelligence (Additional Questions)', formData.ai);
+                }
+                
+                if (formData.sectors && formData.sectors.includes('defi') && formData.defi) {
+                    html += generateConditionalSectionHTML('Section 15: Decentralized Finance & Digital Assets (Additional Questions)', formData.defi);
+                }
+                
+                if (formData.sectors && formData.sectors.includes('robotics') && formData.robotics) {
+                    html += generateConditionalSectionHTML('Section 16: Autonomous Robotics (Additional Questions)', formData.robotics);
+                }
+                
+                return html;
+            }
+
+            function generateConditionalSectionHTML(title, sectionData) {
+                let html = `
+                    <div class="pdf-section">
+                        <h2 class="pdf-section-title">${title}</h2>
+                `;
+                
+                Object.entries(sectionData).forEach(([key, value]) => {
+                    if (value && value.toString().trim() !== '') {
+                        const fieldName = key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1');
+                        const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                        html += `
+                            <div class="pdf-field-group">
+                                <span class="pdf-field-label">${capitalizedName}:</span>
+                                <span class="pdf-field-value">${value}</span>
+                            </div>
+                        `;
                     }
                 });
                 
