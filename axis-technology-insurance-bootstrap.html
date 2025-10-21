@@ -7051,6 +7051,381 @@
                         yPosition += 5;
                     }
                     
+                    // Enhanced function for Section 11 with questions and selected options
+                    function addSection11WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 11: People, Employment Practices & Insider Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 11 questions with their field names  
+                        const section11Questions = [
+                            {
+                                question: '1. What background checks or screening do you use to evaluate new hires, especially for roles with access to sensitive data or systems?',
+                                field: 'background_checks',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No background checks or screening are conducted before hiring.' },
+                                    { value: '2', label: 'Basic reference checks and, for sensitive roles, occasional criminal background or employment verification are performed, but there is no formal screening policy and practices are inconsistent.' },
+                                    { value: '3', label: 'Standardized screening process includes criminal, employment, and education verification for all roles with data/system access.' },
+                                    { value: '4', label: 'A comprehensive, risk-based screening process is applied based on role sensitivity, including background, credit (where appropriate), and regulatory compliance checks.' }
+                                ]
+                            },
+                            {
+                                question: '2. What is your process for ensuring new hires understand and follow your company\'s key policies, like security and acceptable use?',
+                                field: 'new_hire_policy_training',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'New hires receive little or no orientation on company policies.' },
+                                    { value: '2', label: 'New hires receive policies to review as part of basic onboarding, with signed acknowledgment required for key policies like confidentiality or acceptable use, but broader training or acknowledgment is not consistently required.' },
+                                    { value: '3', label: 'New hires complete structured onboarding, including required training on security, privacy, and acceptable use policies.' },
+                                    { value: '4', label: 'Onboarding includes interactive, role-specific policy training with testing, tracked completion, and annual re-certification for key policies.' }
+                                ]
+                            },
+                            {
+                                question: '3. How are employees trained to avoid accidentally sharing confidential information through email, messages, or presentations?',
+                                field: 'confidentiality_training',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No training is provided on handling confidential information.' },
+                                    { value: '2', label: 'Employees receive informal reminders and confidentiality training during onboarding, but there is no structured or ongoing training program.' },
+                                    { value: '3', label: 'Regular training is provided, including email and presentation dos/don\'ts and examples of accidental disclosure.' },
+                                    { value: '4', label: 'Employees receive role-based, scenario-driven training with testing, reinforced by policy, monitoring, and reporting mechanisms.' }
+                                ]
+                            },
+                            {
+                                question: '4. What steps are in place to detect unusual employee behavior that could indicate a security or policy issue?',
+                                field: 'unusual_behavior_detection',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No monitoring or detection tools or processes are in place.' },
+                                    { value: '2', label: 'Potential issues are identified informally through manager observation or peer reporting, with HR or IT conducting manual log reviews when concerns arise, but there is no ongoing monitoring.' },
+                                    { value: '3', label: 'Systems log user activity and can flag anomalies; HR and IT have a defined process to investigate concerns.' },
+                                    { value: '4', label: 'Behavioral analytics and monitoring tools are in place for high-risk roles, with integrated alerting, response protocols, and legal/HR oversight.' }
+                                ]
+                            },
+                            {
+                                question: '5. Do employment agreements clearly define confidentiality obligations, IP ownership, and terms that continue after someone leaves?',
+                                field: 'employment_agreement_terms',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'Employment agreements do not include confidentiality or IP ownership provisions, and have no post-employment obligations.' },
+                                    { value: '2', label: 'Some agreements include confidentiality clauses, but IP ownership or post-employment obligations are missing or inconsistent.' },
+                                    { value: '3', label: 'Most agreements include confidentiality, IP ownership, and some terms that extend after employment ends, though not always reviewed or tailored.' },
+                                    { value: '4', label: 'All employment agreements clearly define confidentiality, IP ownership, and post-employment obligations, are reviewed by legal counsel, and updated regularly.' }
+                                ]
+                            },
+                            {
+                                question: '6. What steps ensure NDAs are signed, enforced, and followed, particularly after employment ends?',
+                                field: 'nda_enforcement',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'NDAs are rarely used or tracked, with no process to enforce them during or after employment.' },
+                                    { value: '2', label: 'NDAs are signed for some roles or situations, but tracking is informal and follow-up after employment is minimal.' },
+                                    { value: '3', label: 'NDAs are standard for employees and key contractors, tracked centrally, with reminders of obligations given during exit processes.' },
+                                    { value: '4', label: 'NDAs are mandatory for all staff and applicable vendors, systematically tracked, enforced with formal exit procedures, and obligations monitored post-employment.' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section11Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 12 with questions and selected options
+                    function addSection12WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 12: Artificial Intelligence Tools & Controls', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 12 questions with their field names  
+                        const section12Questions = [
+                            {
+                                question: '1. Do you have formal policies governing employee use of generative AI tools in the workplace?',
+                                field: 'ai_tool_policies',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal policy exists; employees use AI tools at their discretion without oversight or guidance.' },
+                                    { value: '2', label: 'Informal guidelines are communicated verbally or via ad hoc communications, but no formalized or documented policy is in place.' },
+                                    { value: '3', label: 'A documented policy exists outlining acceptable AI use cases and prohibited applications; periodic reminders or basic training are provided.' },
+                                    { value: '4', label: 'A comprehensive, regularly updated AI use policy is in place, aligned with legal, regulatory, and ethical standards. Mandatory employee training, acknowledgement tracking, and compliance audits ensure adherence.' }
+                                ]
+                            },
+                            {
+                                question: '2. How does your organization ensure sensitive, proprietary or customer data is not inadvertently inputted into public or third-party AI tools?',
+                                field: 'ai_data_protection',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No controls or employee awareness; sensitive data may be shared with AI tools without restriction or monitoring.' },
+                                    { value: '2', label: 'Employees are instructed not to share sensitive data with AI tools, but enforcement is manual and there are no technical safeguards.' },
+                                    { value: '3', label: 'Data classification and access rules are defined, with monitoring tools or DLP (Data Loss Prevention) systems in place to detect and prevent accidental sharing.' },
+                                    { value: '4', label: 'Strong, enforced controls combining technical safeguards (e.g., AI input filtering, DLP, endpoint restrictions) with mandatory training, AI-specific data handling protocols, and real-time monitoring to prevent sensitive data leakage.' }
+                                ]
+                            },
+                            {
+                                question: '3. How are AI tools provisioned and monitored internally to ensure only authorized employees can access and use them?',
+                                field: 'ai_tool_provisioning',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No restrictions; any employee can access and use AI tools, including unsanctioned or public platforms, without oversight.' },
+                                    { value: '2', label: 'AI tool access is limited to certain teams, but controls are informal and not technically enforced (e.g., relying on manager approval or trust).' },
+                                    { value: '3', label: 'Approved AI tools are centrally provisioned with role-based access controls; usage logs are reviewed periodically but not continuously monitored.' },
+                                    { value: '4', label: 'Enterprise-approved AI tools integrated with identity and access management (IAM), multi-factor authentication, continuous monitoring, automated alerts for misuse, and centralized reporting dashboards for compliance oversight.' }
+                                ]
+                            },
+                            {
+                                question: '4. What steps do you take to make sure AI-generated content doesn\'t violate privacy rules or IP rights?',
+                                field: 'ai_content_compliance',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No review or safeguards are in place to monitor AI-generated content.' },
+                                    { value: '2', label: 'There is informal awareness of potential privacy and IP risks, with some safeguards such as manual review of public content, but no specific controls or consistent validation process are in place.' },
+                                    { value: '3', label: 'The business has implemented content review procedures, and AI output is checked for privacy or IP issues before publication or use.' },
+                                    { value: '4', label: 'There is a formal review and compliance process involving legal, compliance, and product teams to ensure AI outputs align with IP, copyright, and data privacy obligations.' }
+                                ]
+                            },
+                            {
+                                question: '5. Have you implemented controls to monitor and validate the accuracy and reliability of outputs generated by third-party AI tools?',
+                                field: 'ai_output_validation',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No controls in place; outputs from AI tools are used without review or validation, relying entirely on the tool\'s outputs.' },
+                                    { value: '2', label: 'Manual review of outputs occurs inconsistently, dependent on individual user discretion, with no formal validation process or documented standards.' },
+                                    { value: '3', label: 'A formal processes exist for reviewing and validating AI outputs, including documented criteria and periodic spot checks by subject matter experts.' },
+                                    { value: '4', label: 'A comprehensive validation framework in place, combining automated checks, human-in-the-loop oversight, and ongoing performance monitoring. Continuous audits and feedback loops are used to detect errors, bias, and drift, with results feeding into process improvements.' }
+                                ]
+                            },
+                            {
+                                question: '6. Do you have incident response procedures in place to address errors, misuse, or breaches resulting from third-party AI tool use?',
+                                field: 'ai_incident_response',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No formal incident response procedures exist for AI-related errors or misuse.' },
+                                    { value: '2', label: 'General IT or cybersecurity incident response procedures exist but do not address AI-specific risks or third-party tool misuse.' },
+                                    { value: '3', label: 'A documented incident response plan includes AI-related scenarios, with designated roles and escalation paths. Periodic tabletop exercises or testing are conducted, but scope remains limited.' },
+                                    { value: '4', label: 'A comprehensive AI-specific incident response plan is fully integrated with enterprise risk and cybersecurity frameworks. It includes rapid detection, predefined playbooks for AI errors/misuse, coordination with third-party vendors, post-incident reviews, and continuous improvement.' }
+                                ]
+                            },
+                            {
+                                question: '7. Have you reviewed whether your insurance or contracts adequately address risks from using AI, such as errors, reputation damage, or legal issues?',
+                                field: 'ai_insurance_review',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'No review has been done, and existing policies or contracts may not address AI-related risks.' },
+                                    { value: '2', label: 'AI-related risks have been considered internally, and while some insurance coverage has been extended or gaps flagged by general counsel, there has been no formal review or comprehensive adjustments to coverage.' },
+                                    { value: '3', label: 'AI-related risks have been reviewed with legal and insurance advisors, and contracts include basic protections (e.g., disclaimers, indemnity).' },
+                                    { value: '4', label: 'The company proactively manages AI risks through tailored contractual clauses, D&O/E&O/cyber coverage extensions, and periodic reviews aligned to evolving uses of AI and regulatory guidance.' }
+                                ]
+                            },
+                            {
+                                question: '8. Do you require contractual indemnities or evidence of insurance from third-party AI vendors used in your internal operations?',
+                                field: 'ai_vendor_indemnities',
+                                type: 'radio',
+                                options: [
+                                    { value: '1', label: 'We accept the vendors Terms of Service without review or monitoring of indemnification obligations.' },
+                                    { value: '2', label: 'Some contracts include general indemnification language, but vendor insurance evidence is not consistently requested.' },
+                                    { value: '3', label: 'Contracts include defined indemnities for AI-related risks and require vendors to provide proof of insurance, but enforcement and periodic review are limited.' },
+                                    { value: '4', label: 'Robust vendor agreements mandate AI-specific indemnification, verified insurance coverage aligned with exposure (e.g., tech E&O, cyber), and ongoing compliance monitoring to ensure protections remain current.' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section12Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                });
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Section 13 with questions and selected options
+                    function addSection13WithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 13: Prior Incidents & Claims', margin);
+                        yPosition += 5;
+                        
+                        // Define all Section 13 questions with their field names  
+                        const section13Questions = [
+                            {
+                                question: '1. In the last 5 years, has the Company, or any entity falling within the definition of \'Insured\' under the proposed Policy, its partners, directors, officers, or employees ever had a written demand or civil proceedings for compensatory damages made against them?',
+                                field: 'written_demands',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'written_demands_details_text',
+                                    label: 'If yes, provide details:'
+                                }
+                            },
+                            {
+                                question: '2. In the past 5 years has the Company, or any entity falling within the definition of \'Insured\' under the proposed Policy:',
+                                field: 'incidents',
+                                type: 'checkbox',
+                                options: [
+                                    { field: 'incident_privacy_claims', label: 'Received any claims or complaints regarding privacy, data protection or network security, or unauthorized disclosure of information?' },
+                                    { field: 'incident_breach_notification', label: 'Notified any persons of a privacy violation and/or data breach incident?' },
+                                    { field: 'incident_extortion', label: 'Received an extortion demand relating to your data and/or computer systems?' },
+                                    { field: 'incident_network_outage', label: 'Experienced a network outage that resulted in a significant disruption to your operations?' },
+                                    { field: 'incident_government_action', label: 'Been subject to any government action, investigation, subpoena regarding any alleged violation of privacy law or regulation?' },
+                                    { field: 'incident_ip_complaint', label: 'Received a complaint or cease and desist demand alleging trademark, copyright, invasion of privacy, defamation with regard to content published, displayed, or distributed by or on behalf of the applicant?' },
+                                    { field: 'incident_policy_covered', label: 'Experienced any incident which may be covered under this policy?' }
+                                ],
+                                followUp: {
+                                    condition: 'any_yes',
+                                    field: 'incident_details_text',
+                                    label: 'If Yes to any of the above, please provide details on an addendum including relevant dates, brief summary of incident and any preventative measures that have been taken to prevent a reoccurrence:'
+                                }
+                            },
+                            {
+                                question: '3. Is the Applicant, or any person applying for this insurance aware of any fact, circumstance, situation, event, or act that reasonably could give rise to a claim against them for any coverages for which the Applicant is applying?',
+                                field: 'potential_claims_awareness',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        section13Questions.forEach(q => {
+                            checkPageBreak(30);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 20);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            if (q.type === 'radio') {
+                                const fieldValue = sectionData ? sectionData[q.field] : null;
+                                
+                                if (q.options) {
+                                    q.options.forEach(option => {
+                                        const isSelected = fieldValue === option.value;
+                                        const symbol = isSelected ? '(•)' : '( )';
+                                        addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    });
+                                }
+                                
+                                // Handle follow-up questions for radio type
+                                if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
+                                    yPosition += 5;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 30);
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 40);
+                                    } else {
+                                        addWrappedText('Answer: (No details provided)', margin + 40);
+                                    }
+                                }
+                            } else if (q.type === 'checkbox') {
+                                // Handle checkbox questions
+                                let anyIncidentSelected = false;
+                                
+                                if (q.options) {
+                                    q.options.forEach(option => {
+                                        const fieldValue = sectionData ? sectionData[option.field] : null;
+                                        const isSelected = fieldValue === 'yes';
+                                        const symbol = isSelected ? '[✓]' : '[ ]';
+                                        addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                        
+                                        if (isSelected) {
+                                            anyIncidentSelected = true;
+                                        }
+                                    });
+                                }
+                                
+                                // Handle follow-up for checkbox questions
+                                if (q.followUp && anyIncidentSelected && sectionData) {
+                                    yPosition += 5;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 30);
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Details: ${followUpValue}`, margin + 40);
+                                    } else {
+                                        addWrappedText('Details: (No details provided)', margin + 40);
+                                    }
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
                     // Helper function to add section data
                     function addSectionData(sectionTitle, sectionData) {
                         checkPageBreak(20);
