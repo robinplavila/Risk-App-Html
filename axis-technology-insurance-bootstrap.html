@@ -7426,6 +7426,774 @@
                         yPosition += 5;
                     }
                     
+                    // Enhanced function for AI Additional Questions with all questions and options
+                    function addAISectionWithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 1: Artificial Intelligence (Additional Questions)', margin);
+                        yPosition += 5;
+                        
+                        // Define all AI Additional Questions with their field names
+                        const aiQuestions = [
+                            {
+                                question: '1. Is AI functionality integrated into any of your software products or services provided to customers or third parties?',
+                                field: 'ai_functionality_integrated',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'ai_functionality_description',
+                                    label: 'If yes, specify which products/services and describe the functionality:'
+                                }
+                            },
+                            {
+                                question: '2. Do you develop your own proprietary AI or ML models?',
+                                field: 'develop_proprietary_ai',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'proprietary_ai_description',
+                                    label: 'If yes, please describe the types of models and applications:'
+                                }
+                            },
+                            {
+                                question: '3. Do you use third-party or open-source AI/ML models in your offerings?',
+                                field: 'use_third_party_ai',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'third_party_ai_description',
+                                    label: 'If yes, please describe the types of models and applications:'
+                                }
+                            },
+                            {
+                                question: '4. Do you have formal processes to test, validate, and monitor the performance and reliability of AI/ML models before and after deployment?',
+                                field: 'ai_testing_processes',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'ai_testing_description',
+                                    label: 'If yes, please describe:'
+                                }
+                            },
+                            {
+                                question: '5. Do you have internal policies addressing the ethical or regulatory use of AI, including issues such as bias, fairness, explainability, or compliance with applicable AI legislation?',
+                                field: 'ai_ethical_policies',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '6. Do you train AI/ML models on customer or third-party data?',
+                                field: 'ai_train_customer_data',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'ai_data_permissions',
+                                    label: 'If yes, do you have processes to obtain appropriate permissions, anonymize, or secure the data?'
+                                }
+                            },
+                            {
+                                question: '7. Have you taken steps to ensure that the use of data in training or operating your AI systems does not infringe third-party intellectual property rights?',
+                                field: 'ai_ip_protection',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '8. Do your customer contracts include disclaimers or limitations of liability specifically addressing your AI functionality (e.g., output reliability, errors, or recommendations generated by AI)?',
+                                field: 'ai_contract_disclaimers',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '9. Have you been subject to any complaints, demands, or legal proceedings arising out of your use or provision of AI systems?',
+                                field: 'ai_legal_proceedings',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '10. Are AI agents integrated into any of your software products or services provided to customers or third parties?',
+                                field: 'ai_agents_integrated',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        aiQuestions.forEach(q => {
+                            checkPageBreak(15);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                });
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 20);
+                                    yPosition += 2;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                    } else {
+                                        addWrappedText('Answer: (No response provided)', margin + 30);
+                                    }
+                                }
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for DeFi Additional Questions with all questions and options
+                    function addDeFiSectionWithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', margin);
+                        yPosition += 5;
+                        
+                        // Define all DeFi Additional Questions with their field names
+                        const defiQuestions = [
+                            {
+                                question: '1. Do you provide any services involving cryptocurrency custody, wallet management, or private key management on behalf of clients?',
+                                field: 'defi_custody_services',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_custody_controls',
+                                    label: 'If yes, please describe the controls in place to secure these assets:'
+                                }
+                            },
+                            {
+                                question: '2. Do you operate or maintain a cryptocurrency exchange or trading platform?',
+                                field: 'defi_exchange_platform',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    fields: ['defi_crypto_types', 'defi_daily_volume', 'defi_geographic_regions'],
+                                    label: 'If yes, please specify:'
+                                }
+                            },
+                            {
+                                question: '3. Do you use or develop smart contracts in connection with your services (e.g., for decentralized finance, token issuance, automated settlements)?',
+                                field: 'defi_smart_contracts',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_audit_processes',
+                                    label: 'If yes, please describe your processes for auditing and testing these smart contracts prior to deployment:'
+                                }
+                            },
+                            {
+                                question: '4. Have you engaged any third-party security firms to perform penetration testing or blockchain code audits on your platforms or products?',
+                                field: 'defi_security_audits',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_security_findings',
+                                    label: 'If yes, please attach the latest summary findings or certifications:'
+                                }
+                            },
+                            {
+                                question: '5. Do your standard client agreements include disclaimers, waivers, or limitations of liability specifically addressing risks related to cryptocurrency transactions, volatility, or smart contracts?',
+                                field: 'defi_disclaimers',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_contract_clauses',
+                                    label: 'If yes, please attach sample contract clauses:'
+                                }
+                            },
+                            {
+                                question: '6. Do you maintain separate hot and cold wallet infrastructures for cryptocurrency held on behalf of clients?',
+                                field: 'defi_wallet_infrastructure',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_wallet_split',
+                                    label: 'If yes, please describe the split and security controls:'
+                                }
+                            },
+                            {
+                                question: '7. Are any of your blockchain or crypto-related activities regulated by financial services authorities (e.g., FINTRAC, MiCA, VARA, MAS)?',
+                                field: 'defi_regulated',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_regulators',
+                                    label: 'If yes, please list regulators and licenses held:'
+                                }
+                            },
+                            {
+                                question: '8. Do you have documented policies and procedures in place for Anti-Money Laundering (AML), Counter Terrorist Financing (CFT), and customer onboarding (KYC/KYB)?',
+                                field: 'defi_aml_policies',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_aml_policy',
+                                    label: 'Please attach your AML/KYC policy:'
+                                }
+                            },
+                            {
+                                question: '9. What processes do you have to ensure compliance with international sanctions laws (e.g., OFAC, EU sanctions) in transactions involving digital assets?',
+                                field: 'defi_sanctions_compliance',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '10. Do you maintain logs or blockchain analytics to monitor and trace the source of funds to help mitigate fraud, money laundering, or sanctions violations?',
+                                field: 'defi_blockchain_analytics',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_analytics_systems',
+                                    label: 'If yes, please describe the systems or vendors used:'
+                                }
+                            },
+                            {
+                                question: '11. Do you use any decentralized protocols (DEXs, liquidity pools, DeFi protocols) as part of your business operations or investment strategies?',
+                                field: 'defi_protocols',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '12. Do you use third-party custodians, liquidity providers, or technology vendors for any part of your crypto operations?',
+                                field: 'defi_third_party',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_indemnity',
+                                    label: 'If yes, do your contracts with these providers include indemnity and hold harmless provisions in your favor?'
+                                }
+                            },
+                            {
+                                question: '13. Do you hold or have custody digital assets on your own balance sheet for investment purposes?',
+                                field: 'defi_investment_assets',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_investment_value',
+                                    label: 'Please indicate the approximate value and percentage of total assets:'
+                                }
+                            },
+                            {
+                                question: '14. Do you develop, issue, or advise on the issuance of tokens, coins, or other digital assets?',
+                                field: 'defi_token_issuance',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_token_structure',
+                                    label: 'Please provide details on the token structure and investor protections:'
+                                }
+                            },
+                            {
+                                question: '15. What percentage of your business revenue is derived from blockchain or cryptocurrency-related services versus traditional financial or technology services?',
+                                field: 'defi_revenue_percentage',
+                                type: 'text'
+                            },
+                            {
+                                question: '16. Do you have incident response plans specific to handling cryptocurrency or blockchain-related security events, including notifying customers and regulators?',
+                                field: 'defi_incident_response',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '17. Do you have insurance coverage in place (separate from E&O) to protect against loss or theft of cryptocurrency assets (crime / cyber crime / specie)?',
+                                field: 'defi_crypto_insurance',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '18. Do you carry directors & officers (D&O) insurance that specifically contemplates exposures arising from cryptocurrency or blockchain-related activities?',
+                                field: 'defi_do_insurance',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '19. Have you ever been the subject of any regulatory investigation, audit, inquiry, or received a warning letter in relation to your crypto or blockchain activities?',
+                                field: 'defi_regulatory_issues',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '20. Have you experienced any hacks, data breaches, theft of cryptocurrency assets, or significant transaction errors in the last five years?',
+                                field: 'defi_security_incidents',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'defi_incident_details',
+                                    label: 'If yes, please provide details, including remedial actions taken:'
+                                }
+                            }
+                        ];
+                        
+                        // Process each question
+                        defiQuestions.forEach(q => {
+                            checkPageBreak(15);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            const fieldValue = sectionData ? sectionData[q.field] : null;
+                            
+                            if (q.type === 'radio' && q.options) {
+                                q.options.forEach(option => {
+                                    const isSelected = fieldValue === option.value;
+                                    const symbol = isSelected ? '(•)' : '( )';
+                                    addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                });
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 20);
+                                    yPosition += 2;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    if (q.followUp.fields) {
+                                        // Handle multiple follow-up fields
+                                        q.followUp.fields.forEach(field => {
+                                            const followUpValue = sectionData[field];
+                                            if (followUpValue) {
+                                                const fieldName = field.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
+                                                const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+                                                addWrappedText(`${capitalizedName}: ${followUpValue}`, margin + 30);
+                                            }
+                                        });
+                                    } else if (q.followUp.field) {
+                                        // Handle single follow-up field
+                                        const followUpValue = sectionData[q.followUp.field];
+                                        if (followUpValue) {
+                                            addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        } else {
+                                            addWrappedText('Answer: (No response provided)', margin + 30);
+                                        }
+                                    }
+                                }
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+                    
+                    // Enhanced function for Robotics Additional Questions with all questions and options
+                    function addRoboticsSectionWithQuestions(sectionData) {
+                        checkPageBreak(20);
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        addWrappedText('Section 3: Autonomous Robotics (Additional Questions)', margin);
+                        yPosition += 5;
+                        
+                        // Define all Robotics Additional Questions with their field names
+                        const roboticsQuestions = [
+                            {
+                                question: '1. What functions do your autonomous robots perform?',
+                                field: 'robotics_functions',
+                                type: 'textarea'
+                            },
+                            {
+                                question: '2. Are your robots used in public or semi-public environments (e.g., hospitals, airports, malls)?',
+                                field: 'robotics_public_use',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '3. How many autonomous robots are currently deployed in the field?',
+                                field: 'robotics_deployed_count',
+                                type: 'text'
+                            },
+                            {
+                                question: '4. What level of autonomy do your robots operate at?',
+                                field: 'robotics_autonomy_level',
+                                type: 'radio',
+                                options: [
+                                    { value: 'remote_controlled', label: 'Remote controlled' },
+                                    { value: 'semi_autonomous', label: 'Semi – autonomous' },
+                                    { value: 'fully_autonomous', label: 'Fully autonomous (no human in the loop)' }
+                                ]
+                            },
+                            {
+                                question: '5. Can the robot make real-time decisions without human oversight?',
+                                field: 'robotics_realtime_decisions',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '6. Are there human override or emergency shutdown capabilities built into each unit?',
+                                field: 'robotics_emergency_shutdown',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '7. What navigation methods are used? (select all that apply)',
+                                field: 'robotics_navigation',
+                                type: 'checkbox',
+                                options: [
+                                    { value: 'gps', label: 'GPS' },
+                                    { value: 'slam', label: 'SLAM' },
+                                    { value: 'lidar', label: 'LiDAR' },
+                                    { value: 'computer_vision', label: 'Computer Vision' },
+                                    { value: 'beacon_infrared', label: 'Beacon/Infrared' },
+                                    { value: 'other', label: 'Other' }
+                                ],
+                                followUp: {
+                                    condition: 'other',
+                                    field: 'nav_other_specify',
+                                    label: 'Please specify other navigation methods:'
+                                }
+                            },
+                            {
+                                question: '8. Are the robots equipped with real-time obstacle detection and collision avoidance systems?',
+                                field: 'robotics_obstacle_detection',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '9. Have you had any reported incidents involving physical harm or property damage caused by a robot?',
+                                field: 'robotics_incidents',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ],
+                                followUp: {
+                                    condition: 'yes',
+                                    field: 'robotics_incident_description',
+                                    label: 'If yes please describe:'
+                                }
+                            },
+                            {
+                                question: '10. Do your robots use AI agents or machine learning models to support decision-making?',
+                                field: 'robotics_ai_ml',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '11. How often is the software or firmware on the robots updated?',
+                                field: 'robotics_update_frequency',
+                                type: 'text'
+                            },
+                            {
+                                question: '12. Do you maintain logs of robot activity and decision-making for audit or incident response purposes?',
+                                field: 'robotics_activity_logs',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '13. Are communications between robots and your servers encrypted and authenticated?',
+                                field: 'robotics_encrypted_comms',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '14. Have your systems undergone independent safety, cybersecurity, or compliance audits?',
+                                field: 'robotics_audits',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '15. Are your robots certified or compliant with any relevant safety or robotics standards (e.g., ISO 13482, UL 3100)?',
+                                field: 'robotics_standards',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes', label: 'Yes' },
+                                    { value: 'no', label: 'No' }
+                                ]
+                            },
+                            {
+                                question: '16. Do you perform regular maintenance or diagnostics on deployed robotic units?',
+                                field: 'robotics_maintenance',
+                                type: 'radio',
+                                options: [
+                                    { value: 'scheduled_protocols', label: 'Yes – per scheduled maintenance protocols' },
+                                    { value: 'failure_only', label: 'Yes – only upon failure or customer report' },
+                                    { value: 'no_formal', label: 'No formal maintenance program' }
+                                ]
+                            },
+                            {
+                                question: '17. Are any robots deployed at customer or third-party locations where you do not have direct operational control?',
+                                field: 'robotics_third_party_deployment',
+                                type: 'radio',
+                                options: [
+                                    { value: 'no', label: 'No' },
+                                    { value: 'yes_monitored', label: 'Yes – with active monitoring' },
+                                    { value: 'yes_unmonitored', label: 'Yes – without active monitoring' }
+                                ]
+                            },
+                            {
+                                question: '18. Do your robots interact directly with members of the public or end users (e.g., customers, patients, pedestrians)?',
+                                field: 'robotics_public_interaction',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes_frequently', label: 'Yes – frequently' },
+                                    { value: 'occasionally', label: 'Occasionally' },
+                                    { value: 'no_direct', label: 'No direct interaction' }
+                                ]
+                            },
+                            {
+                                question: '19. Do you have contracts in place with customers or partners that include:',
+                                field: 'robotics_contract_terms',
+                                type: 'checkbox',
+                                options: [
+                                    { value: 'limitations_liability', label: 'Limitations of liability?' },
+                                    { value: 'indemnification', label: 'Indemnification terms?' },
+                                    { value: 'insurance_requirements', label: 'Insurance requirements?' }
+                                ]
+                            },
+                            {
+                                question: '20. Do you carry insurance coverage specific to autonomous hardware/software risks (e.g., product liability, tech E&O, cyber)?',
+                                field: 'robotics_insurance_coverage',
+                                type: 'radio',
+                                options: [
+                                    { value: 'yes_adequate', label: 'Yes – adequate and reviewed annually' },
+                                    { value: 'yes_needs_review', label: 'Yes – but may need review' },
+                                    { value: 'no_coverage', label: 'No specific coverage' }
+                                ]
+                            }
+                        ];
+                        
+                        // Process each question
+                        roboticsQuestions.forEach(q => {
+                            checkPageBreak(15);
+                            
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
+                            addWrappedText(q.question, margin + 10);
+                            yPosition += 3;
+                            
+                            doc.setFont(undefined, 'normal');
+                            
+                            if (q.type === 'radio') {
+                                const fieldValue = sectionData ? sectionData[q.field] : null;
+                                
+                                if (q.options) {
+                                    q.options.forEach(option => {
+                                        const isSelected = fieldValue === option.value;
+                                        const symbol = isSelected ? '(•)' : '( )';
+                                        addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                    });
+                                }
+                                
+                                // Handle follow-up questions
+                                if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
+                                    yPosition += 3;
+                                    doc.setFont(undefined, 'bold');
+                                    addWrappedText(q.followUp.label, margin + 20);
+                                    yPosition += 2;
+                                    doc.setFont(undefined, 'normal');
+                                    
+                                    const followUpValue = sectionData[q.followUp.field];
+                                    if (followUpValue) {
+                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                    } else {
+                                        addWrappedText('Answer: (No response provided)', margin + 30);
+                                    }
+                                }
+                            } else if (q.type === 'checkbox') {
+                                const fieldValue = sectionData ? sectionData[q.field] : null;
+                                
+                                if (q.options) {
+                                    q.options.forEach(option => {
+                                        let isSelected = false;
+                                        if (Array.isArray(fieldValue)) {
+                                            isSelected = fieldValue.includes(option.value);
+                                        }
+                                        const symbol = isSelected ? '[✓]' : '[ ]';
+                                        addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                        
+                                        // Handle follow-up for checkbox with other option
+                                        if (q.followUp && option.value === q.followUp.condition && isSelected && sectionData) {
+                                            yPosition += 3;
+                                            doc.setFont(undefined, 'bold');
+                                            addWrappedText(q.followUp.label, margin + 20);
+                                            yPosition += 2;
+                                            doc.setFont(undefined, 'normal');
+                                            
+                                            const followUpValue = sectionData[q.followUp.field];
+                                            if (followUpValue) {
+                                                addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                            } else {
+                                                addWrappedText('Answer: (No response provided)', margin + 30);
+                                            }
+                                        }
+                                    });
+                                }
+                            } else if (q.type === 'textarea' || q.type === 'text') {
+                                const fieldValue = sectionData ? sectionData[q.field] : null;
+                                if (fieldValue) {
+                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                } else {
+                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                }
+                            }
+                            
+                            yPosition += 8;
+                        });
+                        
+                        yPosition += 5;
+                    }
+
                     // Helper function to add section data
                     function addSectionData(sectionTitle, sectionData) {
                         checkPageBreak(20);
@@ -7506,15 +8274,15 @@
                     
                     // Conditional sections (only if respective sectors were selected)
                     if (formData.sectors.includes('ai')) {
-                        addSectionData('Section 1: Artificial Intelligence (Additional Questions)', formData.ai);
+                        addAISectionWithQuestions(formData.ai);
                     }
                     
                     if (formData.sectors.includes('defi')) {
-                        addSectionData('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', formData.defi);
+                        addDeFiSectionWithQuestions(formData.defi);
                     }
                     
                     if (formData.sectors.includes('robotics')) {
-                        addSectionData('Section 3: Autonomous Robotics (Additional Questions)', formData.robotics);
+                        addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
                     // Footer
