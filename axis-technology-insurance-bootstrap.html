@@ -8336,15 +8336,15 @@
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
-                    // Add headers and footers to all pages
+                    // Add headers and footers to content pages (excluding front cover page 1)
                     const pageCount = doc.internal.getNumberOfPages();
-                    for (let i = 1; i <= pageCount; i++) {
+                    for (let i = 2; i <= pageCount; i++) {
                         doc.setPage(i);
                         
-                        // Add header to each page
+                        // Add header to each content page
                         addPageHeader(i, pageCount);
                         
-                        // Add footer to each page
+                        // Add footer to each content page
                         doc.setFontSize(8);
                         doc.setFont(undefined, 'normal');
                         doc.setTextColor(0, 0, 0); // Ensure footer text is black

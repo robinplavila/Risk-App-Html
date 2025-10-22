@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Front Cover - No Header/Footer Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .pdf-page {
+            width: 595px;
+            height: 842px;
+            background: white;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .axis-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: rgb(0, 100, 200);
+            margin-top: 210px; /* 250px - 20px padding = 230px, then -20px for visual adjustment */
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            margin-top: 300px; /* 300px spacing from logo */
+        }
+        .timestamp {
+            font-size: 12px;
+            color: black;
+            margin-top: 20px;
+        }
+        .content-page {
+            padding-top: 45px; /* Header space */
+        }
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45px;
+            padding: 15px 20px 10px 20px;
+            background: white;
+            border-bottom: 2px solid rgb(0, 100, 200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-logo {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(0, 100, 200);
+        }
+        .page-info {
+            font-size: 10px;
+            color: black;
+        }
+        .section-title {
+            color: #004FF0;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+        }
+        .content {
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            font-size: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        h1 { color: #333; margin-bottom: 20px; text-align: center; }
+        .fix-demo { background: #d4edda; padding: 15px; margin: 10px 0; border-left: 4px solid #28a745; }
+        .comparison { display: flex; gap: 20px; justify-content: center; }
+        .before { opacity: 0.7; }
+        .after { }
+        .label { text-align: center; font-weight: bold; margin-bottom: 10px; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Front Cover Page - Header/Footer Fix</h1>
+    
+    <div class="fix-demo">
+        <h3>✅ Fix Applied</h3>
+        <p><strong>Issue:</strong> Header and footer were appearing on front cover page (page 1)</p>
+        <p><strong>Solution:</strong> Modified the header/footer loop to start from page 2 instead of page 1</p>
+        <p><strong>Code Change:</strong> <code>for (let i = 2; i <= pageCount; i++)</code> instead of <code>for (let i = 1; i <= pageCount; i++)</code></p>
+        <p><strong>Result:</strong> Front cover page now has clean design without header/footer elements</p>
+    </div>
+
+    <div class="comparison">
+        <!-- Before (with header/footer on front cover) -->
+        <div>
+            <div class="label">❌ Before: Front Cover with Header/Footer</div>
+            <div class="pdf-page cover-page before">
+                <div class="header">
+                    <div class="header-logo">AXIS</div>
+                    <div class="page-info">Technology Risk Application | Page 1</div>
+                </div>
+                <div class="axis-logo">AXIS</div>
+                <div class="title">Technology Risk Application</div>
+                <div class="timestamp">Submitted: 2024-01-15 at 14:30:45</div>
+                <div class="footer">
+                    <div>Axis Technology Insurance Application</div>
+                    <div>Page 1 of 15</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- After (clean front cover) -->
+        <div>
+            <div class="label">✅ After: Clean Front Cover</div>
+            <div class="pdf-page cover-page after">
+                <div class="axis-logo">AXIS</div>
+                <div class="title">Technology Risk Application</div>
+                <div class="timestamp">Submitted: 2024-01-15 at 14:30:45</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Page (still has header/footer) -->
+    <div style="text-align: center;">
+        <div class="label">✅ Content Pages: Still Have Header/Footer</div>
+        <div class="pdf-page">
+            <div class="header">
+                <div class="header-logo">AXIS</div>
+                <div class="page-info">Technology Risk Application | Page 2</div>
+            </div>
+            <div class="content-page">
+                <div class="section-title">Section 1: Sectors</div>
+                <div class="content">
+                    <p><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>
+                    <p>[X] Artificial Intelligence</p>
+                    <p>[X] Decentralized Finance & Digital Assets</p>
+                    <p>[X] Autonomous Robotics</p>
+                </div>
+                
+                <div class="section-title">Section 2: General Information</div>
+                <div class="content">
+                    <p><strong>1. Company Legal Name</strong></p>
+                    <p>Answer: TechCorp Solutions Inc.</p>
+                </div>
+            </div>
+            <div class="footer">
+                <div>Axis Technology Insurance Application</div>
+                <div>Page 2 of 15</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
