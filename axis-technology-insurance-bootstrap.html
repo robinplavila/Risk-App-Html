@@ -5353,6 +5353,7 @@
                     const margin = 20;
                     const headerHeight = 45; // Space reserved for header
                     const lineHeight = 6;
+                    const sectionTitleColor = [0, 79, 240]; // #004FF0 color for section titles
                     
                     // Helper function to add header to each page
                     function addPageHeader(currentPageNum, totalPages) {
@@ -5400,18 +5401,43 @@
                         });
                     }
                     
-                    // Document info section
-                    doc.setFontSize(10);
+                    // Helper function to add section title with blue color
+                    function addSectionTitle(text, x) {
+                        doc.setFontSize(14);
+                        doc.setFont(undefined, 'bold');
+                        doc.setTextColor(sectionTitleColor[0], sectionTitleColor[1], sectionTitleColor[2]);
+                        addWrappedText(text, x);
+                        doc.setTextColor(0, 0, 0); // Reset to black
+                        yPosition += 5;
+                    }
+                    
+                    // Front Cover Page
+                    const pageWidth = doc.internal.pageSize.width;
+                    
+                    // Add "Axis" logo at 250px from top (top left)
+                    doc.setFontSize(28);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 100, 200); // Blue color for Axis logo
+                    doc.text('AXIS', margin, 250);
+                    
+                    // Add "Technology Risk Application" 300px below the logo (at 550px from top)
+                    doc.setFontSize(20);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0); // Black color
+                    doc.text('Technology Risk Application', margin, 550);
+                    
+                    // Add submitted timestamp below the title
+                    doc.setFontSize(12);
                     doc.setFont(undefined, 'normal');
-                    doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, yPosition);
-                    yPosition += 15;
+                    doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, 570);
+                    
+                    // Add new page for content
+                    doc.addPage();
+                    yPosition = headerHeight + 5; // Reset position for content pages
                     
                     // Section 1: Sectors - Enhanced with questions and options
                     checkPageBreak(20);
-                    doc.setFontSize(14);
-                    doc.setFont(undefined, 'bold');
-                    addWrappedText('Section 1: Sectors', margin);
-                    yPosition += 5;
+                    addSectionTitle('Section 1: Sectors', margin);
                     
                     doc.setFontSize(11);
                     doc.setFont(undefined, 'bold');
@@ -5439,10 +5465,7 @@
                     // Enhanced function for Section 2 with questions and selected options
                     function addSection2WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 2: General Information', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 2: General Information', margin);
                         
                         // Define all Section 2 questions with their field names  
                         const section2Questions = [
@@ -5580,10 +5603,7 @@
                     // Enhanced function for Section 3 with questions and selected options
                     function addSection3WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 3: Operations', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 3: Operations', margin);
                         
                         // Define all Section 3 questions with their field names  
                         const section3Questions = [
@@ -5924,10 +5944,7 @@
                     // Enhanced function for Section 4 with questions and selected options
                     function addSection4WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 4: Financials', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 4: Financials', margin);
                         
                         // Define all Section 4 questions with their field names  
                         const section4Questions = [
@@ -6160,10 +6177,7 @@
                     // Enhanced function for Section 5 with questions and selected options
                     function addSection5WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 5: Contractual Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 5: Contractual Controls', margin);
                         
                         // Define all Section 5 questions with their field names  
                         const section5Questions = [
@@ -6250,10 +6264,7 @@
                     // Enhanced function for Section 6 with questions and selected options
                     function addSection6WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 6: Cybersecurity, Technical & Crime Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 6: Cybersecurity, Technical & Crime Controls', margin);
                         
                         // Define all Section 6 questions with their field names  
                         const section6Questions = [
@@ -6490,10 +6501,7 @@
                     // Enhanced function for Section 8 with questions and selected options
                     function addSection8WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 8: Third Party, Vendor & Supply Chain Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 8: Third Party, Vendor & Supply Chain Controls', margin);
                         
                         // Define all Section 8 questions with their field names  
                         const section8Questions = [
@@ -6634,10 +6642,7 @@
                     // Enhanced function for Section 9 with questions and selected options
                     function addSection9WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 9: Privacy, Data Security & API Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 9: Privacy, Data Security & API Controls', margin);
                         
                         // Define all Section 9 questions with their field names  
                         const section9Questions = [
@@ -6825,10 +6830,7 @@
                     // Enhanced function for Section 10 with questions and selected options
                     function addSection10WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 10: Intellectual Property & Content Governance Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 10: Intellectual Property & Content Governance Controls', margin);
                         
                         // Define all Section 10 questions with their field names  
                         const section10Questions = [
@@ -6958,10 +6960,7 @@
                     // Enhanced function for Section 7 with questions and selected options
                     function addSection7WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 7: Data Backup & Business Continuity & Supply Chain Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 7: Data Backup & Business Continuity & Supply Chain Controls', margin);
                         
                         // Define all Section 7 questions with their field names  
                         const section7Questions = [
@@ -7127,10 +7126,7 @@
                     // Enhanced function for Section 11 with questions and selected options
                     function addSection11WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 11: People, Employment Practices & Insider Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 11: People, Employment Practices & Insider Controls', margin);
                         
                         // Define all Section 11 questions with their field names  
                         const section11Questions = [
@@ -7238,10 +7234,7 @@
                     // Enhanced function for Section 12 with questions and selected options
                     function addSection12WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 12: Artificial Intelligence Tools & Controls', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 12: Artificial Intelligence Tools & Controls', margin);
                         
                         // Define all Section 12 questions with their field names  
                         const section12Questions = [
@@ -7371,10 +7364,7 @@
                     // Enhanced function for Section 13 with questions and selected options
                     function addSection13WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 13: Prior Incidents & Claims', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 13: Prior Incidents & Claims', margin);
                         
                         // Define all Section 13 questions with their field names  
                         const section13Questions = [
@@ -7502,10 +7492,7 @@
                     // Enhanced function for AI Additional Questions with all questions and options
                     function addAISectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 1: Artificial Intelligence (Additional Questions)', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 1: Artificial Intelligence (Additional Questions)', margin);
                         
                         // Define all AI Additional Questions with their field names
                         const aiQuestions = [
@@ -7678,10 +7665,7 @@
                     // Enhanced function for DeFi Additional Questions with all questions and options
                     function addDeFiSectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', margin);
                         
                         // Define all DeFi Additional Questions with their field names
                         const defiQuestions = [
@@ -7989,10 +7973,7 @@
                     // Enhanced function for Robotics Additional Questions with all questions and options
                     function addRoboticsSectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText('Section 3: Autonomous Robotics (Additional Questions)', margin);
-                        yPosition += 5;
+                        addSectionTitle('Section 3: Autonomous Robotics (Additional Questions)', margin);
                         
                         // Define all Robotics Additional Questions with their field names
                         const roboticsQuestions = [
@@ -8270,10 +8251,7 @@
                     // Helper function to add section data
                     function addSectionData(sectionTitle, sectionData) {
                         checkPageBreak(20);
-                        doc.setFontSize(14);
-                        doc.setFont(undefined, 'bold');
-                        addWrappedText(sectionTitle, margin);
-                        yPosition += 5;
+                        addSectionTitle(sectionTitle, margin);
                         
                         doc.setFontSize(10);
                         doc.setFont(undefined, 'normal');
