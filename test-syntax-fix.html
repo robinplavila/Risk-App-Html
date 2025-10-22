@@ -29,10 +29,13 @@
         Line 8344: <code>const pageWidth = doc.internal.pageSize.width;</code> // Thank You Page - ❌ CONFLICT<br>
         Line 5352: <code>const pageHeight = doc.internal.pageSize.height;</code> // Main scope<br>
         Line 8345: <code>const pageHeight = doc.internal.pageSize.height;</code> // Thank You Page - ❌ CONFLICT<br>
+        Line 5351: <code>let yPosition = 50;</code> // Main scope<br>
+        Line 8354: <code>const yPosition = thankYouPageHeight / 2;</code> // Thank You Page - ❌ CONFLICT<br>
         <br>
         <strong>Fixes Applied:</strong><br>
         Line 8344: <code>const thankYouPageWidth = doc.internal.pageSize.width;</code> // ✅ Renamed<br>
-        Line 8345: <code>const thankYouPageHeight = doc.internal.pageSize.height;</code> // ✅ Renamed
+        Line 8345: <code>const thankYouPageHeight = doc.internal.pageSize.height;</code> // ✅ Renamed<br>
+        Line 8354: <code>const thankYouYPosition = thankYouPageHeight / 2;</code> // ✅ Renamed
     </div>
 
     <div id="testResult" class="test-result">
@@ -55,14 +58,18 @@
                 // Simulate main scope variables (like in PDF generation)
                 const pageWidth = doc.internal.pageSize.width;  
                 const pageHeight = doc.internal.pageSize.height;
+                let yPosition = 50; // Main scope variable
                 console.log('Main scope pageWidth:', pageWidth);
                 console.log('Main scope pageHeight:', pageHeight);
+                console.log('Main scope yPosition:', yPosition);
                 
                 // Simulate Thank You Page scope with fixed variable names
                 const thankYouPageWidth = doc.internal.pageSize.width;  // Renamed to avoid conflict
                 const thankYouPageHeight = doc.internal.pageSize.height; // Renamed to avoid conflict
+                const thankYouYPosition = thankYouPageHeight / 2; // Renamed to avoid conflict
                 console.log('Thank You Page thankYouPageWidth:', thankYouPageWidth);
                 console.log('Thank You Page thankYouPageHeight:', thankYouPageHeight);
+                console.log('Thank You Page thankYouYPosition:', thankYouYPosition);
                 
                 // If we reach here, no syntax error occurred
                 resultDiv.className = 'test-result success';
@@ -71,6 +78,7 @@
                     <p><strong>Result:</strong> No duplicate variable declaration errors</p>
                     <p><strong>pageWidth Fix:</strong> ✅ Main: ${pageWidth}px, Thank You: ${thankYouPageWidth}px</p>
                     <p><strong>pageHeight Fix:</strong> ✅ Main: ${pageHeight}px, Thank You: ${thankYouPageHeight}px</p>
+                    <p><strong>yPosition Fix:</strong> ✅ Main: ${yPosition}px, Thank You: ${thankYouYPosition}px</p>
                     <p><strong>Status:</strong> JavaScript syntax is now completely valid</p>
                 `;
                 

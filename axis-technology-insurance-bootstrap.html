@@ -8351,9 +8351,9 @@
                     const thankYouText = 'Thank You';
                     const textWidth = doc.getTextWidth(thankYouText);
                     const xPosition = (thankYouPageWidth - textWidth) / 2;
-                    const yPosition = thankYouPageHeight / 2;
+                    const thankYouYPosition = thankYouPageHeight / 2;
                     
-                    doc.text(thankYouText, xPosition, yPosition);
+                    doc.text(thankYouText, xPosition, thankYouYPosition);
                     
                     // Add headers and footers to content pages (excluding front cover page 1 and thank you page)
                     const pageCount = doc.internal.getNumberOfPages();
