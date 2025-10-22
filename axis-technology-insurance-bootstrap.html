@@ -5742,7 +5742,7 @@
                                     head: [['Activity', 'Percentage']],
                                     body: tableData,
                                     startY: yPosition + 5,
-                                    margin: { left: margin },
+                                    margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
                                         fontSize: 10,
                                         cellPadding: 3
@@ -5754,6 +5754,16 @@
                                     },
                                     alternateRowStyles: {
                                         fillColor: [245, 245, 245]
+                                    },
+                                    didDrawPage: function (data) {
+                                        // Add header to each page where table appears
+                                        if (data.pageNumber > 1) {
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
+                                        }
+                                    },
+                                    didAddPage: function (data) {
+                                        // Ensure new page starts below header
+                                        data.settings.margin.top = headerHeight + 5;
                                     }
                                 });
                                 
@@ -5778,7 +5788,7 @@
                                     head: [['Area', 'Yes/No', 'Details']],
                                     body: tableData,
                                     startY: yPosition + 5,
-                                    margin: { left: margin },
+                                    margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
                                         fontSize: 9,
                                         cellPadding: 3
@@ -5795,6 +5805,16 @@
                                         0: { cellWidth: 60 },
                                         1: { cellWidth: 25, halign: 'center' },
                                         2: { cellWidth: 50 }
+                                    },
+                                    didDrawPage: function (data) {
+                                        // Add header to each page where table appears
+                                        if (data.pageNumber > 1) {
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
+                                        }
+                                    },
+                                    didAddPage: function (data) {
+                                        // Ensure new page starts below header
+                                        data.settings.margin.top = headerHeight + 5;
                                     }
                                 });
                                 
@@ -5860,7 +5880,7 @@
                                     head: [['#', 'Client Name', 'Service Provided', 'Duration', 'Value ($)']],
                                     body: tableData,
                                     startY: yPosition + 5,
-                                    margin: { left: margin },
+                                    margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
                                         fontSize: 9,
                                         cellPadding: 3
@@ -5879,6 +5899,16 @@
                                         2: { cellWidth: 40 },
                                         3: { cellWidth: 25 },
                                         4: { cellWidth: 25, halign: 'right' }
+                                    },
+                                    didDrawPage: function (data) {
+                                        // Add header to each page where table appears
+                                        if (data.pageNumber > 1) {
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
+                                        }
+                                    },
+                                    didAddPage: function (data) {
+                                        // Ensure new page starts below header
+                                        data.settings.margin.top = headerHeight + 5;
                                     }
                                 });
                                 
@@ -6015,7 +6045,7 @@
                                     head: [['Period', 'Canada ($)', 'USA ($)', 'Foreign ($)']],
                                     body: tableData,
                                     startY: yPosition + 5,
-                                    margin: { left: margin },
+                                    margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
                                         fontSize: 9,
                                         cellPadding: 3
@@ -6033,6 +6063,16 @@
                                         1: { cellWidth: 30, halign: 'right' },
                                         2: { cellWidth: 30, halign: 'right' },
                                         3: { cellWidth: 30, halign: 'right' }
+                                    },
+                                    didDrawPage: function (data) {
+                                        // Add header to each page where table appears
+                                        if (data.pageNumber > 1) {
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
+                                        }
+                                    },
+                                    didAddPage: function (data) {
+                                        // Ensure new page starts below header
+                                        data.settings.margin.top = headerHeight + 5;
                                     }
                                 });
                                 
@@ -6076,7 +6116,7 @@
                                     head: [['#', 'Project/Contract Name', 'Client', 'Value ($)', 'Duration']],
                                     body: tableData,
                                     startY: yPosition + 5,
-                                    margin: { left: margin },
+                                    margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
                                         fontSize: 9,
                                         cellPadding: 3
@@ -6095,6 +6135,16 @@
                                         2: { cellWidth: 35 },
                                         3: { cellWidth: 25, halign: 'right' },
                                         4: { cellWidth: 25 }
+                                    },
+                                    didDrawPage: function (data) {
+                                        // Add header to each page where table appears
+                                        if (data.pageNumber > 1) {
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
+                                        }
+                                    },
+                                    didAddPage: function (data) {
+                                        // Ensure new page starts below header
+                                        data.settings.margin.top = headerHeight + 5;
                                     }
                                 });
                                 
