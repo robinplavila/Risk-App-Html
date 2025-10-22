@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thank You Page Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .pdf-page {
+            width: 595px;
+            height: 842px;
+            background: white;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .thank-you-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .thank-you-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+        }
+        .content-page {
+            padding-top: 45px; /* Header space */
+        }
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45px;
+            padding: 15px 20px 10px 20px;
+            background: white;
+            border-bottom: 2px solid rgb(0, 100, 200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-logo {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(0, 100, 200);
+        }
+        .page-info {
+            font-size: 10px;
+            color: black;
+        }
+        .section-title {
+            color: #004FF0;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+        }
+        .content {
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            font-size: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        h1 { color: #333; margin-bottom: 20px; text-align: center; }
+        .feature-demo { background: #d4edda; padding: 15px; margin: 10px 0; border-left: 4px solid #28a745; }
+        .page-flow { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .page-label { text-align: center; font-weight: bold; margin-bottom: 10px; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>"Thank You" End Page Implementation</h1>
+    
+    <div class="feature-demo">
+        <h3>✅ New Feature Added</h3>
+        <p><strong>Request:</strong> Add an end page with "Thank You" in the center with no header and footer</p>
+        <p><strong>Implementation:</strong></p>
+        <ul>
+            <li>✅ Added new "Thank You" page at the end of the PDF document</li>
+            <li>✅ "Thank You" text centered both horizontally and vertically</li>
+            <li>✅ Clean design with NO header or footer elements</li>
+            <li>✅ Modified header/footer loop to exclude the thank you page</li>
+            <li>✅ 24px bold black text for professional appearance</li>
+        </ul>
+        <p><strong>Result:</strong> Professional conclusion to the PDF document</p>
+    </div>
+
+    <div class="page-flow">
+        <!-- Last Content Page -->
+        <div>
+            <div class="page-label">📄 Last Content Page (with header/footer)</div>
+            <div class="pdf-page">
+                <div class="header">
+                    <div class="header-logo">AXIS</div>
+                    <div class="page-info">Technology Risk Application | Page 15</div>
+                </div>
+                <div class="content-page">
+                    <div class="section-title">Section 13: Prior Incidents & Claims</div>
+                    <div class="content">
+                        <p><strong>1. Have you experienced any security incidents in the past 5 years?</strong></p>
+                        <p>( ) Yes</p>
+                        <p>(•) No</p>
+                        <br>
+                        <p><strong>2. Have you had any previous insurance claims?</strong></p>
+                        <p>( ) Yes</p>
+                        <p>(•) No</p>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div>Axis Technology Insurance Application</div>
+                    <div>Page 15 of 16</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thank You Page -->
+        <div>
+            <div class="page-label">🙏 Thank You Page (clean, no header/footer)</div>
+            <div class="pdf-page thank-you-page">
+                <div class="thank-you-text">Thank You</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feature-demo">
+        <h3>📋 Technical Implementation Details</h3>
+        <ul>
+            <li><strong>Page Addition:</strong> <code>doc.addPage()</code> creates the new thank you page</li>
+            <li><strong>Text Positioning:</strong> Calculated center coordinates using page width and height</li>
+            <li><strong>Font Styling:</strong> 24px bold black text for professional appearance</li>
+            <li><strong>Header/Footer Exclusion:</strong> Modified loop to <code>i <= pageCount - 1</code></li>
+            <li><strong>Clean Design:</strong> No additional elements, just centered "Thank You" text</li>
+        </ul>
+    </div>
+</body>
+</html>
