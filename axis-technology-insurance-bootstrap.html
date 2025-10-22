@@ -8336,9 +8336,28 @@
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
-                    // Add headers and footers to content pages (excluding front cover page 1)
+                    // Add "Thank You" end page (no header/footer)
+                    doc.addPage();
+                    const thankYouPageNum = doc.internal.getNumberOfPages();
+                    
+                    // Center "Thank You" text on the page
+                    const pageWidth = doc.internal.pageSize.width;
+                    const pageHeight = doc.internal.pageSize.height;
+                    
+                    doc.setFontSize(24);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0); // Black color
+                    
+                    const thankYouText = 'Thank You';
+                    const textWidth = doc.getTextWidth(thankYouText);
+                    const xPosition = (pageWidth - textWidth) / 2;
+                    const yPosition = pageHeight / 2;
+                    
+                    doc.text(thankYouText, xPosition, yPosition);
+                    
+                    // Add headers and footers to content pages (excluding front cover page 1 and thank you page)
                     const pageCount = doc.internal.getNumberOfPages();
-                    for (let i = 2; i <= pageCount; i++) {
+                    for (let i = 2; i <= pageCount - 1; i++) { // Exclude last page (thank you page)
                         doc.setPage(i);
                         
                         // Add header to each content page
