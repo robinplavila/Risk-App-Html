@@ -8341,7 +8341,7 @@
                     const thankYouPageNum = doc.internal.getNumberOfPages();
                     
                     // Center "Thank You" text on the page
-                    const pageWidth = doc.internal.pageSize.width;
+                    const thankYouPageWidth = doc.internal.pageSize.width;
                     const pageHeight = doc.internal.pageSize.height;
                     
                     doc.setFontSize(24);
@@ -8350,7 +8350,7 @@
                     
                     const thankYouText = 'Thank You';
                     const textWidth = doc.getTextWidth(thankYouText);
-                    const xPosition = (pageWidth - textWidth) / 2;
+                    const xPosition = (thankYouPageWidth - textWidth) / 2;
                     const yPosition = pageHeight / 2;
                     
                     doc.text(thankYouText, xPosition, yPosition);
