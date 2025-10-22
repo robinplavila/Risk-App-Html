@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Header Visualization</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .pdf-page {
+            width: 595px;
+            height: 842px;
+            background: white;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45px;
+            padding: 15px 20px 10px 20px;
+            background: white;
+            border-bottom: 2px solid rgb(0, 100, 200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .axis-logo {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(0, 100, 200);
+        }
+        .page-info {
+            font-size: 10px;
+            color: black;
+        }
+        .content {
+            margin-top: 45px;
+            padding: 10px 0;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            font-size: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .page-number { color: #666; }
+        h1 { color: #333; margin-bottom: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>PDF Header Design Preview</h1>
+    
+    <div class="pdf-page">
+        <div class="header">
+            <div class="axis-logo">AXIS</div>
+            <div class="page-info">Technology Risk Application | Page 1</div>
+        </div>
+        <div class="content">
+            <h3>Document Content Area</h3>
+            <p><strong>Submitted:</strong> 2024-01-15 at 14:30:45</p>
+            <br>
+            <h4>Section 1: Sectors</h4>
+            <p><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>
+            <p>[X] Artificial Intelligence</p>
+            <p>[X] Decentralized Finance & Digital Assets</p>
+            <p>[X] Autonomous Robotics</p>
+            <br>
+            <h4>AI Additional Questions Section:</h4>
+            <p><strong>1. Is AI functionality integrated into any of your software products or services?</strong></p>
+            <p>(•) Yes</p>
+            <p>( ) No</p>
+            <p><strong>Follow-up:</strong> AI chatbot for customer service</p>
+        </div>
+        <div class="footer">
+            <div>Axis Technology Insurance Application</div>
+            <div class="page-number">Page 1 of 3</div>
+        </div>
+    </div>
+
+    <div class="pdf-page">
+        <div class="header">
+            <div class="axis-logo">AXIS</div>
+            <div class="page-info">Technology Risk Application | Page 2</div>
+        </div>
+        <div class="content">
+            <h4>DeFi Additional Questions Section:</h4>
+            <p><strong>1. Do you provide any services involving cryptocurrency custody?</strong></p>
+            <p>(•) Yes</p>
+            <p>( ) No</p>
+            <p><strong>Follow-up:</strong> Multi-signature wallets with cold storage</p>
+            <br>
+            <p><strong>2. Do you operate or maintain a cryptocurrency exchange?</strong></p>
+            <p>( ) Yes</p>
+            <p>(•) No</p>
+            <br>
+            <p><strong>3. Do you use or develop smart contracts?</strong></p>
+            <p>(•) Yes</p>
+            <p>( ) No</p>
+            <p><strong>Follow-up:</strong> Third-party security audits quarterly</p>
+        </div>
+        <div class="footer">
+            <div>Axis Technology Insurance Application</div>
+            <div class="page-number">Page 2 of 3</div>
+        </div>
+    </div>
+
+    <div class="pdf-page">
+        <div class="header">
+            <div class="axis-logo">AXIS</div>
+            <div class="page-info">Technology Risk Application | Page 3</div>
+        </div>
+        <div class="content">
+            <h4>Robotics Additional Questions Section:</h4>
+            <p><strong>1. What functions do your autonomous robots perform?</strong></p>
+            <p><strong>Answer:</strong> Warehouse automation and inventory management</p>
+            <br>
+            <p><strong>2. Are your robots used in public environments?</strong></p>
+            <p>( ) Yes</p>
+            <p>(•) No</p>
+            <br>
+            <p><strong>3. How many autonomous robots are currently deployed?</strong></p>
+            <p><strong>Answer:</strong> 15</p>
+            <br>
+            <p><strong>4. What level of autonomy do your robots operate at?</strong></p>
+            <p>( ) Remote controlled</p>
+            <p>(•) Semi-autonomous</p>
+            <p>( ) Fully autonomous (no human in the loop)</p>
+        </div>
+        <div class="footer">
+            <div>Axis Technology Insurance Application</div>
+            <div class="page-number">Page 3 of 3</div>
+        </div>
+    </div>
+</body>
+</html>
