@@ -5348,16 +5348,44 @@
                     // Collect all form data
                     const formData = collectFormData();
                     
-                    let yPosition = 20;
+                    let yPosition = 50; // Start below header area
                     const pageHeight = doc.internal.pageSize.height;
                     const margin = 20;
+                    const headerHeight = 45; // Space reserved for header
                     const lineHeight = 6;
+                    
+                    // Helper function to add header to each page
+                    function addPageHeader(currentPageNum, totalPages) {
+                        const pageWidth = doc.internal.pageSize.width;
+                        
+                        // Axis logo text (left side)
+                        doc.setFontSize(16);
+                        doc.setFont(undefined, 'bold');
+                        doc.setTextColor(0, 100, 200); // Blue color for Axis
+                        doc.text('AXIS', margin, 25);
+                        
+                        // Technology Risk Application | page number (right side)
+                        doc.setFontSize(10);
+                        doc.setFont(undefined, 'normal');
+                        doc.setTextColor(0, 0, 0); // Black color for rest of text
+                        const headerText = `Technology Risk Application | Page ${currentPageNum}`;
+                        const textWidth = doc.getTextWidth(headerText);
+                        doc.text(headerText, pageWidth - margin - textWidth, 25);
+                        
+                        // Blue border line at bottom of header
+                        doc.setDrawColor(0, 100, 200); // Blue color
+                        doc.setLineWidth(2);
+                        doc.line(margin, 35, pageWidth - margin, 35);
+                        
+                        // Reset text color to black for content
+                        doc.setTextColor(0, 0, 0);
+                    }
                     
                     // Helper function to add new page if needed
                     function checkPageBreak(additionalHeight = 15) {
                         if (yPosition + additionalHeight > pageHeight - margin) {
                             doc.addPage();
-                            yPosition = 20;
+                            yPosition = headerHeight + 5; // Start below header
                         }
                     }
                     
@@ -5372,12 +5400,7 @@
                         });
                     }
                     
-                    // Header
-                    doc.setFontSize(18);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Axis Technology Insurance Application', margin, yPosition);
-                    yPosition += 10;
-                    
+                    // Document info section
                     doc.setFontSize(10);
                     doc.setFont(undefined, 'normal');
                     doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, yPosition);
@@ -8285,12 +8308,18 @@
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
-                    // Footer
+                    // Add headers and footers to all pages
                     const pageCount = doc.internal.getNumberOfPages();
                     for (let i = 1; i <= pageCount; i++) {
                         doc.setPage(i);
+                        
+                        // Add header to each page
+                        addPageHeader(i, pageCount);
+                        
+                        // Add footer to each page
                         doc.setFontSize(8);
                         doc.setFont(undefined, 'normal');
+                        doc.setTextColor(0, 0, 0); // Ensure footer text is black
                         doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width - 40, doc.internal.pageSize.height - 10);
                         doc.text('Axis Technology Insurance Application', margin, doc.internal.pageSize.height - 10);
                     }
