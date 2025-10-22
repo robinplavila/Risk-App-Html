@@ -8342,7 +8342,7 @@
                     
                     // Center "Thank You" text on the page
                     const thankYouPageWidth = doc.internal.pageSize.width;
-                    const pageHeight = doc.internal.pageSize.height;
+                    const thankYouPageHeight = doc.internal.pageSize.height;
                     
                     doc.setFontSize(24);
                     doc.setFont(undefined, 'bold');
@@ -8351,7 +8351,7 @@
                     const thankYouText = 'Thank You';
                     const textWidth = doc.getTextWidth(thankYouText);
                     const xPosition = (thankYouPageWidth - textWidth) / 2;
-                    const yPosition = pageHeight / 2;
+                    const yPosition = thankYouPageHeight / 2;
                     
                     doc.text(thankYouText, xPosition, yPosition);
                     

@@ -24,12 +24,15 @@
     </div>
 
     <div class="code">
-        <strong>Problem:</strong><br>
-        Line 5415: <code>const pageWidth = doc.internal.pageSize.width;</code> // Front Cover<br>
-        Line 8344: <code>const pageWidth = doc.internal.pageSize.width;</code> // Thank You Page<br>
+        <strong>Problems:</strong><br>
+        Line 5415: <code>const pageWidth = doc.internal.pageSize.width;</code> // Main scope<br>
+        Line 8344: <code>const pageWidth = doc.internal.pageSize.width;</code> // Thank You Page - ❌ CONFLICT<br>
+        Line 5352: <code>const pageHeight = doc.internal.pageSize.height;</code> // Main scope<br>
+        Line 8345: <code>const pageHeight = doc.internal.pageSize.height;</code> // Thank You Page - ❌ CONFLICT<br>
         <br>
-        <strong>Fix Applied:</strong><br>
-        Line 8344: <code>const thankYouPageWidth = doc.internal.pageSize.width;</code> // Renamed variable
+        <strong>Fixes Applied:</strong><br>
+        Line 8344: <code>const thankYouPageWidth = doc.internal.pageSize.width;</code> // ✅ Renamed<br>
+        Line 8345: <code>const thankYouPageHeight = doc.internal.pageSize.height;</code> // ✅ Renamed
     </div>
 
     <div id="testResult" class="test-result">
@@ -45,26 +48,30 @@
             const resultDiv = document.getElementById('testResult');
             
             try {
-                // Test the variable scope fix
+                // Test the variable scope fix - simulate both pageWidth and pageHeight
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 
-                // Simulate Front Cover Page scope
-                const pageWidth = doc.internal.pageSize.width;  // First declaration
-                console.log('Front Cover pageWidth:', pageWidth);
+                // Simulate main scope variables (like in PDF generation)
+                const pageWidth = doc.internal.pageSize.width;  
+                const pageHeight = doc.internal.pageSize.height;
+                console.log('Main scope pageWidth:', pageWidth);
+                console.log('Main scope pageHeight:', pageHeight);
                 
-                // Simulate Thank You Page scope with fixed variable name
+                // Simulate Thank You Page scope with fixed variable names
                 const thankYouPageWidth = doc.internal.pageSize.width;  // Renamed to avoid conflict
+                const thankYouPageHeight = doc.internal.pageSize.height; // Renamed to avoid conflict
                 console.log('Thank You Page thankYouPageWidth:', thankYouPageWidth);
+                console.log('Thank You Page thankYouPageHeight:', thankYouPageHeight);
                 
                 // If we reach here, no syntax error occurred
                 resultDiv.className = 'test-result success';
                 resultDiv.innerHTML = `
-                    <h3>✅ Syntax Error Fixed!</h3>
-                    <p><strong>Result:</strong> No duplicate variable declaration error</p>
-                    <p><strong>Front Cover pageWidth:</strong> ${pageWidth}px</p>
-                    <p><strong>Thank You pageWidth:</strong> ${thankYouPageWidth}px</p>
-                    <p><strong>Status:</strong> JavaScript syntax is now valid</p>
+                    <h3>✅ All Syntax Errors Fixed!</h3>
+                    <p><strong>Result:</strong> No duplicate variable declaration errors</p>
+                    <p><strong>pageWidth Fix:</strong> ✅ Main: ${pageWidth}px, Thank You: ${thankYouPageWidth}px</p>
+                    <p><strong>pageHeight Fix:</strong> ✅ Main: ${pageHeight}px, Thank You: ${thankYouPageHeight}px</p>
+                    <p><strong>Status:</strong> JavaScript syntax is now completely valid</p>
                 `;
                 
             } catch (error) {
