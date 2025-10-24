@@ -5411,25 +5411,28 @@
                         yPosition += 5;
                     }
                     
-                    // Front Cover Page
+                    // Front Cover Page - using content from pdf/front cover page.pdf
                     const pageWidth = doc.internal.pageSize.width;
                     
-                    // Add "Axis" logo at 250px from top (top left)
-                    doc.setFontSize(28);
-                    doc.setFont(undefined, 'bold');
-                    doc.setTextColor(0, 100, 200); // Blue color for Axis logo
-                    doc.text('AXIS', margin, 250);
-                    
-                    // Add "Technology Risk Application" 300px below the logo (at 550px from top)
-                    doc.setFontSize(20);
+                    // Center "Technology Risk Application" title on the page
+                    doc.setFontSize(24);
                     doc.setFont(undefined, 'bold');
                     doc.setTextColor(0, 0, 0); // Black color
-                    doc.text('Technology Risk Application', margin, 550);
+                    
+                    const frontCoverTitle = 'Technology Risk Application';
+                    const titleWidth = doc.getTextWidth(frontCoverTitle);
+                    const titleX = (pageWidth - titleWidth) / 2;
+                    const titleY = pageHeight / 2;
+                    
+                    doc.text(frontCoverTitle, titleX, titleY);
                     
                     // Add submitted timestamp below the title
                     doc.setFontSize(12);
                     doc.setFont(undefined, 'normal');
-                    doc.text(`Submitted: ${formData.submissionDate} at ${formData.submissionTime}`, margin, 570);
+                    const timestampText = `Submitted: ${formData.submissionDate} at ${formData.submissionTime}`;
+                    const timestampWidth = doc.getTextWidth(timestampText);
+                    const timestampX = (pageWidth - timestampWidth) / 2;
+                    doc.text(timestampText, timestampX, titleY + 30);
                     
                     // Add new page for content
                     doc.addPage();
@@ -8336,24 +8339,75 @@
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
-                    // Add "Thank You" end page (no header/footer)
+                    // Add end page (no header/footer) - using content from pdf/end last page.pdf
                     doc.addPage();
                     const thankYouPageNum = doc.internal.getNumberOfPages();
                     
-                    // Center "Thank You" text on the page
-                    const thankYouPageWidth = doc.internal.pageSize.width;
-                    const thankYouPageHeight = doc.internal.pageSize.height;
+                    // Get page dimensions for positioning
+                    const endPageWidth = doc.internal.pageSize.width;
                     
-                    doc.setFontSize(24);
+                    // "Thank you" title at the top
+                    doc.setFontSize(20);
                     doc.setFont(undefined, 'bold');
                     doc.setTextColor(0, 0, 0); // Black color
                     
-                    const thankYouText = 'Thank You';
-                    const textWidth = doc.getTextWidth(thankYouText);
-                    const xPosition = (thankYouPageWidth - textWidth) / 2;
-                    const thankYouYPosition = thankYouPageHeight / 2;
+                    const thankYouText = 'Thank you';
+                    const thankYouWidth = doc.getTextWidth(thankYouText);
+                    const thankYouX = (endPageWidth - thankYouWidth) / 2;
+                    doc.text(thankYouText, thankYouX, 100);
                     
-                    doc.text(thankYouText, xPosition, thankYouYPosition);
+                    // Company name
+                    doc.setFontSize(16);
+                    doc.setFont(undefined, 'bold');
+                    const companyText = 'Axis Insurance Group';
+                    const companyWidth = doc.getTextWidth(companyText);
+                    const companyX = (endPageWidth - companyWidth) / 2;
+                    doc.text(companyText, companyX, 140);
+                    
+                    // Contact information section
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'normal');
+                    
+                    // Address
+                    const addressLine1 = '#400 - 555 Burrard Street Box 275, Vancouver - Bentall Two, BC  V7X 1M8';
+                    const addressWidth = doc.getTextWidth(addressLine1);
+                    const addressX = (endPageWidth - addressWidth) / 2;
+                    doc.text(addressLine1, addressX, 200);
+                    
+                    // Phone numbers
+                    const phoneText = 'Phone: 604 731 5328  |  Toll-Free: 1 866 999 2947  |  Fax: 604 731 3137';
+                    const phoneWidth = doc.getTextWidth(phoneText);
+                    const phoneX = (endPageWidth - phoneWidth) / 2;
+                    doc.text(phoneText, phoneX, 215);
+                    
+                    // Copyright
+                    const copyrightText = '© The Axis Insurance Group';
+                    const copyrightWidth = doc.getTextWidth(copyrightText);
+                    const copyrightX = (endPageWidth - copyrightWidth) / 2;
+                    doc.text(copyrightText, copyrightX, 240);
+                    
+                    // Contact persons section
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    
+                    // Clive Bird section (left side)
+                    const leftX = 50;
+                    doc.text('Clive Bird', leftX, 300);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('Vice President', leftX, 315);
+                    doc.text('Technology Risk', leftX, 330);
+                    doc.text('clive.bird@axisinsurance.ca', leftX, 345);
+                    doc.text('604 817 8072', leftX, 360);
+                    
+                    // Chris Jones section (right side)
+                    const rightX = endPageWidth - 150;
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Chris Jones', rightX, 300);
+                    doc.setFont(undefined, 'normal');
+                    doc.text('Vice President', rightX, 315);
+                    doc.text('Technology Risk', rightX, 330);
+                    doc.text('chris.jones@axisinsurance.ca', rightX, 345);
+                    doc.text('778 788 2853', rightX, 360);
                     
                     // Add headers and footers to content pages (excluding front cover page 1 and thank you page)
                     const pageCount = doc.internal.getNumberOfPages();

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test PDF Generation Logic</title>
+</head>
+<body>
+    <h1>PDF Generation Logic Test</h1>
+    <button onclick="testGeneratePDF()">Test PDF Function</button>
+    <div id="output"></div>
+
+    <script>
+        // Mock jsPDF for testing purposes
+        window.jspdf = {
+            jsPDF: function() {
+                this.internal = {
+                    pageSize: {
+                        width: 210,
+                        height: 297
+                    },
+                    getNumberOfPages: function() { return 3; }
+                };
+                this.addPage = function() { console.log('Adding new page'); };
+                this.setFontSize = function(size) { console.log('Setting font size:', size); };
+                this.setFont = function(font, style) { console.log('Setting font:', font, style); };
+                this.setTextColor = function(r, g, b) { console.log('Setting text color:', r, g, b); };
+                this.getTextWidth = function(text) { 
+                    console.log('Getting text width for:', text);
+                    return text.length * 3; // Mock calculation
+                };
+                this.text = function(text, x, y) { 
+                    console.log(`Adding text "${text}" at position (${x}, ${y})`);
+                };
+                this.setPage = function(page) { console.log('Setting page:', page); };
+                this.setDrawColor = function(r, g, b) { console.log('Setting draw color:', r, g, b); };
+                this.setLineWidth = function(width) { console.log('Setting line width:', width); };
+                this.line = function(x1, y1, x2, y2) { console.log('Drawing line from', x1, y1, 'to', x2, y2); };
+                this.save = function(filename) { console.log('Saving PDF as:', filename); };
+                return this;
+            }
+        };
+
+        // Mock form data
+        const mockFormData = {
+            submissionDate: '2024-10-24',
+            submissionTime: '18:49:00',
+            sectors: ['ai']
+        };
+
+        function collectFormData() {
+            return mockFormData;
+        }
+
+        // Copy the updated PDF generation logic for testing
+        function testGeneratePDF() {
+            try {
+                console.log('Starting PDF generation test...');
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Collect all form data
+                const formData = collectFormData();
+                
+                let yPosition = 50;
+                const pageHeight = doc.internal.pageSize.height;
+                const margin = 20;
+                const headerHeight = 45;
+                const lineHeight = 6;
+                const sectionTitleColor = [0, 79, 240];
+
+                // Front Cover Page - using content from pdf/front cover page.pdf
+                const pageWidth = doc.internal.pageSize.width;
+                
+                // Center "Technology Risk Application" title on the page
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0); // Black color
+                
+                const frontCoverTitle = 'Technology Risk Application';
+                const titleWidth = doc.getTextWidth(frontCoverTitle);
+                const titleX = (pageWidth - titleWidth) / 2;
+                const titleY = pageHeight / 2;
+                
+                doc.text(frontCoverTitle, titleX, titleY);
+                
+                // Add submitted timestamp below the title
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'normal');
+                const timestampText = `Submitted: ${formData.submissionDate} at ${formData.submissionTime}`;
+                const timestampWidth = doc.getTextWidth(timestampText);
+                const timestampX = (pageWidth - timestampWidth) / 2;
+                doc.text(timestampText, timestampX, titleY + 30);
+                
+                // Add new page for content
+                doc.addPage();
+                yPosition = headerHeight + 5;
+
+                // (Skipping content pages for brevity in test)
+                console.log('Content pages would be generated here...');
+
+                // Add end page (no header/footer) - using content from pdf/end last page.pdf
+                doc.addPage();
+                const thankYouPageNum = doc.internal.getNumberOfPages();
+                
+                // Get page dimensions for positioning
+                const endPageWidth = doc.internal.pageSize.width;
+                
+                // "Thank you" title at the top
+                doc.setFontSize(20);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(0, 0, 0); // Black color
+                
+                const thankYouText = 'Thank you';
+                const thankYouWidth = doc.getTextWidth(thankYouText);
+                const thankYouX = (endPageWidth - thankYouWidth) / 2;
+                doc.text(thankYouText, thankYouX, 100);
+                
+                // Company name
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                const companyText = 'Axis Insurance Group';
+                const companyWidth = doc.getTextWidth(companyText);
+                const companyX = (endPageWidth - companyWidth) / 2;
+                doc.text(companyText, companyX, 140);
+                
+                // Contact information section
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                
+                // Address
+                const addressLine1 = '#400 - 555 Burrard Street Box 275, Vancouver - Bentall Two, BC  V7X 1M8';
+                const addressWidth = doc.getTextWidth(addressLine1);
+                const addressX = (endPageWidth - addressWidth) / 2;
+                doc.text(addressLine1, addressX, 200);
+                
+                // Phone numbers
+                const phoneText = 'Phone: 604 731 5328  |  Toll-Free: 1 866 999 2947  |  Fax: 604 731 3137';
+                const phoneWidth = doc.getTextWidth(phoneText);
+                const phoneX = (endPageWidth - phoneWidth) / 2;
+                doc.text(phoneText, phoneX, 215);
+                
+                // Copyright
+                const copyrightText = '© The Axis Insurance Group';
+                const copyrightWidth = doc.getTextWidth(copyrightText);
+                const copyrightX = (endPageWidth - copyrightWidth) / 2;
+                doc.text(copyrightText, copyrightX, 240);
+                
+                // Contact persons section
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                
+                // Clive Bird section (left side)
+                const leftX = 50;
+                doc.text('Clive Bird', leftX, 300);
+                doc.setFont(undefined, 'normal');
+                doc.text('Vice President', leftX, 315);
+                doc.text('Technology Risk', leftX, 330);
+                doc.text('clive.bird@axisinsurance.ca', leftX, 345);
+                doc.text('604 817 8072', leftX, 360);
+                
+                // Chris Jones section (right side)
+                const rightX = endPageWidth - 150;
+                doc.setFont(undefined, 'bold');
+                doc.text('Chris Jones', rightX, 300);
+                doc.setFont(undefined, 'normal');
+                doc.text('Vice President', rightX, 315);
+                doc.text('Technology Risk', rightX, 330);
+                doc.text('chris.jones@axisinsurance.ca', rightX, 345);
+                doc.text('778 788 2853', rightX, 360);
+
+                // Save the PDF
+                const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
+                const filename = `Axis-Technology-Insurance-Application-${timestamp}.pdf`;
+                doc.save(filename);
+                
+                document.getElementById('output').innerHTML = '<p style="color: green;">✅ PDF generation logic test completed successfully! Check console for details.</p>';
+                
+            } catch (error) {
+                console.error('Error in PDF generation test:', error);
+                document.getElementById('output').innerHTML = `<p style="color: red;">❌ Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
