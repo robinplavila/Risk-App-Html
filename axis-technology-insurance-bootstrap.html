@@ -8347,21 +8347,80 @@
                     
                     showNotification('🔄 Loading and merging static PDF files...', 'info');
                     
-                    // Load static PDFs
-                    const [frontCoverResponse, endPageResponse] = await Promise.all([
-                        fetch('./pdf/front cover page.pdf'),
-                        fetch('./pdf/end last page.pdf')
-                    ]);
+                    let frontCoverBytes, endPageBytes;
                     
-                    if (!frontCoverResponse.ok) {
-                        throw new Error(`Failed to load front cover PDF: ${frontCoverResponse.status}`);
+                    try {
+                        // Try to load static PDFs using fetch (works in server environment)
+                        const [frontCoverResponse, endPageResponse] = await Promise.all([
+                            fetch('./pdf/front cover page.pdf'),
+                            fetch('./pdf/end last page.pdf')
+                        ]);
+                        
+                        if (!frontCoverResponse.ok) {
+                            throw new Error(`Failed to load front cover PDF: ${frontCoverResponse.status}`);
+                        }
+                        if (!endPageResponse.ok) {
+                            throw new Error(`Failed to load end page PDF: ${endPageResponse.status}`);
+                        }
+                        
+                        frontCoverBytes = await frontCoverResponse.arrayBuffer();
+                        endPageBytes = await endPageResponse.arrayBuffer();
+                        
+                    } catch (fetchError) {
+                        // Check if this is a CORS error (common when opening HTML file directly)
+                        if (fetchError.message.includes('fetch') || fetchError.name === 'TypeError') {
+                            showNotification('⚠️ CORS Error: Please run this application on an HTTP server', 'error');
+                            
+                            // Provide user-friendly error with instructions
+                            const corsErrorModal = `
+                                <div id="corsErrorModal" style="
+                                    position: fixed; 
+                                    top: 0; left: 0; 
+                                    width: 100%; height: 100%; 
+                                    background: rgba(0,0,0,0.7); 
+                                    z-index: 10000; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;
+                                ">
+                                    <div style="
+                                        background: white; 
+                                        padding: 30px; 
+                                        border-radius: 10px; 
+                                        max-width: 600px; 
+                                        margin: 20px;
+                                        text-align: center;
+                                    ">
+                                        <h3 style="color: #dc3545; margin-bottom: 20px;">🚫 CORS Error Detected</h3>
+                                        <p><strong>The PDF files cannot be loaded when opening the HTML file directly in the browser.</strong></p>
+                                        <p style="margin: 20px 0;">To use the PDF merging feature, please run this application on an HTTP server:</p>
+                                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: left;">
+                                            <strong>Options:</strong><br>
+                                            1. <strong>Python:</strong> <code>python -m http.server 8080</code><br>
+                                            2. <strong>Node.js:</strong> <code>npx serve .</code><br>
+                                            3. <strong>PHP:</strong> <code>php -S localhost:8080</code><br>
+                                            4. <strong>Use a web server like XAMPP/WAMP</strong>
+                                        </div>
+                                        <p style="font-size: 14px; color: #666;">Then access via <code>http://localhost:8080</code></p>
+                                        <button onclick="document.getElementById('corsErrorModal').remove()" style="
+                                            background: #007bff; 
+                                            color: white; 
+                                            border: none; 
+                                            padding: 10px 20px; 
+                                            border-radius: 5px; 
+                                            cursor: pointer;
+                                            margin-top: 15px;
+                                        ">Close</button>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            document.body.insertAdjacentHTML('beforeend', corsErrorModal);
+                            throw new Error('CORS Error: PDF files cannot be loaded. Please run on HTTP server.');
+                        } else {
+                            throw fetchError;
+                        }
                     }
-                    if (!endPageResponse.ok) {
-                        throw new Error(`Failed to load end page PDF: ${endPageResponse.status}`);
-                    }
-                    
-                    const frontCoverBytes = await frontCoverResponse.arrayBuffer();
-                    const endPageBytes = await endPageResponse.arrayBuffer();
                     
                     // Create new PDF document for merging
                     const finalPdf = await PDFDocument.create();
@@ -8405,7 +8464,17 @@
                     
                 } catch (error) {
                     console.error('Error generating PDF:', error);
-                    showNotification('❌ Error generating PDF. Please try again.', 'error');
+                    
+                    if (error.message.includes('CORS Error')) {
+                        // CORS error already handled above with modal
+                        return;
+                    }
+                    
+                    if (error.message.includes('Failed to load') && error.message.includes('PDF')) {
+                        showNotification('❌ Error: Could not load static PDF files. Please check that pdf/front cover page.pdf and pdf/end last page.pdf exist.', 'error');
+                    } else {
+                        showNotification('❌ Error generating PDF. Please try again.', 'error');
+                    }
                 }
             }
 
