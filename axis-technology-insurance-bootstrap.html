@@ -5419,19 +5419,18 @@
                     // Skip front cover generation - will use static PDF instead
                     // Start directly with content (no front cover page)
                     yPosition = headerHeight + 5; // Reset position for content pages
-                    yPosition = headerHeight + 5; // Reset position for content pages
                     
                     // Section 1: Sectors - Enhanced with questions and options
                     checkPageBreak(20);
                     addSectionTitle('Section 1: Sectors', margin);
                     
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
+                    contentDoc.setFontSize(11);
+                    contentDoc.setFont(undefined, 'bold');
                     addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin + 10);
                     yPosition += 3;
                     
-                    doc.setFontSize(10);
-                    doc.setFont(undefined, 'normal');
+                    contentDoc.setFontSize(10);
+                    contentDoc.setFont(undefined, 'normal');
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -8410,7 +8409,32 @@
                 }
             }
 
+            function showNotification(message, type = 'info') {
+                // Remove existing notifications
+                $('.notification').remove();
+                
+                const alertClass = {
+                    'success': 'alert-success',
+                    'error': 'alert-danger',
+                    'warning': 'alert-warning',
+                    'info': 'alert-info'
+                }[type];
 
+                const $notification = $(`
+                    <div class="notification alert ${alertClass} alert-dismissible fade show position-fixed" 
+                         style="top: 20px; right: 20px; z-index: 9999; max-width: 400px;">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `);
+
+                $('body').append($notification);
+
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    $notification.alert('close');
+                }, 5000);
+            }
 
             // Initialize step indicator click handlers
             $('.step-item').on('click', function() {
