@@ -5419,18 +5419,19 @@
                     // Skip front cover generation - will use static PDF instead
                     // Start directly with content (no front cover page)
                     yPosition = headerHeight + 5; // Reset position for content pages
+                    yPosition = headerHeight + 5; // Reset position for content pages
                     
                     // Section 1: Sectors - Enhanced with questions and options
                     checkPageBreak(20);
                     addSectionTitle('Section 1: Sectors', margin);
                     
-                    contentDoc.setFontSize(11);
-                    contentDoc.setFont(undefined, 'bold');
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
                     addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin + 10);
                     yPosition += 3;
                     
-                    contentDoc.setFontSize(10);
-                    contentDoc.setFont(undefined, 'normal');
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'normal');
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -5536,13 +5537,13 @@
                         
                         section2Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
                                 const value = sectionData[q.field];
@@ -5562,9 +5563,9 @@
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
                                     yPosition += 2;
-                                    contentDoc.setFont(undefined, 'italic');
+                                    doc.setFont(undefined, 'italic');
                                     addWrappedText(q.followUp.question, margin + 25);
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
                                         addWrappedText(`Answer: ${followUpValue}`, margin + 30);
@@ -5723,13 +5724,13 @@
                         
                         section3Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
                                 const value = sectionData[q.field];
@@ -5743,7 +5744,7 @@
                                     return [field.label, value + '%'];
                                 });
                                 
-                                contentDoc.autoTable({
+                                doc.autoTable({
                                     head: [['Activity', 'Percentage']],
                                     body: tableData,
                                     startY: yPosition + 5,
@@ -5763,7 +5764,7 @@
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
                                         if (data.pageNumber > 1) {
-                                            addPageHeader(data.pageNumber, contentDoc.internal.getNumberOfPages());
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
                                         }
                                     },
                                     didAddPage: function (data) {
@@ -5772,7 +5773,7 @@
                                     }
                                 });
                                 
-                                yPosition = contentDoc.lastAutoTable.finalY + 10;
+                                yPosition = doc.lastAutoTable.finalY + 10;
                             } else if (q.type === 'risk_areas') {
                                 // Create AutoTable for risk areas
                                 checkPageBreak(35);
@@ -5789,7 +5790,7 @@
                                     ];
                                 });
                                 
-                                contentDoc.autoTable({
+                                doc.autoTable({
                                     head: [['Area', 'Yes/No', 'Details']],
                                     body: tableData,
                                     startY: yPosition + 5,
@@ -5814,7 +5815,7 @@
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
                                         if (data.pageNumber > 1) {
-                                            addPageHeader(data.pageNumber, contentDoc.internal.getNumberOfPages());
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
                                         }
                                     },
                                     didAddPage: function (data) {
@@ -5823,7 +5824,7 @@
                                     }
                                 });
                                 
-                                yPosition = contentDoc.lastAutoTable.finalY + 10;
+                                yPosition = doc.lastAutoTable.finalY + 10;
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
@@ -5881,7 +5882,7 @@
                                     ]);
                                 }
                                 
-                                contentDoc.autoTable({
+                                doc.autoTable({
                                     head: [['#', 'Client Name', 'Service Provided', 'Duration', 'Value ($)']],
                                     body: tableData,
                                     startY: yPosition + 5,
@@ -5908,7 +5909,7 @@
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
                                         if (data.pageNumber > 1) {
-                                            addPageHeader(data.pageNumber, contentDoc.internal.getNumberOfPages());
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
                                         }
                                     },
                                     didAddPage: function (data) {
@@ -5917,7 +5918,7 @@
                                     }
                                 });
                                 
-                                yPosition = contentDoc.lastAutoTable.finalY + 10;
+                                yPosition = doc.lastAutoTable.finalY + 10;
                             }
                             
                             yPosition += 8;
@@ -6009,13 +6010,13 @@
                         
                         section4Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number' || q.type === 'date') {
                                 const value = sectionData[q.field];
@@ -6043,7 +6044,7 @@
                                     ];
                                 });
                                 
-                                contentDoc.autoTable({
+                                doc.autoTable({
                                     head: [['Period', 'Canada ($)', 'USA ($)', 'Foreign ($)']],
                                     body: tableData,
                                     startY: yPosition + 5,
@@ -6069,7 +6070,7 @@
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
                                         if (data.pageNumber > 1) {
-                                            addPageHeader(data.pageNumber, contentDoc.internal.getNumberOfPages());
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
                                         }
                                     },
                                     didAddPage: function (data) {
@@ -6078,7 +6079,7 @@
                                     }
                                 });
                                 
-                                yPosition = contentDoc.lastAutoTable.finalY + 10;
+                                yPosition = doc.lastAutoTable.finalY + 10;
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
@@ -6114,7 +6115,7 @@
                                     ]);
                                 }
                                 
-                                contentDoc.autoTable({
+                                doc.autoTable({
                                     head: [['#', 'Project/Contract Name', 'Client', 'Value ($)', 'Duration']],
                                     body: tableData,
                                     startY: yPosition + 5,
@@ -6141,7 +6142,7 @@
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
                                         if (data.pageNumber > 1) {
-                                            addPageHeader(data.pageNumber, contentDoc.internal.getNumberOfPages());
+                                            addPageHeader(data.pageNumber, doc.internal.getNumberOfPages());
                                         }
                                     },
                                     didAddPage: function (data) {
@@ -6150,7 +6151,7 @@
                                     }
                                 });
                                 
-                                yPosition = contentDoc.lastAutoTable.finalY + 10;
+                                yPosition = doc.lastAutoTable.finalY + 10;
                             }
                             
                             yPosition += 8;
@@ -6216,13 +6217,13 @@
                         
                         section5Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData[q.field];
                             
@@ -6434,13 +6435,13 @@
                         
                         section6Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData[q.field];
                             
@@ -6454,9 +6455,9 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 20);
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
                                         addWrappedText(`Answer: ${followUpValue}`, margin + 30);
@@ -6595,12 +6596,12 @@
                         section8Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -6767,12 +6768,12 @@
                         section9Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -6786,10 +6787,10 @@
                                 // Handle follow-up fields for data collection question
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText('Data Types and Record Counts:', margin + 30);
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     q.followUp.fields.forEach(field => {
                                         const recordCount = sectionData[field.field];
@@ -6913,12 +6914,12 @@
                         section10Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -7066,13 +7067,13 @@
                         
                         section7Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(11);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData[q.field];
                             
@@ -7086,9 +7087,9 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 20);
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
                                         addWrappedText(`Answer: ${followUpValue}`, margin + 30);
@@ -7187,12 +7188,12 @@
                         section11Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -7317,12 +7318,12 @@
                         section12Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -7401,12 +7402,12 @@
                         section13Questions.forEach(q => {
                             checkPageBreak(30);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 20);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             if (q.type === 'radio') {
                                 const fieldValue = sectionData ? sectionData[q.field] : null;
@@ -7422,10 +7423,10 @@
                                 // Handle follow-up questions for radio type
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 30);
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
@@ -7454,10 +7455,10 @@
                                 // Handle follow-up for checkbox questions
                                 if (q.followUp && anyIncidentSelected && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 30);
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
@@ -7602,12 +7603,12 @@
                         aiQuestions.forEach(q => {
                             checkPageBreak(15);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -7621,10 +7622,10 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 20);
                                     yPosition += 2;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
@@ -7897,12 +7898,12 @@
                         defiQuestions.forEach(q => {
                             checkPageBreak(15);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             const fieldValue = sectionData ? sectionData[q.field] : null;
                             
@@ -7916,10 +7917,10 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 20);
                                     yPosition += 2;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     if (q.followUp.fields) {
                                         // Handle multiple follow-up fields
@@ -8156,12 +8157,12 @@
                         roboticsQuestions.forEach(q => {
                             checkPageBreak(15);
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            doc.setFontSize(10);
+                            doc.setFont(undefined, 'bold');
                             addWrappedText(q.question, margin + 10);
                             yPosition += 3;
                             
-                            contentDoc.setFont(undefined, 'normal');
+                            doc.setFont(undefined, 'normal');
                             
                             if (q.type === 'radio') {
                                 const fieldValue = sectionData ? sectionData[q.field] : null;
@@ -8177,10 +8178,10 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    doc.setFont(undefined, 'bold');
                                     addWrappedText(q.followUp.label, margin + 20);
                                     yPosition += 2;
-                                    contentDoc.setFont(undefined, 'normal');
+                                    doc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
@@ -8204,10 +8205,10 @@
                                         // Handle follow-up for checkbox with other option
                                         if (q.followUp && option.value === q.followUp.condition && isSelected && sectionData) {
                                             yPosition += 3;
-                                            contentDoc.setFont(undefined, 'bold');
+                                            doc.setFont(undefined, 'bold');
                                             addWrappedText(q.followUp.label, margin + 20);
                                             yPosition += 2;
-                                            contentDoc.setFont(undefined, 'normal');
+                                            doc.setFont(undefined, 'normal');
                                             
                                             const followUpValue = sectionData[q.followUp.field];
                                             if (followUpValue) {
@@ -8238,8 +8239,8 @@
                         checkPageBreak(20);
                         addSectionTitle(sectionTitle, margin);
                         
-                        contentDoc.setFontSize(10);
-                        contentDoc.setFont(undefined, 'normal');
+                        doc.setFontSize(10);
+                        doc.setFont(undefined, 'normal');
                         
                         if (Object.keys(sectionData).length === 0) {
                             addWrappedText('No data entered for this section', margin + 10);
@@ -8321,161 +8322,429 @@
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
-                    // Don't add "Thank You" end page - will use static PDF instead
+                    // Add "Thank You" end page (no header/footer)
+                    doc.addPage();
+                    const thankYouPageNum = doc.internal.getNumberOfPages();
                     
-                    // Add headers and footers to all content pages (no front/end pages in content PDF)
-                    const pageCount = contentDoc.internal.getNumberOfPages();
-                    for (let i = 1; i <= pageCount; i++) {
-                        contentDoc.setPage(i);
+                    // Center "Thank You" text on the page
+                    const thankYouPageWidth = doc.internal.pageSize.width;
+                    const thankYouPageHeight = doc.internal.pageSize.height;
+                    
+                    doc.setFontSize(24);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(0, 0, 0); // Black color
+                    
+                    const thankYouText = 'Thank You';
+                    const textWidth = doc.getTextWidth(thankYouText);
+                    const xPosition = (thankYouPageWidth - textWidth) / 2;
+                    const thankYouYPosition = thankYouPageHeight / 2;
+                    
+                    doc.text(thankYouText, xPosition, thankYouYPosition);
+                    
+                    // Add headers and footers to content pages (excluding front cover page 1 and thank you page)
+                    const pageCount = doc.internal.getNumberOfPages();
+                    for (let i = 2; i <= pageCount - 1; i++) { // Exclude last page (thank you page)
+                        doc.setPage(i);
                         
-                        // Add header to each content page (will adjust page numbers later when merged)
-                        addPageHeader(i + 1, pageCount + 2); // +1 for front cover, +1 for end page
+                        // Add header to each content page
+                        addPageHeader(i, pageCount);
                         
                         // Add footer to each content page
-                        contentDoc.setFontSize(8);
-                        contentDoc.setFont(undefined, 'normal');
-                        contentDoc.setTextColor(0, 0, 0); // Ensure footer text is black
-                        contentDoc.text(`Page ${i + 1} of ${pageCount + 2}`, contentDoc.internal.pageSize.width - 40, contentDoc.internal.pageSize.height - 10);
-                        contentDoc.text('Axis Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
+                        doc.setFontSize(8);
+                        doc.setFont(undefined, 'normal');
+                        doc.setTextColor(0, 0, 0); // Ensure footer text is black
+                        doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width - 40, doc.internal.pageSize.height - 10);
+                        doc.text('Axis Technology Insurance Application', margin, doc.internal.pageSize.height - 10);
                     }
-                    
-                    // Convert the content PDF to arrayBuffer for PDF-lib
-                    const contentPdfBytes = contentDoc.output('arraybuffer');
-                    
-                    // Now merge with static PDFs using PDF-lib
-                    const { PDFDocument } = PDFLib;
-                    
-                    showNotification('🔄 Loading and merging static PDF files...', 'info');
-                    
-                    let frontCoverBytes, endPageBytes;
-                    
-                    try {
-                        // Try to load static PDFs using fetch (works in server environment)
-                        const [frontCoverResponse, endPageResponse] = await Promise.all([
-                            fetch('./pdf/front cover page.pdf'),
-                            fetch('./pdf/end last page.pdf')
-                        ]);
-                        
-                        if (!frontCoverResponse.ok) {
-                            throw new Error(`Failed to load front cover PDF: ${frontCoverResponse.status}`);
-                        }
-                        if (!endPageResponse.ok) {
-                            throw new Error(`Failed to load end page PDF: ${endPageResponse.status}`);
-                        }
-                        
-                        frontCoverBytes = await frontCoverResponse.arrayBuffer();
-                        endPageBytes = await endPageResponse.arrayBuffer();
-                        
-                    } catch (fetchError) {
-                        // Check if this is a CORS error (common when opening HTML file directly)
-                        if (fetchError.message.includes('fetch') || fetchError.name === 'TypeError') {
-                            showNotification('⚠️ CORS Error: Please run this application on an HTTP server', 'error');
-                            
-                            // Provide user-friendly error with instructions
-                            const corsErrorModal = `
-                                <div id="corsErrorModal" style="
-                                    position: fixed; 
-                                    top: 0; left: 0; 
-                                    width: 100%; height: 100%; 
-                                    background: rgba(0,0,0,0.7); 
-                                    z-index: 10000; 
-                                    display: flex; 
-                                    align-items: center; 
-                                    justify-content: center;
-                                ">
-                                    <div style="
-                                        background: white; 
-                                        padding: 30px; 
-                                        border-radius: 10px; 
-                                        max-width: 600px; 
-                                        margin: 20px;
-                                        text-align: center;
-                                    ">
-                                        <h3 style="color: #dc3545; margin-bottom: 20px;">🚫 CORS Error Detected</h3>
-                                        <p><strong>The PDF files cannot be loaded when opening the HTML file directly in the browser.</strong></p>
-                                        <p style="margin: 20px 0;">To use the PDF merging feature, please run this application on an HTTP server:</p>
-                                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: left;">
-                                            <strong>Options:</strong><br>
-                                            1. <strong>Python:</strong> <code>python -m http.server 8080</code><br>
-                                            2. <strong>Node.js:</strong> <code>npx serve .</code><br>
-                                            3. <strong>PHP:</strong> <code>php -S localhost:8080</code><br>
-                                            4. <strong>Use a web server like XAMPP/WAMP</strong>
-                                        </div>
-                                        <p style="font-size: 14px; color: #666;">Then access via <code>http://localhost:8080</code></p>
-                                        <button onclick="document.getElementById('corsErrorModal').remove()" style="
-                                            background: #007bff; 
-                                            color: white; 
-                                            border: none; 
-                                            padding: 10px 20px; 
-                                            border-radius: 5px; 
-                                            cursor: pointer;
-                                            margin-top: 15px;
-                                        ">Close</button>
-                                    </div>
-                                </div>
-                            `;
-                            
-                            document.body.insertAdjacentHTML('beforeend', corsErrorModal);
-                            throw new Error('CORS Error: PDF files cannot be loaded. Please run on HTTP server.');
-                        } else {
-                            throw fetchError;
-                        }
-                    }
-                    
-                    // Create new PDF document for merging
-                    const finalPdf = await PDFDocument.create();
-                    
-                    // Load all PDFs
-                    const frontCoverPdf = await PDFDocument.load(frontCoverBytes);
-                    const contentPdf = await PDFDocument.load(contentPdfBytes);
-                    const endPagePdf = await PDFDocument.load(endPageBytes);
-                    
-                    // Copy front cover pages
-                    const frontCoverPages = await finalPdf.copyPages(frontCoverPdf, frontCoverPdf.getPageIndices());
-                    frontCoverPages.forEach((page) => finalPdf.addPage(page));
-                    
-                    // Copy content pages
-                    const contentPages = await finalPdf.copyPages(contentPdf, contentPdf.getPageIndices());
-                    contentPages.forEach((page) => finalPdf.addPage(page));
-                    
-                    // Copy end page pages
-                    const endPages = await finalPdf.copyPages(endPagePdf, endPagePdf.getPageIndices());
-                    endPages.forEach((page) => finalPdf.addPage(page));
-                    
-                    // Generate final PDF
-                    const finalPdfBytes = await finalPdf.save();
                     
                     // Generate filename with timestamp
                     const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,'-');
                     const filename = `Axis-Technology-Insurance-Application-${timestamp}.pdf`;
                     
-                    // Download the merged PDF
-                    const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                    // Save the PDF
+                    doc.save(filename);
                     
-                    showNotification('✅ PDF with static cover and end pages downloaded successfully!', 'success');
+                    showNotification('✅ PDF downloaded successfully!', 'success');
                     
                 } catch (error) {
                     console.error('Error generating PDF:', error);
-                    
-                    if (error.message.includes('CORS Error')) {
-                        // CORS error already handled above with modal
-                        return;
-                    }
-                    
-                    if (error.message.includes('Failed to load') && error.message.includes('PDF')) {
-                        showNotification('❌ Error: Could not load static PDF files. Please check that pdf/front cover page.pdf and pdf/end last page.pdf exist.', 'error');
-                    } else {
-                        showNotification('❌ Error generating PDF. Please try again.', 'error');
-                    }
+                    showNotification('❌ Error generating PDF. Please try again.', 'error');
                 }
+            }
+
+
+
+
+            // Generate HTML content with proper table structure for PDF conversion
+            function generatePDFHTMLContent(formData) {
+                const timestamp = new Date().toLocaleString();
+                
+                let html = `
+                    <div style="max-width: 190mm; margin: 0 auto; padding: 10mm;">
+                        <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #428bca; padding-bottom: 10px;">
+                            <h1 style="color: #428bca; margin: 0;">Axis Technology Insurance Application</h1>
+                            <p style="margin: 5px 0; color: #666;">Submitted: ${timestamp}</p>
+                        </div>
+                `;
+                
+                // Section 1: Sectors
+                html += generateSection1HTML(formData.sectors);
+                
+                // Section 2: General Information  
+                html += generateSection2HTML(formData.generalInfo);
+                
+                // Section 3: Operations
+                html += generateSection3HTML(formData.operations);
+                
+                // Section 4: Financials
+                html += generateSection4HTML(formData.financials);
+                
+                // Add other sections as simple data
+                html += generateOtherSectionsHTML(formData);
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSection1HTML(sectorData) {
+                const sectors = [
+                    { key: 'ai', label: 'Artificial Intelligence' },
+                    { key: 'defi', label: 'Decentralized Finance & Digital Assets' },
+                    { key: 'robotics', label: 'Autonomous Robotics' }
+                ];
+                
+                let html = `
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 1: Sectors</h2>
+                        <p><strong>Question:</strong> Does your business provide products or services within any of the following sectors?</p>
+                        <div style="margin: 10px 0;">
+                `;
+                
+                sectors.forEach(sector => {
+                    const isSelected = sectorData.includes(sector.key);
+                    const checkbox = isSelected ? '[X]' : '[ ]';
+                    html += `<p style="margin: 5px 0;">${checkbox} ${sector.label}</p>`;
+                });
+                
+                html += '</div></div>';
+                return html;
+            }
+
+            function generateSection2HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 2: General Information</h2>
+                `;
+                
+                const questions = [
+                    { field: 'legal_name', question: '1. Legal Name of Organization' },
+                    { field: 'location_incorporation', question: '2. Location of Incorporation' },
+                    { field: 'mailing_address', question: '3. Mailing Address' },
+                    { field: 'subsidiaries', question: '4. List all subsidiaries & Location of Incorporation' },
+                    { field: 'physical_locations', question: '5. List all Physical Locations' },
+                    { field: 'urls', question: '6. List all URLs' },
+                    { field: 'year_established', question: '7. Year Company Established' },
+                    { field: 'employees', question: '8. Number of Employees' }
+                ];
+                
+                questions.forEach(q => {
+                    const value = sectionData[q.field] || 'Not provided';
+                    html += `
+                        <div style="margin: 10px 0;">
+                            <p style="margin: 0; font-weight: bold;">${q.question}</p>
+                            <p style="margin: 5px 0 0 20px;">Answer: ${value}</p>
+                        </div>
+                    `;
+                });
+                
+                // Handle employees outside Canada question
+                if (sectionData.employees_outside_canada) {
+                    html += `
+                        <div style="margin: 10px 0;">
+                            <p style="margin: 0; font-weight: bold;">9. Are any Employees based outside of Canada?</p>
+                            <p style="margin: 5px 0 0 20px;">(•) Yes</p>
+                            <p style="margin: 0 0 0 20px;">( ) No</p>
+                            ${sectionData.employees_countries ? `<p style="margin: 5px 0 0 40px;"><strong>If yes, list countries:</strong> ${sectionData.employees_countries}</p>` : ''}
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div style="margin: 10px 0;">
+                            <p style="margin: 0; font-weight: bold;">9. Are any Employees based outside of Canada?</p>
+                            <p style="margin: 5px 0 0 20px;">( ) Yes</p>
+                            <p style="margin: 0 0 0 20px;">(•) No</p>
+                        </div>
+                    `;
+                }
+                
+                // Breach Response Contact
+                if (sectionData.breach_contact_name || sectionData.breach_contact_email) {
+                    html += `
+                        <div style="margin: 10px 0;">
+                            <p style="margin: 0; font-weight: bold;">10. Breach Response Contact</p>
+                            <p style="margin: 5px 0 0 20px;"><strong>Name:</strong> ${sectionData.breach_contact_name || 'Not provided'}</p>
+                            <p style="margin: 5px 0 0 20px;"><strong>Email:</strong> ${sectionData.breach_contact_email || 'Not provided'}</p>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSection3HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 3: Operations</h2>
+                `;
+                
+                // Revenue table with HTML table structure
+                html += `
+                    <div style="margin: 15px 0;">
+                        <p style="margin: 0; font-weight: bold;">2. Percentage of revenue derived from each activity</p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                            <thead>
+                                <tr style="background-color: #428bca; color: white;">
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Activity</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Custom Software Development</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_software || '0'}%</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Software as a Service</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_saas || '0'}%</td>
+                                </tr>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Consulting Services</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_consulting || '0'}%</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Hardware</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_hardware || '0'}%</td>
+                                </tr>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Other</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">${sectionData.revenue_other || '0'}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                // Risk areas table
+                html += `
+                    <div style="margin: 15px 0;">
+                        <p style="margin: 0; font-weight: bold;">3. Do you operate in any of the following areas?</p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                            <thead>
+                                <tr style="background-color: #428bca; color: white;">
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Area</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">Yes/No</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                const riskAreas = [
+                    { field: 'risk_critical_infrastructure', label: 'Critical Infrastructure', details: 'critical_infrastructure_details' },
+                    { field: 'risk_financial_services', label: 'Financial Services', details: 'financial_services_details' },
+                    { field: 'risk_healthcare', label: 'Healthcare', details: 'healthcare_details' }
+                ];
+                
+                riskAreas.forEach((area, index) => {
+                    const selectedValue = sectionData[area.field];
+                    const details = selectedValue === 'yes' ? (sectionData[area.details] || 'No details') : 'N/A';
+                    const yesNoStatus = selectedValue === 'yes' ? 'Yes' : (selectedValue === 'no' ? 'No' : '-');
+                    const bgColor = index % 2 === 0 ? 'background-color: #f9f9f9;' : '';
+                    
+                    html += `
+                        <tr style="${bgColor}">
+                            <td style="padding: 8px; border: 1px solid #ddd;">${area.label}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${yesNoStatus}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${details}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                // Top 3 clients table
+                html += `
+                    <div style="margin: 15px 0;">
+                        <p style="margin: 0; font-weight: bold;">10. List the top 3 clients over the past 3 years</p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                            <thead>
+                                <tr style="background-color: #428bca; color: white;">
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">#</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Client Name</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Service Provided</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Duration</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Value ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                for (let i = 1; i <= 3; i++) {
+                    const name = sectionData[`client_${i}_name`] || 'Not provided';
+                    const service = sectionData[`client_${i}_service`] || 'Not provided';
+                    const duration = sectionData[`client_${i}_duration`] || 'Not provided';
+                    const value = sectionData[`client_${i}_value`] || '0';
+                    const bgColor = (i - 1) % 2 === 0 ? 'background-color: #f9f9f9;' : '';
+                    
+                    html += `
+                        <tr style="${bgColor}">
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${service}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${duration}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${value}</td>
+                        </tr>
+                    `;
+                }
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateSection4HTML(sectionData) {
+                let html = `
+                    <div style="margin-bottom: 20px;">
+                        <h2 style="color: #428bca; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Section 4: Financials</h2>
+                `;
+                
+                // Gross revenues table
+                html += `
+                    <div style="margin: 15px 0;">
+                        <p style="margin: 0; font-weight: bold;">2. Provide gross revenues for</p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                            <thead>
+                                <tr style="background-color: #428bca; color: white;">
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Period</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Canada ($)</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">USA ($)</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Foreign ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Last completed fiscal year end</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_domestic || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_usa || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_last_foreign || '0'}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Estimate for current fiscal year end</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_domestic || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_usa || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_current_foreign || '0'}</td>
+                                </tr>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Estimate for next completed fiscal year end</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_domestic || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_usa || '0'}</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${sectionData.revenue_next_foreign || '0'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                // Largest projects table
+                html += `
+                    <div style="margin: 15px 0;">
+                        <p style="margin: 0; font-weight: bold;">7. List your largest 3 Projects or Contracts in the past 2 years</p>
+                        <table style="width: 100%; border-collapse: collapse; margin: 10px 0; border: 1px solid #ddd;">
+                            <thead>
+                                <tr style="background-color: #428bca; color: white;">
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: center;">#</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Project/Contract Name</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Client</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: right;">Value ($)</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd; text-align: left;">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                for (let i = 1; i <= 3; i++) {
+                    const name = sectionData[`project_${i}_name`] || 'Not provided';
+                    const client = sectionData[`project_${i}_client`] || 'Not provided';
+                    const value = sectionData[`project_${i}_value`] || '0';
+                    const duration = sectionData[`project_${i}_duration`] || 'Not provided';
+                    const bgColor = (i - 1) % 2 === 0 ? 'background-color: #f9f9f9;' : '';
+                    
+                    html += `
+                        <tr style="${bgColor}">
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center;">${i}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${client}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">$${value}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">${duration}</td>
+                        </tr>
+                    `;
+                }
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                html += '</div>';
+                return html;
+            }
+
+            function generateOtherSectionsHTML(formData) {
+                let html = '<div style="margin-top: 20px;">';
+                
+                const otherSections = [
+                    { key: 'contractualControls', title: 'Section 5: Contractual Controls' },
+                    { key: 'cybersecurity', title: 'Section 6: Cybersecurity, Technical & Crime Controls' },
+                    { key: 'dataBackup', title: 'Section 7: Data Backup & Business Continuity' },
+                    { key: 'thirdParty', title: 'Section 8: Third Party, Vendor & Supply Chain Controls' },
+                    { key: 'privacy', title: 'Section 9: Privacy, Data Security & API Controls' },
+                    { key: 'intellectualProperty', title: 'Section 10: Intellectual Property & Content Governance Controls' },
+                    { key: 'employment', title: 'Section 11: People, Employment Practices & Insider Controls' },
+                    { key: 'aiTools', title: 'Section 12: Artificial Intelligence Tools & Controls' },
+                    { key: 'priorIncidents', title: 'Section 13: Prior Incidents & Claims' }
+                ];
+                
+                otherSections.forEach(section => {
+                    const sectionData = formData[section.key];
+                    if (sectionData && Object.keys(sectionData).length > 0) {
+                        html += `
+                            <div style="margin-bottom: 15px;">
+                                <h3 style="color: #428bca; font-size: 14px; margin-bottom: 10px;">${section.title}</h3>
+                        `;
+                        
+                        Object.entries(sectionData).forEach(([key, value]) => {
+                            if (value && value.toString().trim() !== '') {
+                                html += `<p style="margin: 3px 0;"><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</p>`;
+                            }
+                        });
+                        
+                        html += '</div>';
+                    }
+                });
+                
+                html += '</div>';
+                return html;
             }
 
             function showNotification(message, type = 'info') {
