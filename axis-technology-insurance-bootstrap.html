@@ -8464,7 +8464,7 @@
                         const tocMargin = 20;
                         const tocLineHeight = 8;
                         
-                        // Add ToC header (we'll add it later in the loop)
+                        // ToC header will be added after title
                         
                         // ToC Title
                         tocDoc.setFontSize(18);
@@ -8474,32 +8474,34 @@
                         tocYPosition += 15;
                         
                         // ToC entries - Define all sections that will appear in the PDF
-                        // Page numbers start at 3 (front cover=1, ToC=2, content starts at 3)
+                        // Page numbers are estimated based on typical section lengths
+                        // Starting at page 3 (front cover=1, ToC=2, content starts at 3)
+                        let currentPageEstimate = 3;
                         const tocEntries = [
-                            { title: 'Section 1: Sectors', page: 3 },
-                            { title: 'Section 2: General Information', page: 3 },
-                            { title: 'Section 3: Operations', page: 3 },
-                            { title: 'Section 4: Financials', page: 3 },
-                            { title: 'Section 5: Contractual Controls', page: 3 },
-                            { title: 'Section 6: Cybersecurity, Technical & Crime Controls', page: 3 },
-                            { title: 'Section 7: Data Backup & Business Continuity & Supply Chain Controls', page: 3 },
-                            { title: 'Section 8: Third Party, Vendor & Supply Chain Controls', page: 3 },
-                            { title: 'Section 9: Privacy, Data Security & API Controls', page: 3 },
-                            { title: 'Section 10: Intellectual Property & Content Governance Controls', page: 3 },
-                            { title: 'Section 11: People, Employment Practices & Insider Controls', page: 3 },
-                            { title: 'Section 12: Artificial Intelligence Tools & Controls', page: 3 },
-                            { title: 'Section 13: Prior Incidents & Claims', page: 3 }
+                            { title: 'Section 1: Sectors', page: currentPageEstimate++ },
+                            { title: 'Section 2: General Information', page: currentPageEstimate++ },
+                            { title: 'Section 3: Operations', page: currentPageEstimate++ },
+                            { title: 'Section 4: Financials', page: currentPageEstimate++ },
+                            { title: 'Section 5: Contractual Controls', page: currentPageEstimate++ },
+                            { title: 'Section 6: Cybersecurity, Technical & Crime Controls', page: currentPageEstimate++ },
+                            { title: 'Section 7: Data Backup & Business Continuity & Supply Chain Controls', page: currentPageEstimate++ },
+                            { title: 'Section 8: Third Party, Vendor & Supply Chain Controls', page: currentPageEstimate++ },
+                            { title: 'Section 9: Privacy, Data Security & API Controls', page: currentPageEstimate++ },
+                            { title: 'Section 10: Intellectual Property & Content Governance Controls', page: currentPageEstimate++ },
+                            { title: 'Section 11: People, Employment Practices & Insider Controls', page: currentPageEstimate++ },
+                            { title: 'Section 12: Artificial Intelligence Tools & Controls', page: currentPageEstimate++ },
+                            { title: 'Section 13: Prior Incidents & Claims', page: currentPageEstimate++ }
                         ];
                         
                         // Add conditional sections based on selected sectors
                         if (formData.sectors.includes('ai')) {
-                            tocEntries.push({ title: 'Additional Questions: Artificial Intelligence', page: 3 });
+                            tocEntries.push({ title: 'Additional Questions: Artificial Intelligence', page: currentPageEstimate++ });
                         }
                         if (formData.sectors.includes('defi')) {
-                            tocEntries.push({ title: 'Additional Questions: Decentralized Finance & Digital Assets', page: 3 });
+                            tocEntries.push({ title: 'Additional Questions: Decentralized Finance & Digital Assets', page: currentPageEstimate++ });
                         }
                         if (formData.sectors.includes('robotics')) {
-                            tocEntries.push({ title: 'Additional Questions: Autonomous Robotics', page: 3 });
+                            tocEntries.push({ title: 'Additional Questions: Autonomous Robotics', page: currentPageEstimate++ });
                         }
                         
                         // Add ToC entries to the document
