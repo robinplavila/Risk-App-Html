@@ -8455,19 +8455,144 @@
                     
                     // Don't add "Thank You" end page - will use static PDF instead
                     
+                    // Generate Table of Contents
+                    function generateTableOfContents() {
+                        // Create a separate PDF document for Table of Contents
+                        const tocDoc = new jsPDF();
+                        let tocYPosition = 50;
+                        const tocPageHeight = tocDoc.internal.pageSize.height;
+                        const tocMargin = 20;
+                        const tocLineHeight = 8;
+                        
+                        // Add ToC header (we'll add it later in the loop)
+                        
+                        // ToC Title
+                        tocDoc.setFontSize(18);
+                        tocDoc.setFont(undefined, 'bold');
+                        tocDoc.setTextColor(0, 79, 240); // Blue color matching section titles
+                        tocDoc.text('Table of Contents', tocMargin, tocYPosition);
+                        tocYPosition += 15;
+                        
+                        // ToC entries - Define all sections that will appear in the PDF
+                        // Page numbers start at 3 (front cover=1, ToC=2, content starts at 3)
+                        const tocEntries = [
+                            { title: 'Section 1: Sectors', page: 3 },
+                            { title: 'Section 2: General Information', page: 3 },
+                            { title: 'Section 3: Operations', page: 3 },
+                            { title: 'Section 4: Financials', page: 3 },
+                            { title: 'Section 5: Contractual Controls', page: 3 },
+                            { title: 'Section 6: Cybersecurity, Technical & Crime Controls', page: 3 },
+                            { title: 'Section 7: Data Backup & Business Continuity & Supply Chain Controls', page: 3 },
+                            { title: 'Section 8: Third Party, Vendor & Supply Chain Controls', page: 3 },
+                            { title: 'Section 9: Privacy, Data Security & API Controls', page: 3 },
+                            { title: 'Section 10: Intellectual Property & Content Governance Controls', page: 3 },
+                            { title: 'Section 11: People, Employment Practices & Insider Controls', page: 3 },
+                            { title: 'Section 12: Artificial Intelligence Tools & Controls', page: 3 },
+                            { title: 'Section 13: Prior Incidents & Claims', page: 3 }
+                        ];
+                        
+                        // Add conditional sections based on selected sectors
+                        if (formData.sectors.includes('ai')) {
+                            tocEntries.push({ title: 'Additional Questions: Artificial Intelligence', page: 3 });
+                        }
+                        if (formData.sectors.includes('defi')) {
+                            tocEntries.push({ title: 'Additional Questions: Decentralized Finance & Digital Assets', page: 3 });
+                        }
+                        if (formData.sectors.includes('robotics')) {
+                            tocEntries.push({ title: 'Additional Questions: Autonomous Robotics', page: 3 });
+                        }
+                        
+                        // Add ToC entries to the document
+                        tocDoc.setFontSize(12);
+                        tocDoc.setFont(undefined, 'normal');
+                        tocDoc.setTextColor(0, 0, 0); // Black text for entries
+                        
+                        // Helper function to add header to ToC pages
+                        function addToCPageHeader(pageNum) {
+                            const pageWidth = tocDoc.internal.pageSize.width;
+                            
+                            // Axis logo text (left side)
+                            tocDoc.setFontSize(16);
+                            tocDoc.setFont(undefined, 'bold');
+                            tocDoc.setTextColor(0, 100, 200); // Blue color for Axis
+                            tocDoc.text('AXIS', tocMargin, 25);
+                            
+                            // Technology Risk Application | Table of Contents (right side)
+                            tocDoc.setFontSize(10);
+                            tocDoc.setFont(undefined, 'normal');
+                            tocDoc.setTextColor(0, 0, 0); // Black color for rest of text
+                            const headerText = `Technology Risk Application | Table of Contents`;
+                            const textWidth = tocDoc.getTextWidth(headerText);
+                            tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
+                            
+                            // Blue border line at bottom of header
+                            tocDoc.setDrawColor(0, 100, 200); // Blue color
+                            tocDoc.setLineWidth(2);
+                            tocDoc.line(tocMargin, 35, pageWidth - tocMargin, 35);
+                            
+                            // Reset text color to black for content
+                            tocDoc.setTextColor(0, 0, 0);
+                        }
+                        
+                        // Add header to first ToC page
+                        addToCPageHeader(1);
+                        
+                        tocEntries.forEach(entry => {
+                            // Check if we need a new page
+                            if (tocYPosition + tocLineHeight > tocPageHeight - tocMargin) {
+                                tocDoc.addPage();
+                                tocYPosition = 50; // Start below header area
+                                addToCPageHeader(tocDoc.internal.getNumberOfPages());
+                            }
+                            
+                            // Add title
+                            tocDoc.text(entry.title, tocMargin + 5, tocYPosition);
+                            
+                            // Add dotted line
+                            const titleWidth = tocDoc.getTextWidth(entry.title);
+                            const pageNumWidth = tocDoc.getTextWidth(entry.page.toString());
+                            const availableWidth = tocDoc.internal.pageSize.width - tocMargin - 5 - titleWidth - pageNumWidth - 10;
+                            const dotCount = Math.floor(availableWidth / 3);
+                            const dots = '.'.repeat(Math.max(dotCount, 1));
+                            
+                            tocDoc.text(dots, tocMargin + 5 + titleWidth + 5, tocYPosition);
+                            
+                            // Add page number
+                            tocDoc.text(entry.page.toString(), tocDoc.internal.pageSize.width - tocMargin - pageNumWidth, tocYPosition);
+                            
+                            tocYPosition += tocLineHeight;
+                        });
+                        
+                        // Add footer
+                        const tocPageCount = tocDoc.internal.getNumberOfPages();
+                        for (let i = 1; i <= tocPageCount; i++) {
+                            tocDoc.setPage(i);
+                            tocDoc.setFontSize(8);
+                            tocDoc.setFont(undefined, 'normal');
+                            tocDoc.setTextColor(0, 0, 0);
+                            tocDoc.text(`Page ${i + 1}`, tocDoc.internal.pageSize.width - 40, tocDoc.internal.pageSize.height - 10);
+                            tocDoc.text('Axis Technology Insurance Application', tocMargin, tocDoc.internal.pageSize.height - 10);
+                        }
+                        
+                        return tocDoc.output('arraybuffer');
+                    }
+                    
+                    // Generate ToC
+                    const tocPdfBytes = generateTableOfContents();
+                    
                     // Add headers and footers to all content pages (no front/end pages in content PDF)
                     const pageCount = contentDoc.internal.getNumberOfPages();
                     for (let i = 1; i <= pageCount; i++) {
                         contentDoc.setPage(i);
                         
                         // Add header to each content page (will adjust page numbers later when merged)
-                        addPageHeader(i + 1, pageCount + 2); // +1 for front cover, +1 for end page
+                        addPageHeader(i + 2, pageCount + 3); // +1 for front cover, +1 for ToC, +1 for end page
                         
                         // Add footer to each content page
                         contentDoc.setFontSize(8);
                         contentDoc.setFont(undefined, 'normal');
                         contentDoc.setTextColor(0, 0, 0); // Ensure footer text is black
-                        contentDoc.text(`Page ${i + 1} of ${pageCount + 2}`, contentDoc.internal.pageSize.width - 40, contentDoc.internal.pageSize.height - 10);
+                        contentDoc.text(`Page ${i + 2} of ${pageCount + 3}`, contentDoc.internal.pageSize.width - 40, contentDoc.internal.pageSize.height - 10);
                         contentDoc.text('Axis Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
                     }
                     
@@ -8559,12 +8684,17 @@
                     
                     // Load all PDFs
                     const frontCoverPdf = await PDFDocument.load(frontCoverBytes);
+                    const tocPdf = await PDFDocument.load(tocPdfBytes);
                     const contentPdf = await PDFDocument.load(contentPdfBytes);
                     const endPagePdf = await PDFDocument.load(endPageBytes);
                     
                     // Copy front cover pages
                     const frontCoverPages = await finalPdf.copyPages(frontCoverPdf, frontCoverPdf.getPageIndices());
                     frontCoverPages.forEach((page) => finalPdf.addPage(page));
+                    
+                    // Copy table of contents pages
+                    const tocPages = await finalPdf.copyPages(tocPdf, tocPdf.getPageIndices());
+                    tocPages.forEach((page) => finalPdf.addPage(page));
                     
                     // Copy content pages
                     const contentPages = await finalPdf.copyPages(contentPdf, contentPdf.getPageIndices());
