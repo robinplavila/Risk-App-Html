@@ -5510,8 +5510,12 @@
                     // Start directly with content (no front cover page)
                     yPosition = headerHeight + 5; // Reset position for content pages
                     
+                    // Initialize page tracking for ToC
+                    const sectionPageNumbers = {};
+                    
                     // Section 1: Sectors - Enhanced with questions and options
                     checkPageBreak(20);
+                    sectionPageNumbers['Section 1: Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
                     addSectionTitle('Section 1: Sectors', margin);
                     
                     contentDoc.setFontSize(11);
@@ -8399,39 +8403,51 @@
                     }
                     
                     // Section 2: General Information - Enhanced with questions and options
+                    sectionPageNumbers['Section 2: General Information'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection2WithQuestions(formData.generalInfo);
                     
                     // Section 3: Operations - Enhanced with questions and options
+                    sectionPageNumbers['Section 3: Operations'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection3WithQuestions(formData.operations);
                     
                     // Section 4: Financials - Enhanced with questions and options
+                    sectionPageNumbers['Section 4: Financials'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection4WithQuestions(formData.financials);
                     
                     // Section 5: Contractual Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 5: Contractual Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection5WithQuestions(formData.contractualControls);
                     
                     // Section 6: Cybersecurity, Technical & Crime Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 6: Cybersecurity, Technical & Crime Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection6WithQuestions(formData.cybersecurity);
                     
                     // Section 7: Data Backup & Business Continuity & Supply Chain Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 7: Data Backup & Business Continuity & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection7WithQuestions(formData.dataBackup);
                     
                     // Section 8: Third Party, Vendor & Supply Chain Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 8: Third Party, Vendor & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection8WithQuestions(formData.thirdParty);
                     
                     // Section 9: Privacy, Data Security & API Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 9: Privacy, Data Security & API Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection9WithQuestions(formData.privacy);
                     
                     // Section 10: Intellectual Property & Content Governance Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 10: Intellectual Property & Content Governance Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection10WithQuestions(formData.intellectualProperty);
                     
-                    // Section 11: Industry-Specific Questions - Enhanced with questions and options
+                    // Section 11: People, Employment Practices & Insider Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 11: People, Employment Practices & Insider Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection11WithQuestions(formData.employment);
                     
                     // Section 12: Artificial Intelligence Tools & Controls - Enhanced with questions and options
+                    sectionPageNumbers['Section 12: Artificial Intelligence Tools & Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection12WithQuestions(formData.aiTools);
                     
                     // Section 13: Prior Incidents & Claims - Enhanced with questions and options
+                    sectionPageNumbers['Section 13: Prior Incidents & Claims'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection13WithQuestions(formData.priorIncidents);
                     
                     // Add all other sections
@@ -8442,21 +8458,24 @@
                     
                     // Conditional sections (only if respective sectors were selected)
                     if (formData.sectors.includes('ai')) {
+                        sectionPageNumbers['Additional Questions: Artificial Intelligence'] = contentDoc.internal.getNumberOfPages() + 2;
                         addAISectionWithQuestions(formData.ai);
                     }
                     
                     if (formData.sectors.includes('defi')) {
+                        sectionPageNumbers['Additional Questions: Decentralized Finance & Digital Assets'] = contentDoc.internal.getNumberOfPages() + 2;
                         addDeFiSectionWithQuestions(formData.defi);
                     }
                     
                     if (formData.sectors.includes('robotics')) {
+                        sectionPageNumbers['Additional Questions: Autonomous Robotics'] = contentDoc.internal.getNumberOfPages() + 2;
                         addRoboticsSectionWithQuestions(formData.robotics);
                     }
                     
                     // Don't add "Thank You" end page - will use static PDF instead
                     
                     // Generate Table of Contents
-                    function generateTableOfContents() {
+                    function generateTableOfContents(sectionPages) {
                         // Create a separate PDF document for Table of Contents
                         const tocDoc = new jsPDF();
                         let tocYPosition = 50;
@@ -8473,35 +8492,41 @@
                         tocDoc.text('Table of Contents', tocMargin, tocYPosition);
                         tocYPosition += 15;
                         
-                        // ToC entries - Define all sections that will appear in the PDF
-                        // Page numbers are estimated based on typical section lengths
-                        // Starting at page 3 (front cover=1, ToC=2, content starts at 3)
-                        let currentPageEstimate = 3;
-                        const tocEntries = [
-                            { title: 'Section 1: Sectors', page: currentPageEstimate++ },
-                            { title: 'Section 2: General Information', page: currentPageEstimate++ },
-                            { title: 'Section 3: Operations', page: currentPageEstimate++ },
-                            { title: 'Section 4: Financials', page: currentPageEstimate++ },
-                            { title: 'Section 5: Contractual Controls', page: currentPageEstimate++ },
-                            { title: 'Section 6: Cybersecurity, Technical & Crime Controls', page: currentPageEstimate++ },
-                            { title: 'Section 7: Data Backup & Business Continuity & Supply Chain Controls', page: currentPageEstimate++ },
-                            { title: 'Section 8: Third Party, Vendor & Supply Chain Controls', page: currentPageEstimate++ },
-                            { title: 'Section 9: Privacy, Data Security & API Controls', page: currentPageEstimate++ },
-                            { title: 'Section 10: Intellectual Property & Content Governance Controls', page: currentPageEstimate++ },
-                            { title: 'Section 11: People, Employment Practices & Insider Controls', page: currentPageEstimate++ },
-                            { title: 'Section 12: Artificial Intelligence Tools & Controls', page: currentPageEstimate++ },
-                            { title: 'Section 13: Prior Incidents & Claims', page: currentPageEstimate++ }
+                        // ToC entries - Use actual page numbers from section tracking
+                        const tocEntries = [];
+                        
+                        // Add main sections in order
+                        const mainSections = [
+                            'Section 1: Sectors',
+                            'Section 2: General Information',
+                            'Section 3: Operations',
+                            'Section 4: Financials',
+                            'Section 5: Contractual Controls',
+                            'Section 6: Cybersecurity, Technical & Crime Controls',
+                            'Section 7: Data Backup & Business Continuity & Supply Chain Controls',
+                            'Section 8: Third Party, Vendor & Supply Chain Controls',
+                            'Section 9: Privacy, Data Security & API Controls',
+                            'Section 10: Intellectual Property & Content Governance Controls',
+                            'Section 11: People, Employment Practices & Insider Controls',
+                            'Section 12: Artificial Intelligence Tools & Controls',
+                            'Section 13: Prior Incidents & Claims'
                         ];
                         
+                        mainSections.forEach(sectionTitle => {
+                            if (sectionPages[sectionTitle]) {
+                                tocEntries.push({ title: sectionTitle, page: sectionPages[sectionTitle] });
+                            }
+                        });
+                        
                         // Add conditional sections based on selected sectors
-                        if (formData.sectors.includes('ai')) {
-                            tocEntries.push({ title: 'Additional Questions: Artificial Intelligence', page: currentPageEstimate++ });
+                        if (formData.sectors.includes('ai') && sectionPages['Additional Questions: Artificial Intelligence']) {
+                            tocEntries.push({ title: 'Additional Questions: Artificial Intelligence', page: sectionPages['Additional Questions: Artificial Intelligence'] });
                         }
-                        if (formData.sectors.includes('defi')) {
-                            tocEntries.push({ title: 'Additional Questions: Decentralized Finance & Digital Assets', page: currentPageEstimate++ });
+                        if (formData.sectors.includes('defi') && sectionPages['Additional Questions: Decentralized Finance & Digital Assets']) {
+                            tocEntries.push({ title: 'Additional Questions: Decentralized Finance & Digital Assets', page: sectionPages['Additional Questions: Decentralized Finance & Digital Assets'] });
                         }
-                        if (formData.sectors.includes('robotics')) {
-                            tocEntries.push({ title: 'Additional Questions: Autonomous Robotics', page: currentPageEstimate++ });
+                        if (formData.sectors.includes('robotics') && sectionPages['Additional Questions: Autonomous Robotics']) {
+                            tocEntries.push({ title: 'Additional Questions: Autonomous Robotics', page: sectionPages['Additional Questions: Autonomous Robotics'] });
                         }
                         
                         // Add ToC entries to the document
@@ -8579,8 +8604,8 @@
                         return tocDoc.output('arraybuffer');
                     }
                     
-                    // Generate ToC
-                    const tocPdfBytes = generateTableOfContents();
+                    // Generate ToC with actual page numbers
+                    const tocPdfBytes = generateTableOfContents(sectionPageNumbers);
                     
                     // Add headers and footers to all content pages (no front/end pages in content PDF)
                     const pageCount = contentDoc.internal.getNumberOfPages();
