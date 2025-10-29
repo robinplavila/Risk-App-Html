@@ -4275,7 +4275,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <!-- PDF-lib for PDF merging capabilities -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
+    
+    <!-- Custom Fonts Base64 -->
+    <script src="./fonts-base64/Poppins-Black.b64.js"></script>
+    <script src="./fonts-base64/Poppins-ExtraBold.b64.js"></script>
+    <script src="./fonts-base64/Vollkorn-Regular.b64.js"></script>
+    <script src="./fonts-base64/Aptos-Serif.b64.js"></script>
+    <script src="./fonts-base64/Aptos-Serif-Bold.b64.js"></script>
+    
+    <!-- Typography helpers -->
+    <script src="./typography/registerFonts.umd.js"></script>
+    <script src="./typography/tokens.umd.js"></script>
+    <script src="./typography/useFont.umd.js"></script>
 
     <!-- Custom jQuery Script for Form Logic -->
     <script>
@@ -5443,6 +5454,9 @@
                     const { jsPDF } = window.jspdf;
                     const contentDoc = new jsPDF();
                     
+                    // Register custom fonts
+                    window.registerFontsUMD(contentDoc);
+                    
                     let yPosition = 50; // Start below header area
                     const pageHeight = contentDoc.internal.pageSize.height;
                     const margin = 20;
@@ -5470,22 +5484,22 @@
                         } catch (error) {
                             // Fallback to text if image fails to load
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             contentDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
                             contentDoc.text('AXIS', margin, 25);
                         }
                         
                         // Technology Insurance Application | page number (right side)
+                        contentDoc.setFont('Poppins', 'black'); // Poppins Black
                         contentDoc.setFontSize(16);
-                        contentDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
                         
-                        // Page number in Vollkorn style
+                        // Page number in Vollkorn
+                        contentDoc.setFont('Vollkorn', 'normal');
                         contentDoc.setFontSize(19);
-                        contentDoc.setFont('times', 'normal'); // Vollkorn approximation
                         contentDoc.setTextColor(0, 0, 0);
                         const pageText = `Page ${currentPageNum}`;
                         const pageTextWidth = contentDoc.getTextWidth(pageText);
@@ -5521,8 +5535,8 @@
                     
                     // Helper function to add section title with blue color
                     function addSectionTitle(text, x) {
+                        contentDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
                         contentDoc.setFontSize(22); // Updated font size to 22px
-                        contentDoc.setFont('helvetica', 'bold'); // Poppins Extra Bold approximation
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         addWrappedText(text, x, 22); // Pass font size to wrapped text
                         contentDoc.setTextColor(0, 0, 0); // Reset to black
@@ -5532,6 +5546,10 @@
                     // Generate front cover page with dynamic content
                     function generateFrontCover() {
                         const coverDoc = new jsPDF();
+                        
+                        // Register custom fonts
+                        window.registerFontsUMD(coverDoc);
+                        
                         const coverPageWidth = coverDoc.internal.pageSize.width;
                         const coverPageHeight = coverDoc.internal.pageSize.height;
                         const coverMargin = 20;
@@ -5548,8 +5566,8 @@
                         }
                         
                         // Add company name in Sky Blue (ABC Sample Corporation)
+                        coverDoc.setFont('Poppins', 'black'); // Poppins Black
                         coverDoc.setFontSize(19);
-                        coverDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
                         coverDoc.setTextColor(skyBlue[0], skyBlue[1], skyBlue[2]); // Sky Blue
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
                         coverDoc.text(companyName, coverMargin, 80);
@@ -5564,14 +5582,14 @@
                             second: '2-digit',
                             hour12: true
                         });
+                        coverDoc.setFont('AptosSerif', 'normal'); // Aptos Serif regular
                         coverDoc.setFontSize(19);
-                        coverDoc.setFont('times', 'normal'); // Aptos Serif regular approximation
                         coverDoc.setTextColor(0, 0, 0); // Black
                         coverDoc.text(`Submitted: ${submissionDate}`, coverMargin, 100);
                         
                         // Add title
+                        coverDoc.setFont('Poppins', 'black');
                         coverDoc.setFontSize(24);
-                        coverDoc.setFont('helvetica', 'bold');
                         coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
                         coverDoc.text('Technology Insurance Application', coverMargin, coverPageHeight / 2);
                         
@@ -5592,13 +5610,13 @@
                     sectionPageNumbers['Section 1: Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
                     addSectionTitle('Section 1: Sectors', margin);
                     
-                    contentDoc.setFontSize(16); // Aptos Serif bold - 16px
-                    contentDoc.setFont('times', 'bold'); // Aptos Serif approximation
+                    contentDoc.setFont('AptosSerif', 'bold'); // Aptos Serif Bold
+                    contentDoc.setFontSize(16);
                     addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 16);
                     yPosition += 3;
                     
-                    contentDoc.setFontSize(16); // Aptos Serif regular - 16px
-                    contentDoc.setFont('times', 'normal'); // Aptos Serif approximation
+                    contentDoc.setFont('AptosSerif', 'normal'); // Aptos Serif Regular
+                    contentDoc.setFontSize(16);
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -5747,7 +5765,7 @@
                         section2Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -5934,7 +5952,7 @@
                         section3Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6220,7 +6238,7 @@
                         section4Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6427,7 +6445,7 @@
                         section5Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6645,7 +6663,7 @@
                         section6Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6664,7 +6682,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
@@ -6806,7 +6824,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -6978,7 +6996,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -6996,7 +7014,7 @@
                                 // Handle follow-up fields for data collection question
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText('Data Types and Record Counts:', margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7124,7 +7142,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7277,7 +7295,7 @@
                         section7Questions.forEach(q => {
                             checkPageBreak(15);
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -7296,7 +7314,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
@@ -7398,7 +7416,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7528,7 +7546,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7612,7 +7630,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7632,7 +7650,7 @@
                                 // Handle follow-up questions for radio type
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7664,7 +7682,7 @@
                                 // Handle follow-up for checkbox questions
                                 if (q.followUp && anyIncidentSelected && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7813,7 +7831,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7831,7 +7849,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8108,7 +8126,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -8126,7 +8144,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8367,7 +8385,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont('times', 'bold');
+                            contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -8387,7 +8405,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont('times', 'bold');
+                                    contentDoc.setFont('AptosSerif', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8414,7 +8432,7 @@
                                         // Handle follow-up for checkbox with other option
                                         if (q.followUp && option.value === q.followUp.condition && isSelected && sectionData) {
                                             yPosition += 3;
-                                            contentDoc.setFont('times', 'bold');
+                                            contentDoc.setFont('AptosSerif', 'bold');
                                             addWrappedText(q.followUp.label, margin);
                                             yPosition += 2;
                                             contentDoc.setFont(undefined, 'normal');
@@ -8552,6 +8570,10 @@
                     function generateTableOfContents(sectionPages) {
                         // Create a separate PDF document for Table of Contents
                         const tocDoc = new jsPDF();
+                        
+                        // Register custom fonts
+                        window.registerFontsUMD(tocDoc);
+                        
                         let tocYPosition = 50;
                         const tocPageHeight = tocDoc.internal.pageSize.height;
                         const tocMargin = 20;
@@ -8560,8 +8582,8 @@
                         // ToC header will be added after title
                         
                         // ToC Title
+                        tocDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
                         tocDoc.setFontSize(22); // Updated to match section title size
-                        tocDoc.setFont('helvetica', 'bold'); // Poppins Extra Bold approximation
                         tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color matching section titles
                         tocDoc.text('Table of Contents', tocMargin, tocYPosition);
                         tocYPosition += 15;
@@ -8624,16 +8646,16 @@
                             }
                             
                             // Technology Insurance Application | Table of Contents (right side)
+                            tocDoc.setFont('Poppins', 'black'); // Poppins Black
                             tocDoc.setFontSize(16);
-                            tocDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                             const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
                             
-                            // Page number in Vollkorn style
+                            // Page number in Vollkorn
+                            tocDoc.setFont('Vollkorn', 'normal');
                             tocDoc.setFontSize(19);
-                            tocDoc.setFont('times', 'normal'); // Vollkorn approximation
                             tocDoc.setTextColor(0, 0, 0);
                             const pageText = `Page ${pageNum}`;
                             const pageTextWidth = tocDoc.getTextWidth(pageText);
