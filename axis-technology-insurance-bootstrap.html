@@ -5454,11 +5454,23 @@
                     function addPageHeader(currentPageNum, totalPages) {
                         const pageWidth = contentDoc.internal.pageSize.width;
                         
-                        // Axis logo text (left side)
-                        contentDoc.setFontSize(16);
-                        contentDoc.setFont(undefined, 'bold');
-                        contentDoc.setTextColor(0, 100, 200); // Blue color for Axis
-                        contentDoc.text('AXIS', margin, 25);
+                        // Axis logo image (left side)
+                        try {
+                            // Load and add logo image
+                            const logoImg = new Image();
+                            logoImg.onload = function() {
+                                contentDoc.addImage(logoImg, 'PNG', margin, 15, 30, 15); // x, y, width, height
+                            };
+                            logoImg.src = './pdf/logo.png';
+                            // For synchronous operation, we'll use a different approach
+                            contentDoc.addImage('./pdf/logo.png', 'PNG', margin, 15, 30, 15);
+                        } catch (error) {
+                            // Fallback to text if image fails to load
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
+                            contentDoc.text('AXIS', margin, 25);
+                        }
                         
                         // Technology Risk Application | page number (right side)
                         contentDoc.setFontSize(10);
@@ -5469,7 +5481,7 @@
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
                         
                         // Blue border line at bottom of header
-                        contentDoc.setDrawColor(0, 100, 200); // Blue color
+                        contentDoc.setDrawColor(0, 79, 240); // #004FF0 color
                         contentDoc.setLineWidth(2);
                         contentDoc.line(margin, 35, pageWidth - margin, 35);
                         
@@ -5520,7 +5532,7 @@
                     
                     contentDoc.setFontSize(11);
                     contentDoc.setFont(undefined, 'bold');
-                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin + 10);
+                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin);
                     yPosition += 3;
                     
                     contentDoc.setFontSize(10);
@@ -5536,7 +5548,7 @@
                     sectorOptions.forEach(option => {
                         const isSelected = formData.sectors.includes(option.value);
                         const status = isSelected ? '[X]' : '[ ]';
-                        addWrappedText(`${status} ${option.label}`, margin + 20);
+                        addWrappedText(`${status} ${option.label}`, margin);
                     });
                     
                     yPosition += 10;
@@ -5674,7 +5686,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -5683,35 +5695,35 @@
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
                                 const value = sectionData[q.field];
                                 if (value) {
-                                    addWrappedText(`Answer: ${value}`, margin + 20);
+                                    addWrappedText(`Answer: ${value}`, margin);
                                 } else {
-                                    addWrappedText('Answer: Not provided', margin + 20);
+                                    addWrappedText('Answer: Not provided', margin);
                                 }
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
                                 q.options.forEach(option => {
                                     const isSelected = selectedValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                    addWrappedText(`${status} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'italic');
-                                    addWrappedText(q.followUp.question, margin + 25);
+                                    addWrappedText(q.followUp.question, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     } else {
-                                        addWrappedText('Answer: Not provided', margin + 30);
+                                        addWrappedText('Answer: Not provided', margin);
                                     }
                                 }
                             } else if (q.type === 'composite') {
                                 q.fields.forEach(field => {
                                     const value = sectionData[field.field];
-                                    addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 20);
+                                    addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin);
                                 });
                             }
                             
@@ -5861,7 +5873,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -5869,7 +5881,7 @@
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
                                 const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin + 20);
+                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin);
                             } else if (q.type === 'table') {
                                 // Create AutoTable for revenue percentages
                                 checkPageBreak(30);
@@ -5889,7 +5901,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [66, 139, 202],
+                                        fillColor: [0, 79, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -5935,7 +5947,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [66, 139, 202],
+                                        fillColor: [0, 79, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -5965,7 +5977,7 @@
                                 q.options.forEach(option => {
                                     const isSelected = selectedValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                    addWrappedText(`${status} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up questions
@@ -5974,24 +5986,24 @@
                                     if (q.followUp.fields) {
                                         q.followUp.fields.forEach(field => {
                                             const value = sectionData[field.field];
-                                            addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 25);
+                                            addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin);
                                         });
                                     } else if (q.followUp.field) {
                                         const followUpValue = sectionData[q.followUp.field];
-                                        addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin + 25);
+                                        addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin);
                                     }
                                     if (q.followUp.subQuestion) {
-                                        addWrappedText(q.followUp.subQuestion, margin + 25);
+                                        addWrappedText(q.followUp.subQuestion, margin);
                                         const subValue = sectionData[q.followUp.field];
                                         q.followUp.options.forEach(option => {
                                             const isSelected = subValue === option.value;
                                             const status = isSelected ? '(•)' : '( )';
-                                            addWrappedText(`${status} ${option.label}`, margin + 30);
+                                            addWrappedText(`${status} ${option.label}`, margin);
                                         });
                                         if (subValue === 'third_party' && q.followUp.thirdPartyFields) {
                                             q.followUp.thirdPartyFields.forEach(field => {
                                                 const value = sectionData[field.field];
-                                                addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin + 35);
+                                                addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin);
                                             });
                                         }
                                     }
@@ -6027,7 +6039,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [66, 139, 202],
+                                        fillColor: [0, 79, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6147,7 +6159,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -6155,13 +6167,13 @@
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number' || q.type === 'date') {
                                 const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin + 20);
+                                addWrappedText(`Answer: ${value || 'Not provided'}`, margin);
                             } else if (q.type === 'percentage') {
                                 const value = sectionData[q.field];
-                                addWrappedText(`Answer: ${value || '0'}%`, margin + 20);
+                                addWrappedText(`Answer: ${value || '0'}%`, margin);
                             } else if (q.type === 'currency') {
                                 const value = sectionData[q.field];
-                                addWrappedText(`Answer: $${value || '0'}`, margin + 20);
+                                addWrappedText(`Answer: $${value || '0'}`, margin);
                             } else if (q.type === 'revenue_table') {
                                 // Create AutoTable for gross revenues
                                 checkPageBreak(30);
@@ -6189,7 +6201,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [66, 139, 202],
+                                        fillColor: [0, 79, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6220,14 +6232,14 @@
                                 q.options.forEach(option => {
                                     const isSelected = selectedValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                    addWrappedText(`${status} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
                                     yPosition += 2;
                                     const followUpValue = sectionData[q.followUp.field];
-                                    addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin + 25);
+                                    addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin);
                                 }
                             } else if (q.type === 'project_table') {
                                 // Create AutoTable for largest projects
@@ -6260,7 +6272,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [66, 139, 202],
+                                        fillColor: [0, 79, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6354,7 +6366,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -6366,13 +6378,13 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20);
+                                    addWrappedText(`${status} ${option.label}`, margin);
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -6572,7 +6584,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -6584,32 +6596,32 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20, 9, 150);
+                                    addWrappedText(`${status} ${option.label}`, margin, 9, 150);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 20);
+                                    addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     }
                                 }
                             } else if (q.type === 'composite' && q.subfields) {
                                 q.subfields.forEach(subfield => {
                                     const subfieldValue = sectionData[subfield.field];
                                     if (subfieldValue) {
-                                        addWrappedText(`${subfield.label}: ${subfieldValue}`, margin + 20);
+                                        addWrappedText(`${subfield.label}: ${subfieldValue}`, margin);
                                     }
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -6733,7 +6745,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -6744,13 +6756,13 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -6905,7 +6917,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -6916,29 +6928,29 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up fields for data collection question
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText('Data Types and Record Counts:', margin + 30);
+                                    addWrappedText('Data Types and Record Counts:', margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
                                     
                                     q.followUp.fields.forEach(field => {
                                         const recordCount = sectionData[field.field];
                                         if (recordCount) {
-                                            addWrappedText(`${field.label}: ${recordCount} records`, margin + 40);
+                                            addWrappedText(`${field.label}: ${recordCount} records`, margin);
                                         }
                                     });
                                 }
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -7051,7 +7063,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -7062,13 +7074,13 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -7204,7 +7216,7 @@
                             checkPageBreak(15);
                             contentDoc.setFontSize(11);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 2;
                             
                             contentDoc.setFontSize(10);
@@ -7216,25 +7228,25 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin + 20, 9, 150);
+                                    addWrappedText(`${status} ${option.label}`, margin, 9, 150);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 20);
+                                    addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     }
                                 }
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -7325,7 +7337,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -7336,13 +7348,13 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -7455,7 +7467,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -7466,13 +7478,13 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -7539,7 +7551,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 20);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -7551,7 +7563,7 @@
                                     q.options.forEach(option => {
                                         const isSelected = fieldValue === option.value;
                                         const symbol = isSelected ? '(•)' : '( )';
-                                        addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                        addWrappedText(`${symbol} ${option.label}`, margin);
                                     });
                                 }
                                 
@@ -7559,15 +7571,15 @@
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 30);
+                                    addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 40);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     } else {
-                                        addWrappedText('Answer: (No details provided)', margin + 40);
+                                        addWrappedText('Answer: (No details provided)', margin);
                                     }
                                 }
                             } else if (q.type === 'checkbox') {
@@ -7579,7 +7591,7 @@
                                         const fieldValue = sectionData ? sectionData[option.field] : null;
                                         const isSelected = fieldValue === 'yes';
                                         const symbol = isSelected ? '[✓]' : '[ ]';
-                                        addWrappedText(`${symbol} ${option.label}`, margin + 30);
+                                        addWrappedText(`${symbol} ${option.label}`, margin);
                                         
                                         if (isSelected) {
                                             anyIncidentSelected = true;
@@ -7591,15 +7603,15 @@
                                 if (q.followUp && anyIncidentSelected && sectionData) {
                                     yPosition += 5;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 30);
+                                    addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Details: ${followUpValue}`, margin + 40);
+                                        addWrappedText(`Details: ${followUpValue}`, margin);
                                     } else {
-                                        addWrappedText('Details: (No details provided)', margin + 40);
+                                        addWrappedText('Details: (No details provided)', margin);
                                     }
                                 }
                             }
@@ -7740,7 +7752,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -7751,29 +7763,29 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 20);
+                                    addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     } else {
-                                        addWrappedText('Answer: (No response provided)', margin + 30);
+                                        addWrappedText('Answer: (No response provided)', margin);
                                     }
                                 }
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -8035,7 +8047,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -8046,14 +8058,14 @@
                                 q.options.forEach(option => {
                                     const isSelected = fieldValue === option.value;
                                     const symbol = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                    addWrappedText(`${symbol} ${option.label}`, margin);
                                 });
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 20);
+                                    addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
                                     
@@ -8064,24 +8076,24 @@
                                             if (followUpValue) {
                                                 const fieldName = field.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').toLowerCase();
                                                 const capitalizedName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
-                                                addWrappedText(`${capitalizedName}: ${followUpValue}`, margin + 30);
+                                                addWrappedText(`${capitalizedName}: ${followUpValue}`, margin);
                                             }
                                         });
                                     } else if (q.followUp.field) {
                                         // Handle single follow-up field
                                         const followUpValue = sectionData[q.followUp.field];
                                         if (followUpValue) {
-                                            addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                            addWrappedText(`Answer: ${followUpValue}`, margin);
                                         } else {
-                                            addWrappedText('Answer: (No response provided)', margin + 30);
+                                            addWrappedText('Answer: (No response provided)', margin);
                                         }
                                     }
                                 }
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -8294,7 +8306,7 @@
                             
                             contentDoc.setFontSize(10);
                             contentDoc.setFont(undefined, 'bold');
-                            addWrappedText(q.question, margin + 10);
+                            addWrappedText(q.question, margin);
                             yPosition += 3;
                             
                             contentDoc.setFont(undefined, 'normal');
@@ -8306,7 +8318,7 @@
                                     q.options.forEach(option => {
                                         const isSelected = fieldValue === option.value;
                                         const symbol = isSelected ? '(•)' : '( )';
-                                        addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                        addWrappedText(`${symbol} ${option.label}`, margin);
                                     });
                                 }
                                 
@@ -8314,15 +8326,15 @@
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'bold');
-                                    addWrappedText(q.followUp.label, margin + 20);
+                                    addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
                                     
                                     const followUpValue = sectionData[q.followUp.field];
                                     if (followUpValue) {
-                                        addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                        addWrappedText(`Answer: ${followUpValue}`, margin);
                                     } else {
-                                        addWrappedText('Answer: (No response provided)', margin + 30);
+                                        addWrappedText('Answer: (No response provided)', margin);
                                     }
                                 }
                             } else if (q.type === 'checkbox') {
@@ -8335,21 +8347,21 @@
                                             isSelected = fieldValue.includes(option.value);
                                         }
                                         const symbol = isSelected ? '[✓]' : '[ ]';
-                                        addWrappedText(`${symbol} ${option.label}`, margin + 20);
+                                        addWrappedText(`${symbol} ${option.label}`, margin);
                                         
                                         // Handle follow-up for checkbox with other option
                                         if (q.followUp && option.value === q.followUp.condition && isSelected && sectionData) {
                                             yPosition += 3;
                                             contentDoc.setFont(undefined, 'bold');
-                                            addWrappedText(q.followUp.label, margin + 20);
+                                            addWrappedText(q.followUp.label, margin);
                                             yPosition += 2;
                                             contentDoc.setFont(undefined, 'normal');
                                             
                                             const followUpValue = sectionData[q.followUp.field];
                                             if (followUpValue) {
-                                                addWrappedText(`Answer: ${followUpValue}`, margin + 30);
+                                                addWrappedText(`Answer: ${followUpValue}`, margin);
                                             } else {
-                                                addWrappedText('Answer: (No response provided)', margin + 30);
+                                                addWrappedText('Answer: (No response provided)', margin);
                                             }
                                         }
                                     });
@@ -8357,9 +8369,9 @@
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 const fieldValue = sectionData ? sectionData[q.field] : null;
                                 if (fieldValue) {
-                                    addWrappedText(`Answer: ${fieldValue}`, margin + 20);
+                                    addWrappedText(`Answer: ${fieldValue}`, margin);
                                 } else {
-                                    addWrappedText('Answer: (No response provided)', margin + 20);
+                                    addWrappedText('Answer: (No response provided)', margin);
                                 }
                             }
                             
@@ -8378,7 +8390,7 @@
                         contentDoc.setFont(undefined, 'normal');
                         
                         if (Object.keys(sectionData).length === 0) {
-                            addWrappedText('No data entered for this section', margin + 10);
+                            addWrappedText('No data entered for this section', margin);
                             yPosition += 5;
                             return;
                         }
@@ -8396,7 +8408,7 @@
                                     displayValue = value.join(', ');
                                 }
                                 
-                                addWrappedText(`${capitalizedName}: ${displayValue}`, margin + 10);
+                                addWrappedText(`${capitalizedName}: ${displayValue}`, margin);
                             }
                         });
                         yPosition += 10;
@@ -8538,11 +8550,16 @@
                         function addToCPageHeader(pageNum) {
                             const pageWidth = tocDoc.internal.pageSize.width;
                             
-                            // Axis logo text (left side)
-                            tocDoc.setFontSize(16);
-                            tocDoc.setFont(undefined, 'bold');
-                            tocDoc.setTextColor(0, 100, 200); // Blue color for Axis
-                            tocDoc.text('AXIS', tocMargin, 25);
+                            // Axis logo image (left side)
+                            try {
+                                tocDoc.addImage('./pdf/logo.png', 'PNG', tocMargin, 15, 30, 15);
+                            } catch (error) {
+                                // Fallback to text if image fails to load
+                                tocDoc.setFontSize(16);
+                                tocDoc.setFont(undefined, 'bold');
+                                tocDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
+                                tocDoc.text('AXIS', tocMargin, 25);
+                            }
                             
                             // Technology Risk Application | Table of Contents (right side)
                             tocDoc.setFontSize(10);
@@ -8553,7 +8570,7 @@
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
                             
                             // Blue border line at bottom of header
-                            tocDoc.setDrawColor(0, 100, 200); // Blue color
+                            tocDoc.setDrawColor(0, 79, 240); // #004FF0 color
                             tocDoc.setLineWidth(2);
                             tocDoc.line(tocMargin, 35, pageWidth - tocMargin, 35);
                             
