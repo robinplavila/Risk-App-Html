@@ -5552,10 +5552,13 @@
                         const { width, height } = firstPage.getSize();
                         
                         // Embed custom fonts for text overlay
-                        // Note: pdf-lib needs font data, we'll use Helvetica as fallback for now
-                        // since embedding custom fonts with pdf-lib requires different font data format
-                        const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-                        const helveticaBoldFont = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+                        // Load Poppins Black for company name
+                        const poppinsBlackBytes = await fetch('./fonts/Poppins-Black.ttf').then(res => res.arrayBuffer());
+                        const poppinsBlackFont = await pdfDoc.embedFont(poppinsBlackBytes);
+                        
+                        // Load Aptos Serif Regular for submission date
+                        const aptosSerifBytes = await fetch('./fonts/Aptos-Serif-Regular.ttf').then(res => res.arrayBuffer());
+                        const aptosSerifFont = await pdfDoc.embedFont(aptosSerifBytes);
                         
                         // Get company name and submission date
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
@@ -5573,21 +5576,21 @@
                         const leftMargin = 110;
                         const bottomMargin = 240;
                         
-                        // Add company name in Sky Blue (RGB: 0, 188, 255)
+                        // Add company name in Sky Blue (RGB: 0, 188, 255) using Poppins Black 14pt
                         firstPage.drawText(companyName, {
                             x: leftMargin,
                             y: bottomMargin + 20,
                             size: 14,
-                            font: helveticaBoldFont,
+                            font: poppinsBlackFont,
                             color: PDFLib.rgb(0 / 255, 188 / 255, 255 / 255), // Sky Blue
                         });
                         
-                        // Add submission date/time in Black
+                        // Add submission date/time in Black using Aptos Serif Regular 14pt
                         firstPage.drawText(`Submitted: ${submissionDate}`, {
                             x: leftMargin,
                             y: bottomMargin,
                             size: 14,
-                            font: helveticaFont,
+                            font: aptosSerifFont,
                             color: PDFLib.rgb(0, 0, 0), // Black
                         });
                         
