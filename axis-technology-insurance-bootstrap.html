@@ -5483,7 +5483,7 @@
                             contentDoc.addImage('./pdf/logo.png', 'PNG', margin, 15, 30, 15);
                         } catch (error) {
                             // Fallback to text if image fails to load
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             contentDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
                             contentDoc.text('AXIS', margin, 25);
@@ -5491,7 +5491,7 @@
                         
                         // Technology Insurance Application | page number (right side)
                         contentDoc.setFont('Poppins', 'black'); // Poppins Black
-                        contentDoc.setFontSize(16);
+                        contentDoc.setFontSize(12); // 12 points
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
@@ -5499,7 +5499,7 @@
                         
                         // Page number in Vollkorn
                         contentDoc.setFont('Vollkorn', 'normal');
-                        contentDoc.setFontSize(19);
+                        contentDoc.setFontSize(14); // 14 points
                         contentDoc.setTextColor(0, 0, 0);
                         const pageText = `Page ${currentPageNum}`;
                         const pageTextWidth = contentDoc.getTextWidth(pageText);
@@ -5536,9 +5536,9 @@
                     // Helper function to add section title with blue color
                     function addSectionTitle(text, x) {
                         contentDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
-                        contentDoc.setFontSize(22); // Updated font size to 22px
+                        contentDoc.setFontSize(12); // 16 points
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
-                        addWrappedText(text, x, 22); // Pass font size to wrapped text
+                        addWrappedText(text, x, 16); // Pass font size to wrapped text (16 points)
                         contentDoc.setTextColor(0, 0, 0); // Reset to black
                         yPosition += 5;
                     }
@@ -5567,7 +5567,7 @@
                         
                         // Add company name in Sky Blue (ABC Sample Corporation)
                         coverDoc.setFont('Poppins', 'black'); // Poppins Black
-                        coverDoc.setFontSize(19);
+                        coverDoc.setFontSize(14); // 14 points
                         coverDoc.setTextColor(skyBlue[0], skyBlue[1], skyBlue[2]); // Sky Blue
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
                         coverDoc.text(companyName, coverMargin, 80);
@@ -5583,7 +5583,7 @@
                             hour12: true
                         });
                         coverDoc.setFont('AptosSerif', 'normal'); // Aptos Serif regular
-                        coverDoc.setFontSize(19);
+                        coverDoc.setFontSize(14); // 14 points
                         coverDoc.setTextColor(0, 0, 0); // Black
                         coverDoc.text(`Submitted: ${submissionDate}`, coverMargin, 100);
                         
@@ -5611,12 +5611,12 @@
                     addSectionTitle('Section 1: Sectors', margin);
                     
                     contentDoc.setFont('AptosSerif', 'bold'); // Aptos Serif Bold
-                    contentDoc.setFontSize(16);
-                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 16);
+                    contentDoc.setFontSize(12); // 12 points
+                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 12);
                     yPosition += 3;
                     
                     contentDoc.setFont('AptosSerif', 'normal'); // Aptos Serif Regular
-                    contentDoc.setFontSize(16);
+                    contentDoc.setFontSize(12); // 12 points
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -5764,7 +5764,7 @@
                         
                         section2Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -5951,7 +5951,7 @@
                         
                         section3Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -6237,7 +6237,7 @@
                         
                         section4Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -6444,7 +6444,7 @@
                         
                         section5Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -6662,7 +6662,7 @@
                         
                         section6Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -7294,7 +7294,7 @@
                         
                         section7Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(16);
+                            contentDoc.setFontSize(12);
                             contentDoc.setFont('AptosSerif', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
@@ -8583,7 +8583,7 @@
                         
                         // ToC Title
                         tocDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
-                        tocDoc.setFontSize(22); // Updated to match section title size
+                        tocDoc.setFontSize(16); // 16 points - matches section title size
                         tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color matching section titles
                         tocDoc.text('Table of Contents', tocMargin, tocYPosition);
                         tocYPosition += 15;
@@ -8647,7 +8647,7 @@
                             
                             // Technology Insurance Application | Table of Contents (right side)
                             tocDoc.setFont('Poppins', 'black'); // Poppins Black
-                            tocDoc.setFontSize(16);
+                            tocDoc.setFontSize(12); // 12 points
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                             const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
@@ -8655,7 +8655,7 @@
                             
                             // Page number in Vollkorn
                             tocDoc.setFont('Vollkorn', 'normal');
-                            tocDoc.setFontSize(19);
+                            tocDoc.setFontSize(14); // 14 points
                             tocDoc.setTextColor(0, 0, 0);
                             const pageText = `Page ${pageNum}`;
                             const pageTextWidth = tocDoc.getTextWidth(pageText);
