@@ -8718,12 +8718,12 @@
                     
                     showNotification('🔄 Loading and merging static PDF files...', 'info');
                     
-                    let frontCoverBytes, endPageBytes;
+                    let endPageBytes;
+                    
+                    // Use dynamically generated front cover (already generated above)
+                    const frontCoverBytes = frontCoverPdfBytes;
                     
                     try {
-                        // Use dynamically generated front cover instead of static PDF
-                        // frontCoverBytes is already generated above
-                        
                         // Try to load static end page PDF using fetch (works in server environment)
                         const endPageResponse = await fetch('./pdf/end last page.pdf');
                         
