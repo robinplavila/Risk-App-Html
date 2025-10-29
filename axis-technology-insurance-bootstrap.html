@@ -5544,26 +5544,17 @@
                     
                     // Generate front cover page with dynamic content
                     async function generateFrontCover() {
-                        // Load the existing front cover PDF
-                        const existingPdfBytes = await fetch('./pdf/front cover page.pdf').then(res => res.arrayBuffer());
-                        const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+                        // Hybrid Approach: Create text overlay with jsPDF, then merge with template using pdf-lib
                         
-                        // Register fontkit for custom font embedding
-                        pdfDoc.registerFontkit(fontkit);
+                        // Step 1: Create text overlay PDF using jsPDF with base64 fonts
+                        const overlayDoc = new jsPDF({
+                            orientation: 'portrait',
+                            unit: 'pt',
+                            format: 'letter'
+                        });
                         
-                        // Get the first page
-                        const pages = pdfDoc.getPages();
-                        const firstPage = pages[0];
-                        const { width, height } = firstPage.getSize();
-                        
-                        // Embed custom fonts for text overlay
-                        // Load Poppins Black for company name
-                        const poppinsBlackBytes = await fetch('./fonts/Poppins-Black.ttf').then(res => res.arrayBuffer());
-                        const poppinsBlackFont = await pdfDoc.embedFont(poppinsBlackBytes);
-                        
-                        // Load Aptos Serif Regular for submission date
-                        const aptosSerifBytes = await fetch('./fonts/Aptos-Serif-Regular.ttf').then(res => res.arrayBuffer());
-                        const aptosSerifFont = await pdfDoc.embedFont(aptosSerifBytes);
+                        // Register fonts
+                        window.registerFontsUMD(overlayDoc);
                         
                         // Get company name and submission date
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
@@ -5577,30 +5568,51 @@
                             hour12: true
                         });
                         
-                        // Position text at bottom left
+                        // Position text at bottom left (convert from bottom-up to top-down coordinates)
                         const leftMargin = 110;
-                        const bottomMargin = 240;
+                        const pageHeight = 792; // Letter size height in points
+                        const bottomMargin = 240; // Distance from bottom
+                        const yPosition = pageHeight - bottomMargin; // Convert to jsPDF coordinates
                         
-                        // Add company name in Sky Blue (RGB: 0, 188, 255) using Poppins Black 14pt
-                        firstPage.drawText(companyName, {
-                            x: leftMargin,
-                            y: bottomMargin + 20,
-                            size: 14,
-                            font: poppinsBlackFont,
-                            color: PDFLib.rgb(0 / 255, 188 / 255, 255 / 255), // Sky Blue
-                        });
+                        // Add company name in Sky Blue using Poppins Black 14pt
+                        window.useFontUMD(overlayDoc, 'PoppinsBlack14');
+                        overlayDoc.setTextColor(0, 188, 255); // Sky Blue
+                        overlayDoc.text(companyName, leftMargin, yPosition - 20);
                         
                         // Add submission date/time in Black using Aptos Serif Regular 14pt
-                        firstPage.drawText(`Submitted: ${submissionDate}`, {
-                            x: leftMargin,
-                            y: bottomMargin,
-                            size: 14,
-                            font: aptosSerifFont,
-                            color: PDFLib.rgb(0, 0, 0), // Black
+                        window.useFontUMD(overlayDoc, 'AptosSerifReg14');
+                        overlayDoc.setTextColor(0, 0, 0); // Black
+                        overlayDoc.text(`Submitted: ${submissionDate}`, leftMargin, yPosition);
+                        
+                        // Get overlay PDF as ArrayBuffer
+                        const overlayPdfBytes = overlayDoc.output('arraybuffer');
+                        
+                        // Step 2: Load the existing front cover template
+                        const templatePdfBytes = await fetch('./pdf/front cover page.pdf').then(res => res.arrayBuffer());
+                        
+                        // Step 3: Merge using pdf-lib
+                        const templateDoc = await PDFLib.PDFDocument.load(templatePdfBytes);
+                        const overlayPdfDoc = await PDFLib.PDFDocument.load(overlayPdfBytes);
+                        
+                        // Get the first page from both documents
+                        const [templatePage] = templateDoc.getPages();
+                        const [overlayPage] = await templateDoc.copyPages(overlayPdfDoc, [0]);
+                        
+                        // Embed the overlay page content onto the template page
+                        // Get the overlay content as embedded page
+                        const embeddedOverlay = await templateDoc.embedPage(overlayPage);
+                        
+                        // Draw the overlay on top of the template
+                        templatePage.drawPage(embeddedOverlay, {
+                            x: 0,
+                            y: 0,
+                            width: templatePage.getWidth(),
+                            height: templatePage.getHeight(),
+                            opacity: 1
                         });
                         
-                        // Save and return the modified PDF
-                        return await pdfDoc.save();
+                        // Save and return the merged PDF
+                        return await templateDoc.save();
                     }
                     
                     // Generate the dynamic front cover
