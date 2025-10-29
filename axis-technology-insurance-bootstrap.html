@@ -5541,34 +5541,24 @@
                     }
                     
                     // Generate front cover page with dynamic content
-                    function generateFrontCover() {
-                        const coverDoc = new jsPDF();
+                    async function generateFrontCover() {
+                        // Load the existing front cover PDF
+                        const existingPdfBytes = await fetch('./pdf/front cover page.pdf').then(res => res.arrayBuffer());
+                        const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
                         
-                        // Register custom fonts
-                        window.registerFontsUMD(coverDoc);
+                        // Get the first page
+                        const pages = pdfDoc.getPages();
+                        const firstPage = pages[0];
+                        const { width, height } = firstPage.getSize();
                         
-                        const coverPageWidth = coverDoc.internal.pageSize.width;
-                        const coverPageHeight = coverDoc.internal.pageSize.height;
-                        const coverMargin = 20;
+                        // Embed custom fonts for text overlay
+                        // Note: pdf-lib needs font data, we'll use Helvetica as fallback for now
+                        // since embedding custom fonts with pdf-lib requires different font data format
+                        const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+                        const helveticaBoldFont = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
                         
-                        // Add logo at the top
-                        try {
-                            coverDoc.addImage('./pdf/logo.png', 'PNG', coverMargin, 20, 40, 20);
-                        } catch (error) {
-                            // Fallback to text if logo fails
-                            coverDoc.setFontSize(20);
-                            coverDoc.setFont('helvetica', 'bold');
-                            coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
-                            coverDoc.text('AXIS', coverMargin, 35);
-                        }
-                        
-                        // Add company name in Sky Blue (ABC Sample Corporation)
-                        window.useFontUMD(coverDoc, 'PoppinsBlack14');
-                        coverDoc.setTextColor(skyBlue[0], skyBlue[1], skyBlue[2]); // Sky Blue
+                        // Get company name and submission date
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
-                        coverDoc.text(companyName, coverMargin, 80);
-                        
-                        // Add submission date/time
                         const submissionDate = new Date().toLocaleString('en-US', {
                             year: 'numeric',
                             month: '2-digit',
@@ -5578,20 +5568,35 @@
                             second: '2-digit',
                             hour12: true
                         });
-                        window.useFontUMD(coverDoc, 'AptosSerifReg14');
-                        coverDoc.setTextColor(0, 0, 0); // Black
-                        coverDoc.text(`Submitted: ${submissionDate}`, coverMargin, 100);
                         
-                        // Add title
-                        window.useFontUMD(coverDoc, 'PoppinsBlack24');
-                        coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
-                        coverDoc.text('Technology Insurance Application', coverMargin, coverPageHeight / 2);
+                        // Position text at bottom left
+                        const leftMargin = 50;
+                        const bottomMargin = 60;
                         
-                        return coverDoc.output('arraybuffer');
+                        // Add company name in Sky Blue (RGB: 0, 188, 255)
+                        firstPage.drawText(companyName, {
+                            x: leftMargin,
+                            y: bottomMargin + 20,
+                            size: 14,
+                            font: helveticaBoldFont,
+                            color: PDFLib.rgb(0 / 255, 188 / 255, 255 / 255), // Sky Blue
+                        });
+                        
+                        // Add submission date/time in Black
+                        firstPage.drawText(`Submitted: ${submissionDate}`, {
+                            x: leftMargin,
+                            y: bottomMargin,
+                            size: 14,
+                            font: helveticaFont,
+                            color: PDFLib.rgb(0, 0, 0), // Black
+                        });
+                        
+                        // Save and return the modified PDF
+                        return await pdfDoc.save();
                     }
                     
                     // Generate the dynamic front cover
-                    const frontCoverPdfBytes = generateFrontCover();
+                    const frontCoverPdfBytes = await generateFrontCover();
                     
                     // Start directly with content (no front cover page in contentDoc)
                     yPosition = headerHeight + 5; // Reset position for content pages
