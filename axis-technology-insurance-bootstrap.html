@@ -5550,7 +5550,7 @@
                         const overlayDoc = new jsPDF({
                             orientation: 'portrait',
                             unit: 'pt',
-                            format: 'letter'
+                            format: 'a4'
                         });
                         
                         // Register fonts
@@ -5570,7 +5570,7 @@
                         
                         // Position text at bottom left (convert from bottom-up to top-down coordinates)
                         const leftMargin = 110;
-                        const pageHeight = 792; // Letter size height in points
+                        const pageHeight = 842; // A4 size height in points
                         const bottomMargin = 240; // Distance from bottom
                         const yPosition = pageHeight - bottomMargin; // Convert to jsPDF coordinates
                         
