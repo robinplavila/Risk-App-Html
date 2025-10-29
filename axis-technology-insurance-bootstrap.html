@@ -5490,16 +5490,14 @@
                         }
                         
                         // Technology Insurance Application | page number (right side)
-                        contentDoc.setFont('Poppins', 'black'); // Poppins Black
-                        contentDoc.setFontSize(12); // 12 points
+                        window.useFontUMD(contentDoc, 'PoppinsBlack12');
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
                         
                         // Page number in Vollkorn
-                        contentDoc.setFont('Vollkorn', 'normal');
-                        contentDoc.setFontSize(14); // 14 points
+                        window.useFontUMD(contentDoc, 'Vollkorn14');
                         contentDoc.setTextColor(0, 0, 0);
                         const pageText = `Page ${currentPageNum}`;
                         const pageTextWidth = contentDoc.getTextWidth(pageText);
@@ -5535,8 +5533,7 @@
                     
                     // Helper function to add section title with blue color
                     function addSectionTitle(text, x) {
-                        contentDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
-                        contentDoc.setFontSize(12); // 16 points
+                        window.useFontUMD(contentDoc, 'PoppinsExtraBold16');
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         addWrappedText(text, x, 16); // Pass font size to wrapped text (16 points)
                         contentDoc.setTextColor(0, 0, 0); // Reset to black
@@ -5566,8 +5563,7 @@
                         }
                         
                         // Add company name in Sky Blue (ABC Sample Corporation)
-                        coverDoc.setFont('Poppins', 'black'); // Poppins Black
-                        coverDoc.setFontSize(14); // 14 points
+                        window.useFontUMD(coverDoc, 'PoppinsBlack14');
                         coverDoc.setTextColor(skyBlue[0], skyBlue[1], skyBlue[2]); // Sky Blue
                         const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
                         coverDoc.text(companyName, coverMargin, 80);
@@ -5582,14 +5578,12 @@
                             second: '2-digit',
                             hour12: true
                         });
-                        coverDoc.setFont('AptosSerif', 'normal'); // Aptos Serif regular
-                        coverDoc.setFontSize(14); // 14 points
+                        window.useFontUMD(coverDoc, 'AptosSerifReg14');
                         coverDoc.setTextColor(0, 0, 0); // Black
                         coverDoc.text(`Submitted: ${submissionDate}`, coverMargin, 100);
                         
                         // Add title
-                        coverDoc.setFont('Poppins', 'black');
-                        coverDoc.setFontSize(24);
+                        window.useFontUMD(coverDoc, 'PoppinsBlack24');
                         coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
                         coverDoc.text('Technology Insurance Application', coverMargin, coverPageHeight / 2);
                         
@@ -5610,13 +5604,11 @@
                     sectionPageNumbers['Section 1: Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
                     addSectionTitle('Section 1: Sectors', margin);
                     
-                    contentDoc.setFont('AptosSerif', 'bold'); // Aptos Serif Bold
-                    contentDoc.setFontSize(12); // 12 points
+                    window.useFontUMD(contentDoc, 'AptosSerifBold12');
                     addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 12);
                     yPosition += 3;
                     
-                    contentDoc.setFont('AptosSerif', 'normal'); // Aptos Serif Regular
-                    contentDoc.setFontSize(12); // 12 points
+                    window.useFontUMD(contentDoc, 'AptosSerifReg12');
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -8582,8 +8574,7 @@
                         // ToC header will be added after title
                         
                         // ToC Title
-                        tocDoc.setFont('Poppins', 'extrabold'); // Poppins Extra Bold
-                        tocDoc.setFontSize(16); // 16 points - matches section title size
+                        window.useFontUMD(tocDoc, 'PoppinsExtraBold16');
                         tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color matching section titles
                         tocDoc.text('Table of Contents', tocMargin, tocYPosition);
                         tocYPosition += 15;
@@ -8646,16 +8637,14 @@
                             }
                             
                             // Technology Insurance Application | Table of Contents (right side)
-                            tocDoc.setFont('Poppins', 'black'); // Poppins Black
-                            tocDoc.setFontSize(12); // 12 points
+                            window.useFontUMD(tocDoc, 'PoppinsBlack12');
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                             const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
                             
                             // Page number in Vollkorn
-                            tocDoc.setFont('Vollkorn', 'normal');
-                            tocDoc.setFontSize(14); // 14 points
+                            window.useFontUMD(tocDoc, 'Vollkorn14');
                             tocDoc.setTextColor(0, 0, 0);
                             const pageText = `Page ${pageNum}`;
                             const pageTextWidth = tocDoc.getTextWidth(pageText);
