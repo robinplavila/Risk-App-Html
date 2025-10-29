@@ -5448,7 +5448,10 @@
                     const margin = 20;
                     const headerHeight = 45; // Space reserved for header
                     const lineHeight = 6;
-                    const sectionTitleColor = [0, 79, 240]; // #004FF0 color for section titles
+                    const brandBlue = [0, 80, 240]; // #0050F0 - Primary brand color
+                    const skyBlue = [0, 188, 255]; // #00bcff - Sky blue for highlights
+                    const darkNavy = [0, 0, 54]; // #000036 - Dark navy
+                    const sectionTitleColor = brandBlue; // Use brand blue for section titles
                     
                     // Helper function to add header to each page
                     function addPageHeader(currentPageNum, totalPages) {
@@ -5467,21 +5470,29 @@
                         } catch (error) {
                             // Fallback to text if image fails to load
                             contentDoc.setFontSize(16);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             contentDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
                             contentDoc.text('AXIS', margin, 25);
                         }
                         
-                        // Technology Risk Application | page number (right side)
-                        contentDoc.setFontSize(10);
-                        contentDoc.setFont(undefined, 'normal');
-                        contentDoc.setTextColor(0, 0, 0); // Black color for rest of text
-                        const headerText = `Technology Risk Application | Page ${currentPageNum}`;
+                        // Technology Insurance Application | page number (right side)
+                        contentDoc.setFontSize(16);
+                        contentDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
+                        contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
+                        const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
                         
+                        // Page number in Vollkorn style
+                        contentDoc.setFontSize(19);
+                        contentDoc.setFont('times', 'normal'); // Vollkorn approximation
+                        contentDoc.setTextColor(0, 0, 0);
+                        const pageText = `Page ${currentPageNum}`;
+                        const pageTextWidth = contentDoc.getTextWidth(pageText);
+                        contentDoc.text(pageText, pageWidth - margin - pageTextWidth, 30);
+                        
                         // Blue border line at bottom of header
-                        contentDoc.setDrawColor(0, 79, 240); // #004FF0 color
+                        contentDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
                         contentDoc.setLineWidth(2);
                         contentDoc.line(margin, 35, pageWidth - margin, 35);
                         
@@ -5510,16 +5521,67 @@
                     
                     // Helper function to add section title with blue color
                     function addSectionTitle(text, x) {
-                        contentDoc.setFontSize(14);
-                        contentDoc.setFont(undefined, 'bold');
-                        contentDoc.setTextColor(sectionTitleColor[0], sectionTitleColor[1], sectionTitleColor[2]);
-                        addWrappedText(text, x);
+                        contentDoc.setFontSize(22); // Updated font size to 22px
+                        contentDoc.setFont('helvetica', 'bold'); // Poppins Extra Bold approximation
+                        contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
+                        addWrappedText(text, x, 22); // Pass font size to wrapped text
                         contentDoc.setTextColor(0, 0, 0); // Reset to black
                         yPosition += 5;
                     }
                     
-                    // Skip front cover generation - will use static PDF instead
-                    // Start directly with content (no front cover page)
+                    // Generate front cover page with dynamic content
+                    function generateFrontCover() {
+                        const coverDoc = new jsPDF();
+                        const coverPageWidth = coverDoc.internal.pageSize.width;
+                        const coverPageHeight = coverDoc.internal.pageSize.height;
+                        const coverMargin = 20;
+                        
+                        // Add logo at the top
+                        try {
+                            coverDoc.addImage('./pdf/logo.png', 'PNG', coverMargin, 20, 40, 20);
+                        } catch (error) {
+                            // Fallback to text if logo fails
+                            coverDoc.setFontSize(20);
+                            coverDoc.setFont('helvetica', 'bold');
+                            coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
+                            coverDoc.text('AXIS', coverMargin, 35);
+                        }
+                        
+                        // Add company name in Sky Blue (ABC Sample Corporation)
+                        coverDoc.setFontSize(19);
+                        coverDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
+                        coverDoc.setTextColor(skyBlue[0], skyBlue[1], skyBlue[2]); // Sky Blue
+                        const companyName = formData.generalInfo?.legal_name || 'ABC Sample Corporation';
+                        coverDoc.text(companyName, coverMargin, 80);
+                        
+                        // Add submission date/time
+                        const submissionDate = new Date().toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: true
+                        });
+                        coverDoc.setFontSize(19);
+                        coverDoc.setFont('times', 'normal'); // Aptos Serif regular approximation
+                        coverDoc.setTextColor(0, 0, 0); // Black
+                        coverDoc.text(`Submitted: ${submissionDate}`, coverMargin, 100);
+                        
+                        // Add title
+                        coverDoc.setFontSize(24);
+                        coverDoc.setFont('helvetica', 'bold');
+                        coverDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]);
+                        coverDoc.text('Technology Insurance Application', coverMargin, coverPageHeight / 2);
+                        
+                        return coverDoc.output('arraybuffer');
+                    }
+                    
+                    // Generate the dynamic front cover
+                    const frontCoverPdfBytes = generateFrontCover();
+                    
+                    // Start directly with content (no front cover page in contentDoc)
                     yPosition = headerHeight + 5; // Reset position for content pages
                     
                     // Initialize page tracking for ToC
@@ -5530,13 +5592,13 @@
                     sectionPageNumbers['Section 1: Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
                     addSectionTitle('Section 1: Sectors', margin);
                     
-                    contentDoc.setFontSize(11);
-                    contentDoc.setFont(undefined, 'bold');
-                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin);
+                    contentDoc.setFontSize(16); // Aptos Serif bold - 16px
+                    contentDoc.setFont('times', 'bold'); // Aptos Serif approximation
+                    addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 16);
                     yPosition += 3;
                     
-                    contentDoc.setFontSize(10);
-                    contentDoc.setFont(undefined, 'normal');
+                    contentDoc.setFontSize(16); // Aptos Serif regular - 16px
+                    contentDoc.setFont('times', 'normal'); // Aptos Serif approximation
                     
                     // Define all sector options
                     const sectorOptions = [
@@ -5684,8 +5746,8 @@
                         
                         section2Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -5871,8 +5933,8 @@
                         
                         section3Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -5901,7 +5963,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 79, 240], // #004FF0 color
+                                        fillColor: [0, 80, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -5947,7 +6009,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 79, 240], // #004FF0 color
+                                        fillColor: [0, 80, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6039,7 +6101,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 79, 240], // #004FF0 color
+                                        fillColor: [0, 80, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6157,8 +6219,8 @@
                         
                         section4Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6201,7 +6263,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 79, 240], // #004FF0 color
+                                        fillColor: [0, 80, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6272,7 +6334,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 79, 240], // #004FF0 color
+                                        fillColor: [0, 80, 240], // #004FF0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6364,8 +6426,8 @@
                         
                         section5Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6582,8 +6644,8 @@
                         
                         section6Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -6602,7 +6664,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
@@ -6744,7 +6806,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -6916,7 +6978,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -6934,7 +6996,7 @@
                                 // Handle follow-up fields for data collection question
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText('Data Types and Record Counts:', margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7062,7 +7124,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7214,8 +7276,8 @@
                         
                         section7Questions.forEach(q => {
                             checkPageBreak(15);
-                            contentDoc.setFontSize(11);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFontSize(16);
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
@@ -7234,7 +7296,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     contentDoc.setFont(undefined, 'normal');
                                     const followUpValue = sectionData[q.followUp.field];
@@ -7336,7 +7398,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7466,7 +7528,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7550,7 +7612,7 @@
                             checkPageBreak(30);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7570,7 +7632,7 @@
                                 // Handle follow-up questions for radio type
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7602,7 +7664,7 @@
                                 // Handle follow-up for checkbox questions
                                 if (q.followUp && anyIncidentSelected && sectionData) {
                                     yPosition += 5;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 3;
                                     contentDoc.setFont(undefined, 'normal');
@@ -7751,7 +7813,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -7769,7 +7831,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8046,7 +8108,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -8064,7 +8126,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8305,7 +8367,7 @@
                             checkPageBreak(15);
                             
                             contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'bold');
+                            contentDoc.setFont('times', 'bold');
                             addWrappedText(q.question, margin);
                             yPosition += 3;
                             
@@ -8325,7 +8387,7 @@
                                 // Handle follow-up questions
                                 if (q.followUp && fieldValue === q.followUp.condition && sectionData) {
                                     yPosition += 3;
-                                    contentDoc.setFont(undefined, 'bold');
+                                    contentDoc.setFont('times', 'bold');
                                     addWrappedText(q.followUp.label, margin);
                                     yPosition += 2;
                                     contentDoc.setFont(undefined, 'normal');
@@ -8352,7 +8414,7 @@
                                         // Handle follow-up for checkbox with other option
                                         if (q.followUp && option.value === q.followUp.condition && isSelected && sectionData) {
                                             yPosition += 3;
-                                            contentDoc.setFont(undefined, 'bold');
+                                            contentDoc.setFont('times', 'bold');
                                             addWrappedText(q.followUp.label, margin);
                                             yPosition += 2;
                                             contentDoc.setFont(undefined, 'normal');
@@ -8498,9 +8560,9 @@
                         // ToC header will be added after title
                         
                         // ToC Title
-                        tocDoc.setFontSize(18);
-                        tocDoc.setFont(undefined, 'bold');
-                        tocDoc.setTextColor(0, 79, 240); // Blue color matching section titles
+                        tocDoc.setFontSize(22); // Updated to match section title size
+                        tocDoc.setFont('helvetica', 'bold'); // Poppins Extra Bold approximation
+                        tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color matching section titles
                         tocDoc.text('Table of Contents', tocMargin, tocYPosition);
                         tocYPosition += 15;
                         
@@ -8561,16 +8623,24 @@
                                 tocDoc.text('AXIS', tocMargin, 25);
                             }
                             
-                            // Technology Risk Application | Table of Contents (right side)
-                            tocDoc.setFontSize(10);
-                            tocDoc.setFont(undefined, 'normal');
-                            tocDoc.setTextColor(0, 0, 0); // Black color for rest of text
-                            const headerText = `Technology Risk Application | Table of Contents`;
+                            // Technology Insurance Application | Table of Contents (right side)
+                            tocDoc.setFontSize(16);
+                            tocDoc.setFont('helvetica', 'bold'); // Poppins Black approximation
+                            tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
+                            const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
                             
+                            // Page number in Vollkorn style
+                            tocDoc.setFontSize(19);
+                            tocDoc.setFont('times', 'normal'); // Vollkorn approximation
+                            tocDoc.setTextColor(0, 0, 0);
+                            const pageText = `Page ${pageNum}`;
+                            const pageTextWidth = tocDoc.getTextWidth(pageText);
+                            tocDoc.text(pageText, pageWidth - tocMargin - pageTextWidth, 30);
+                            
                             // Blue border line at bottom of header
-                            tocDoc.setDrawColor(0, 79, 240); // #004FF0 color
+                            tocDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
                             tocDoc.setLineWidth(2);
                             tocDoc.line(tocMargin, 35, pageWidth - tocMargin, 35);
                             
@@ -8651,20 +8721,16 @@
                     let frontCoverBytes, endPageBytes;
                     
                     try {
-                        // Try to load static PDFs using fetch (works in server environment)
-                        const [frontCoverResponse, endPageResponse] = await Promise.all([
-                            fetch('./pdf/front cover page.pdf'),
-                            fetch('./pdf/end last page.pdf')
-                        ]);
+                        // Use dynamically generated front cover instead of static PDF
+                        // frontCoverBytes is already generated above
                         
-                        if (!frontCoverResponse.ok) {
-                            throw new Error(`Failed to load front cover PDF: ${frontCoverResponse.status}`);
-                        }
+                        // Try to load static end page PDF using fetch (works in server environment)
+                        const endPageResponse = await fetch('./pdf/end last page.pdf');
+                        
                         if (!endPageResponse.ok) {
                             throw new Error(`Failed to load end page PDF: ${endPageResponse.status}`);
                         }
                         
-                        frontCoverBytes = await frontCoverResponse.arrayBuffer();
                         endPageBytes = await endPageResponse.arrayBuffer();
                         
                     } catch (fetchError) {
@@ -8777,7 +8843,7 @@
                     }
                     
                     if (error.message.includes('Failed to load') && error.message.includes('PDF')) {
-                        showNotification('❌ Error: Could not load static PDF files. Please check that pdf/front cover page.pdf and pdf/end last page.pdf exist.', 'error');
+                        showNotification('❌ Error: Could not load static PDF files. Please check that pdf/end last page.pdf exist.', 'error');
                     } else {
                         showNotification('❌ Error generating PDF. Please try again.', 'error');
                     }
