@@ -5492,7 +5492,7 @@
                         }
                         
                         // Technology Insurance Application | page number (right side)
-                        window.useFontUMD(contentDoc, 'PoppinsBlack12');
+                        window.useFontUMD(contentDoc, 'PoppinsBlack10');
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                         const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
@@ -5507,7 +5507,7 @@
                         
                         // Blue border line at bottom of header
                         contentDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
-                        contentDoc.setLineWidth(2);
+                        contentDoc.setLineWidth(0.5);
                         contentDoc.line(margin, 35, pageWidth - margin, 35);
                         
                         // Reset text color to black for content
@@ -8662,7 +8662,7 @@
                             }
                             
                             // Technology Insurance Application | Table of Contents (right side)
-                            window.useFontUMD(tocDoc, 'PoppinsBlack12');
+                            window.useFontUMD(tocDoc, 'PoppinsBlack10');
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                             const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
@@ -8677,7 +8677,7 @@
                             
                             // Blue border line at bottom of header
                             tocDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
-                            tocDoc.setLineWidth(2);
+                            tocDoc.setLineWidth(.5);
                             tocDoc.line(tocMargin, 35, pageWidth - tocMargin, 35);
                             
                             // Reset text color to black for content
@@ -8743,7 +8743,7 @@
                         contentDoc.setFont(undefined, 'normal');
                         contentDoc.setTextColor(0, 0, 0); // Ensure footer text is black
                         contentDoc.text(`Page ${i + 2} of ${pageCount + 3}`, contentDoc.internal.pageSize.width - 40, contentDoc.internal.pageSize.height - 10);
-                        contentDoc.text('Axis Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
+                        contentDoc.text('Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
                     }
                     
                     // Convert the content PDF to arrayBuffer for PDF-lib

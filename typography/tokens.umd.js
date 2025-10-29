@@ -3,6 +3,7 @@
     PoppinsBlack24:    { family: "Poppins",    style: "black",     size: 24 },
     PoppinsBlack14:    { family: "Poppins",    style: "black",     size: 14 },
     PoppinsBlack12:    { family: "Poppins",    style: "black",     size: 12 },
+    PoppinsBlack10:    { family: "Poppins",    style: "black",     size: 10 },
     PoppinsExtraBold16:{ family: "Poppins",    style: "extrabold", size: 16 },
     Vollkorn14:        { family: "Vollkorn",   style: "normal",    size: 14 },
     AptosSerifBold12:  { family: "AptosSerif", style: "bold",      size: 12 },
