@@ -5491,19 +5491,12 @@
                             contentDoc.text('AXIS', margin, 25);
                         }
                         
-                        // Technology Insurance Application | page number (right side)
-                        window.useFontUMD(contentDoc, 'PoppinsBlack10');
+                        // Technology Insurance Application | page number (single line, right side)
+                        window.useFontUMD(contentDoc, 'PoppinsBlack12');
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
-                        const headerText = `Technology Insurance Application`;
+                        const headerText = `Technology Insurance Application | ${currentPageNum}`;
                         const textWidth = contentDoc.getTextWidth(headerText);
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
-                        
-                        // Page number in Vollkorn
-                        window.useFontUMD(contentDoc, 'Vollkorn14');
-                        contentDoc.setTextColor(0, 0, 0);
-                        const pageText = `Page ${currentPageNum}`;
-                        const pageTextWidth = contentDoc.getTextWidth(pageText);
-                        contentDoc.text(pageText, pageWidth - margin - pageTextWidth, 30);
                         
                         // Blue border line at bottom of header
                         contentDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
@@ -8661,19 +8654,12 @@
                                 tocDoc.text('AXIS', tocMargin, 25);
                             }
                             
-                            // Technology Insurance Application | Table of Contents (right side)
-                            window.useFontUMD(tocDoc, 'PoppinsBlack10');
+                            // Technology Insurance Application | page number (single line, right side)
+                            window.useFontUMD(tocDoc, 'PoppinsBlack12');
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
-                            const headerText = `Technology Insurance Application`;
+                            const headerText = `Technology Insurance Application | ${pageNum}`;
                             const textWidth = tocDoc.getTextWidth(headerText);
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
-                            
-                            // Page number in Vollkorn
-                            window.useFontUMD(tocDoc, 'Vollkorn14');
-                            tocDoc.setTextColor(0, 0, 0);
-                            const pageText = `Page ${pageNum}`;
-                            const pageTextWidth = tocDoc.getTextWidth(pageText);
-                            tocDoc.text(pageText, pageWidth - tocMargin - pageTextWidth, 30);
                             
                             // Blue border line at bottom of header
                             tocDoc.setDrawColor(brandBlue[0], brandBlue[1], brandBlue[2]); // #0050F0 color
