@@ -8,6 +8,8 @@
     Vollkorn14:        { family: "Vollkorn",   style: "normal",    size: 14 },
     AptosSerifBold12:  { family: "AptosSerif", style: "bold",      size: 12 },
     AptosSerifReg14:   { family: "AptosSerif", style: "normal",    size: 14 },
-    AptosSerifReg12:   { family: "AptosSerif", style: "normal",    size: 12 }
+    AptosSerifReg12:   { family: "AptosSerif", style: "normal",    size: 12 },
+    // Wingdings 2 Boxed Checkmark (☑, U+2611)
+    Wingdings2BoxedCheck: { family: "Wingdings2", style: "normal", size: 16, char: "\u2611", html: "&#9745;" }
   };
 })(window);
