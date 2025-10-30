@@ -4435,7 +4435,7 @@
                         $details.find('input[name="hosting_infrastructure"]').attr('required', true);
                     } else {
                         $details.removeClass('show').slideUp(400);
-                        $details.find('input, textarea').attr('required', false).val('');
+                        $details.find('textarea').attr('required', false).val('');
                         $('#third_party_hosting_details').removeClass('show').hide();
                     }
                 });
@@ -5445,7 +5445,20 @@
                 return formData;
             }
 
+            
+
             async function generatePDF() {
+                // Helper to render selected radio option with Wingdings2BoxedCheck
+                function renderSelectedRadioOption(contentDoc, selectedValue, options, margin) {
+                    const selectedOption = options.find(option => selectedValue === option.value);
+                    if (selectedOption) {
+                        window.useFontUMD(contentDoc, 'Wingdings2BoxedCheck');
+                        const status = '\u2611'; // Boxed checkmark
+                        window.useFontUMD(contentDoc, 'AptosSerifReg12'); // Reset font
+                        addWrappedText(`${status} ${selectedOption.label}`, margin);
+                    }
+                }
+                    
                 try {
                     showNotification('📄 Generating PDF with static cover and end pages...', 'info');
                     
@@ -5774,14 +5787,12 @@
                         ];
                         
                         section2Questions.forEach(q => {
-                            checkPageBreak(15);
-                            contentDoc.setFontSize(12);
-                            contentDoc.setFont('AptosSerif', 'bold');
+                            checkPageBreak(15);                            
+                            window.useFontUMD(contentDoc, 'AptosSerifBold12');
                             addWrappedText(q.question, margin);
                             yPosition += 2;
                             
-                            contentDoc.setFontSize(10);
-                            contentDoc.setFont(undefined, 'normal');
+                            window.useFontUMD(contentDoc, 'AptosSerifReg12');
                             
                             if (q.type === 'text' || q.type === 'textarea' || q.type === 'number') {
                                 const value = sectionData[q.field];
@@ -5792,11 +5803,7 @@
                                 }
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin);
-                                });
+                                renderSelectedRadioOption(contentDoc, selectedValue, q.options, margin);
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
@@ -6065,11 +6072,7 @@
                                 yPosition = contentDoc.lastAutoTable.finalY + 10;
                             } else if (q.type === 'radio') {
                                 const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin);
-                                });
+                                renderSelectedRadioOption(contentDoc, selectedValue, q.options, margin);
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
@@ -6079,18 +6082,14 @@
                                             const value = sectionData[field.field];
                                             addWrappedText(`${field.label}: ${value || 'Not provided'}`, margin);
                                         });
-                                    } else if (q.followUp.field) {
+                                    } else if (q.followUp.field && q.followUp.label) {
                                         const followUpValue = sectionData[q.followUp.field];
                                         addWrappedText(`${q.followUp.label}: ${followUpValue || 'Not provided'}`, margin);
                                     }
                                     if (q.followUp.subQuestion) {
                                         addWrappedText(q.followUp.subQuestion, margin);
                                         const subValue = sectionData[q.followUp.field];
-                                        q.followUp.options.forEach(option => {
-                                            const isSelected = subValue === option.value;
-                                            const status = isSelected ? '(•)' : '( )';
-                                            addWrappedText(`${status} ${option.label}`, margin);
-                                        });
+                                        renderSelectedRadioOption(contentDoc, subValue, q.followUp.options, margin);
                                         if (subValue === 'third_party' && q.followUp.thirdPartyFields) {
                                             q.followUp.thirdPartyFields.forEach(field => {
                                                 const value = sectionData[field.field];
@@ -6319,12 +6318,8 @@
                                 
                                 yPosition = contentDoc.lastAutoTable.finalY + 10;
                             } else if (q.type === 'radio') {
-                                const selectedValue = sectionData[q.field];
-                                q.options.forEach(option => {
-                                    const isSelected = selectedValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin);
-                                });
+                                const selectedValue = sectionData[q.field];                                
+                                renderSelectedRadioOption(contentDoc, selectedValue, q.options, margin);
                                 
                                 // Handle follow-up questions
                                 if (q.followUp && selectedValue === q.followUp.condition) {
@@ -6466,11 +6461,7 @@
                             const fieldValue = sectionData[q.field];
                             
                             if (q.type === 'radio' && q.options) {
-                                q.options.forEach(option => {
-                                    const isSelected = fieldValue === option.value;
-                                    const status = isSelected ? '(•)' : '( )';
-                                    addWrappedText(`${status} ${option.label}`, margin);
-                                });
+                                renderSelectedRadioOption(contentDoc, fieldValue, q.options, margin);
                             } else if (q.type === 'textarea' || q.type === 'text') {
                                 if (fieldValue) {
                                     addWrappedText(`Answer: ${fieldValue}`, margin);
