@@ -5494,7 +5494,8 @@
                         // Technology Insurance Application | page number (single line, right side)
                         window.useFontUMD(contentDoc, 'PoppinsBlack12');
                         contentDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
-                        const headerText = `Technology Insurance Application | ${currentPageNum}`;
+                        //const headerText = `Technology Insurance Application | ${currentPageNum}`;
+                        const headerText = `Technology Insurance Application`;
                         const textWidth = contentDoc.getTextWidth(headerText);
                         contentDoc.text(headerText, pageWidth - margin - textWidth, 25);
                         
@@ -5619,9 +5620,9 @@
                     
                     // Section 1: Sectors - Enhanced with questions and options
                     checkPageBreak(20);
-                    sectionPageNumbers['Section 1: Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
-                    addSectionTitle('Section 1: Sectors', margin);
-                    
+                    sectionPageNumbers['1. Sectors'] = contentDoc.internal.getNumberOfPages() + 2; // +2 for front cover and ToC
+                    addSectionTitle('1. Sectors', margin);
+
                     window.useFontUMD(contentDoc, 'AptosSerifBold12');
                     addWrappedText('Question: Does your business provide products or services within any of the following sectors?', margin, 12);
                     yPosition += 3;
@@ -5646,7 +5647,7 @@
                     // Enhanced function for Section 2 with questions and selected options
                     function addSection2WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 2: General Information', margin);
+                        addSectionTitle('2. General Information', margin);
                         
                         // Define all Section 2 questions with their field names  
                         const section2Questions = [
@@ -5826,7 +5827,7 @@
                     // Enhanced function for Section 3 with questions and selected options
                     function addSection3WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 3: Operations', margin);
+                        addSectionTitle('3. Operations', margin);
                         
                         // Define all Section 3 questions with their field names  
                         const section3Questions = [
@@ -6167,7 +6168,7 @@
                     // Enhanced function for Section 4 with questions and selected options
                     function addSection4WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 4: Financials', margin);
+                        addSectionTitle('4. Financials', margin);
                         
                         // Define all Section 4 questions with their field names  
                         const section4Questions = [
@@ -6400,7 +6401,7 @@
                     // Enhanced function for Section 5 with questions and selected options
                     function addSection5WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 5: Contractual Controls', margin);
+                        addSectionTitle('5. Contractual Controls', margin);
                         
                         // Define all Section 5 questions with their field names  
                         const section5Questions = [
@@ -6487,7 +6488,7 @@
                     // Enhanced function for Section 6 with questions and selected options
                     function addSection6WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 6: Cybersecurity, Technical & Crime Controls', margin);
+                        addSectionTitle('6. Cybersecurity, Technical & Crime Controls', margin);
                         
                         // Define all Section 6 questions with their field names  
                         const section6Questions = [
@@ -6724,7 +6725,7 @@
                     // Enhanced function for Section 8 with questions and selected options
                     function addSection8WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 8: Third Party, Vendor & Supply Chain Controls', margin);
+                        addSectionTitle('8. Third Party, Vendor & Supply Chain Controls', margin);
                         
                         // Define all Section 8 questions with their field names  
                         const section8Questions = [
@@ -6865,7 +6866,7 @@
                     // Enhanced function for Section 9 with questions and selected options
                     function addSection9WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 9: Privacy, Data Security & API Controls', margin);
+                        addSectionTitle('9. Privacy, Data Security & API Controls', margin);
                         
                         // Define all Section 9 questions with their field names  
                         const section9Questions = [
@@ -7053,7 +7054,7 @@
                     // Enhanced function for Section 10 with questions and selected options
                     function addSection10WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 10: Intellectual Property & Content Governance Controls', margin);
+                        addSectionTitle('10. Intellectual Property & Content Governance Controls', margin);
                         
                         // Define all Section 10 questions with their field names  
                         const section10Questions = [
@@ -7183,7 +7184,7 @@
                     // Enhanced function for Section 7 with questions and selected options
                     function addSection7WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 7: Data Backup & Business Continuity & Supply Chain Controls', margin);
+                        addSectionTitle('7. Data Backup & Business Continuity & Supply Chain Controls', margin);
                         
                         // Define all Section 7 questions with their field names  
                         const section7Questions = [
@@ -7349,7 +7350,7 @@
                     // Enhanced function for Section 11 with questions and selected options
                     function addSection11WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 11: People, Employment Practices & Insider Controls', margin);
+                        addSectionTitle('11. People, Employment Practices & Insider Controls', margin);
                         
                         // Define all Section 11 questions with their field names  
                         const section11Questions = [
@@ -7457,7 +7458,7 @@
                     // Enhanced function for Section 12 with questions and selected options
                     function addSection12WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 12: Artificial Intelligence Tools & Controls', margin);
+                        addSectionTitle('12. Artificial Intelligence Tools & Controls', margin);
                         
                         // Define all Section 12 questions with their field names  
                         const section12Questions = [
@@ -7587,7 +7588,7 @@
                     // Enhanced function for Section 13 with questions and selected options
                     function addSection13WithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 13: Prior Incidents & Claims', margin);
+                        addSectionTitle('13. Prior Incidents & Claims', margin);
                         
                         // Define all Section 13 questions with their field names  
                         const section13Questions = [
@@ -7715,7 +7716,7 @@
                     // Enhanced function for AI Additional Questions with all questions and options
                     function addAISectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 1: Artificial Intelligence (Additional Questions)', margin);
+                        addSectionTitle('1.  Artificial Intelligence (Additional Questions)', margin);
                         
                         // Define all AI Additional Questions with their field names
                         const aiQuestions = [
@@ -7888,7 +7889,7 @@
                     // Enhanced function for DeFi Additional Questions with all questions and options
                     function addDeFiSectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 2: Decentralized Finance & Digital Assets (Additional Questions)', margin);
+                        addSectionTitle('2. Decentralized Finance & Digital Assets (Additional Questions)', margin);
                         
                         // Define all DeFi Additional Questions with their field names
                         const defiQuestions = [
@@ -8196,7 +8197,7 @@
                     // Enhanced function for Robotics Additional Questions with all questions and options
                     function addRoboticsSectionWithQuestions(sectionData) {
                         checkPageBreak(20);
-                        addSectionTitle('Section 3: Autonomous Robotics (Additional Questions)', margin);
+                        addSectionTitle('3. Autonomous Robotics (Additional Questions)', margin);
                         
                         // Define all Robotics Additional Questions with their field names
                         const roboticsQuestions = [
@@ -8505,51 +8506,51 @@
                     }
                     
                     // Section 2: General Information - Enhanced with questions and options
-                    sectionPageNumbers['Section 2: General Information'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['2. General Information'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection2WithQuestions(formData.generalInfo);
                     
                     // Section 3: Operations - Enhanced with questions and options
-                    sectionPageNumbers['Section 3: Operations'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['3. Operations'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection3WithQuestions(formData.operations);
                     
                     // Section 4: Financials - Enhanced with questions and options
-                    sectionPageNumbers['Section 4: Financials'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['4. Financials'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection4WithQuestions(formData.financials);
                     
                     // Section 5: Contractual Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 5: Contractual Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['5. Contractual Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection5WithQuestions(formData.contractualControls);
                     
                     // Section 6: Cybersecurity, Technical & Crime Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 6: Cybersecurity, Technical & Crime Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['6. Cybersecurity, Technical & Crime Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection6WithQuestions(formData.cybersecurity);
                     
                     // Section 7: Data Backup & Business Continuity & Supply Chain Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 7: Data Backup & Business Continuity & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['7. Data Backup & Business Continuity & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection7WithQuestions(formData.dataBackup);
                     
                     // Section 8: Third Party, Vendor & Supply Chain Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 8: Third Party, Vendor & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['8. Third Party, Vendor & Supply Chain Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection8WithQuestions(formData.thirdParty);
                     
                     // Section 9: Privacy, Data Security & API Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 9: Privacy, Data Security & API Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['9. Privacy, Data Security & API Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection9WithQuestions(formData.privacy);
                     
                     // Section 10: Intellectual Property & Content Governance Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 10: Intellectual Property & Content Governance Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['10. Intellectual Property & Content Governance Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection10WithQuestions(formData.intellectualProperty);
                     
                     // Section 11: People, Employment Practices & Insider Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 11: People, Employment Practices & Insider Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['11. People, Employment Practices & Insider Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection11WithQuestions(formData.employment);
                     
                     // Section 12: Artificial Intelligence Tools & Controls - Enhanced with questions and options
-                    sectionPageNumbers['Section 12: Artificial Intelligence Tools & Controls'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['12. Artificial Intelligence Tools & Controls'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection12WithQuestions(formData.aiTools);
                     
                     // Section 13: Prior Incidents & Claims - Enhanced with questions and options
-                    sectionPageNumbers['Section 13: Prior Incidents & Claims'] = contentDoc.internal.getNumberOfPages() + 2;
+                    sectionPageNumbers['13. Prior Incidents & Claims'] = contentDoc.internal.getNumberOfPages() + 2;
                     addSection13WithQuestions(formData.priorIncidents);
                     
                     // Add all other sections
@@ -8602,19 +8603,19 @@
                         
                         // Add main sections in order
                         const mainSections = [
-                            'Section 1: Sectors',
-                            'Section 2: General Information',
-                            'Section 3: Operations',
-                            'Section 4: Financials',
-                            'Section 5: Contractual Controls',
-                            'Section 6: Cybersecurity, Technical & Crime Controls',
-                            'Section 7: Data Backup & Business Continuity & Supply Chain Controls',
-                            'Section 8: Third Party, Vendor & Supply Chain Controls',
-                            'Section 9: Privacy, Data Security & API Controls',
-                            'Section 10: Intellectual Property & Content Governance Controls',
-                            'Section 11: People, Employment Practices & Insider Controls',
-                            'Section 12: Artificial Intelligence Tools & Controls',
-                            'Section 13: Prior Incidents & Claims'
+                            '1. Sectors',
+                            '2. General Information',
+                            '3. Operations',
+                            '4. Financials',
+                            '5. Contractual Controls',
+                            '6. Cybersecurity, Technical & Crime Controls',
+                            '7. Data Backup & Business Continuity & Supply Chain Controls',
+                            '8. Third Party, Vendor & Supply Chain Controls',
+                            '9. Privacy, Data Security & API Controls',
+                            '10. Intellectual Property & Content Governance Controls',
+                            '11. People, Employment Practices & Insider Controls',
+                            '12. Artificial Intelligence Tools & Controls',
+                            '13. Prior Incidents & Claims'
                         ];
                         
                         mainSections.forEach(sectionTitle => {
@@ -8635,8 +8636,9 @@
                         }
                         
                         // Add ToC entries to the document
-                        tocDoc.setFontSize(12);
-                        tocDoc.setFont(undefined, 'normal');
+                        // tocDoc.setFontSize(12);
+                        // tocDoc.setFont(undefined, 'normal');
+                        window.useFontUMD(tocDoc, 'PoppinsBlack12');
                         tocDoc.setTextColor(0, 0, 0); // Black text for entries
                         
                         // Helper function to add header to ToC pages
@@ -8648,16 +8650,15 @@
                                 tocDoc.addImage('./pdf/logo.png', 'PNG', tocMargin, 15, 30, 15);
                             } catch (error) {
                                 // Fallback to text if image fails to load
-                                tocDoc.setFontSize(16);
-                                tocDoc.setFont(undefined, 'bold');
-                                tocDoc.setTextColor(0, 79, 240); // #004FF0 color for Axis
+                                window.useFontUMD(tocDoc, 'PoppinsExtraBold16');
+                                tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
                                 tocDoc.text('AXIS', tocMargin, 25);
                             }
                             
                             // Technology Insurance Application | page number (single line, right side)
                             window.useFontUMD(tocDoc, 'PoppinsBlack12');
                             tocDoc.setTextColor(brandBlue[0], brandBlue[1], brandBlue[2]); // Blue color
-                            const headerText = `Technology Insurance Application | ${pageNum}`;
+                            const headerText = `Technology Insurance Application`;
                             const textWidth = tocDoc.getTextWidth(headerText);
                             tocDoc.text(headerText, pageWidth - tocMargin - textWidth, 25);
                             
@@ -8682,6 +8683,7 @@
                             }
                             
                             // Add title
+                            window.useFontUMD(tocDoc, 'AptosSerifReg12');
                             tocDoc.text(entry.title, tocMargin + 5, tocYPosition);
                             
                             // Add dotted line
@@ -8701,14 +8703,14 @@
                         
                         // Add footer
                         const tocPageCount = tocDoc.internal.getNumberOfPages();
-                        for (let i = 1; i <= tocPageCount; i++) {
-                            tocDoc.setPage(i);
-                            tocDoc.setFontSize(8);
-                            tocDoc.setFont(undefined, 'normal');
-                            tocDoc.setTextColor(0, 0, 0);
-                            tocDoc.text(`Page ${i + 1}`, tocDoc.internal.pageSize.width - 40, tocDoc.internal.pageSize.height - 10);
-                            tocDoc.text('Axis Technology Insurance Application', tocMargin, tocDoc.internal.pageSize.height - 10);
-                        }
+                        // for (let i = 1; i <= tocPageCount; i++) {
+                        //     tocDoc.setPage(i);
+                        //     tocDoc.setFontSize(8);
+                        //     tocDoc.setFont(undefined, 'normal');
+                        //     tocDoc.setTextColor(0, 0, 0);
+                        //     tocDoc.text(`Page ${i + 1}`, tocDoc.internal.pageSize.width - 40, tocDoc.internal.pageSize.height - 10);
+                        //     tocDoc.text('Axis Technology Insurance Application', tocMargin, tocDoc.internal.pageSize.height - 10);
+                        // }
                         
                         return tocDoc.output('arraybuffer');
                     }
@@ -8725,11 +8727,12 @@
                         addPageHeader(i + 2, pageCount + 3); // +1 for front cover, +1 for ToC, +1 for end page
                         
                         // Add footer to each content page
-                        contentDoc.setFontSize(8);
-                        contentDoc.setFont(undefined, 'normal');
+                        // contentDoc.setFontSize(8);
+                        // contentDoc.setFont(undefined, 'normal');
+                        window.useFontUMD(contentDoc, 'Vollkorn14');
                         contentDoc.setTextColor(0, 0, 0); // Ensure footer text is black
                         contentDoc.text(`Page ${i + 2} of ${pageCount + 3}`, contentDoc.internal.pageSize.width - 40, contentDoc.internal.pageSize.height - 10);
-                        contentDoc.text('Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
+                        //contentDoc.text('Technology Insurance Application', margin, contentDoc.internal.pageSize.height - 10);
                     }
                     
                     // Convert the content PDF to arrayBuffer for PDF-lib
@@ -8816,7 +8819,7 @@
                     
                     // Load all PDFs
                     const frontCoverPdf = await PDFDocument.load(frontCoverBytes);
-                    const tocPdf = await PDFDocument.load(tocPdfBytes);
+                    //const tocPdf = await PDFDocument.load(tocPdfBytes);
                     const contentPdf = await PDFDocument.load(contentPdfBytes);
                     const endPagePdf = await PDFDocument.load(endPageBytes);
                     
@@ -8825,8 +8828,8 @@
                     frontCoverPages.forEach((page) => finalPdf.addPage(page));
                     
                     // Copy table of contents pages
-                    const tocPages = await finalPdf.copyPages(tocPdf, tocPdf.getPageIndices());
-                    tocPages.forEach((page) => finalPdf.addPage(page));
+                    //const tocPages = await finalPdf.copyPages(tocPdf, tocPdf.getPageIndices());
+                    //tocPages.forEach((page) => finalPdf.addPage(page));
                     
                     // Copy content pages
                     const contentPages = await finalPdf.copyPages(contentPdf, contentPdf.getPageIndices());
