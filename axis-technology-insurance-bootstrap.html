@@ -5654,7 +5654,7 @@
                     
                     sectorOptions.forEach(option => {
                         const isSelected = formData.sectors.includes(option.value);
-                        const status = isSelected ? '[X]' : '[ ]';
+                        const status = isSelected ? '\u2611' : '\u2610'; // Boxed checkmark or empty box
                         addWrappedText(`${status} ${option.label}`, margin);
                     });
                     
@@ -7645,7 +7645,7 @@
                                     q.options.forEach(option => {
                                         const fieldValue = sectionData ? sectionData[option.field] : null;
                                         const isSelected = fieldValue === 'yes';
-                                        const symbol = isSelected ? '[✓]' : '[ ]';
+                                        const symbol = isSelected ? '\u2611' : '\u2610'; // Boxed checkmark or empty box
                                         addWrappedText(`${symbol} ${option.label}`, margin);
                                         
                                         if (isSelected) {
@@ -8383,7 +8383,7 @@
                                         if (Array.isArray(fieldValue)) {
                                             isSelected = fieldValue.includes(option.value);
                                         }
-                                        const symbol = isSelected ? '[✓]' : '[ ]';
+                                        const symbol = isSelected ? '\u2611' : '\u2610'; // Boxed checkmark or empty box
                                         addWrappedText(`${symbol} ${option.label}`, margin);
                                         
                                         // Handle follow-up for checkbox with other option
