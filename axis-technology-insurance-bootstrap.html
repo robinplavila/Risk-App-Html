@@ -6002,9 +6002,14 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 80, 240], // #004FF0 color
+                                        fillColor: brandBlue, // #0050F0 color
                                         textColor: 255,
-                                        fontStyle: 'bold'
+                                        //fontStyle: 'bold',
+                                        didParseCell: function (data) {
+                                            if (data.section === 'head') {
+                                                window.useFontUMD(contentDoc, 'PoppinsExtraBold16');
+                                            }
+                                        }
                                     },
                                     alternateRowStyles: {
                                         fillColor: [245, 245, 245]
@@ -6034,7 +6039,8 @@
                                     return [
                                         area.label,
                                         yesNoStatus,
-                                        details.length > 25 ? details.substring(0, 22) + '...' : details
+                                        //details.length > 25 ? details.substring(0, 22) + '...' : details
+                                        details
                                     ];
                                 });
                                 
@@ -6044,11 +6050,11 @@
                                     startY: yPosition + 5,
                                     margin: { left: margin, top: headerHeight + 5 }, // Account for header space
                                     styles: {
-                                        fontSize: 9,
+                                        fontSize: 10,
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 80, 240], // #004FF0 color
+                                        fillColor: brandBlue, // #0050F0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6056,9 +6062,9 @@
                                         fillColor: [245, 245, 245]
                                     },
                                     columnStyles: {
-                                        0: { cellWidth: 60 },
-                                        1: { cellWidth: 25, halign: 'center' },
-                                        2: { cellWidth: 50 }
+                                        0: { cellWidth: "30%" },
+                                        1: { cellWidth: "25%", halign: 'center' },
+                                        2: { cellWidth: "80%" }
                                     },
                                     didDrawPage: function (data) {
                                         // Add header to each page where table appears
@@ -6132,7 +6138,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 80, 240], // #004FF0 color
+                                        fillColor: brandBlue, // #0050F0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6294,7 +6300,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 80, 240], // #004FF0 color
+                                        fillColor: brandBlue, // #0050F0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
@@ -6361,7 +6367,7 @@
                                         cellPadding: 3
                                     },
                                     headStyles: {
-                                        fillColor: [0, 80, 240], // #004FF0 color
+                                        fillColor: brandBlue, // #0050F0 color
                                         textColor: 255,
                                         fontStyle: 'bold'
                                     },
