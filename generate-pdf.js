@@ -3329,7 +3329,7 @@ async function generatePDF() {
         
         // Load all PDFs
         const frontCoverPdf = await PDFDocument.load(frontCoverBytes);
-        //const tocPdf = await PDFDocument.load(tocPdfBytes);
+        const tocPdf = await PDFDocument.load(tocPdfBytes);
         const contentPdf = await PDFDocument.load(contentPdfBytes);
         const endPagePdf = await PDFDocument.load(endPageBytes);
         
@@ -3338,8 +3338,8 @@ async function generatePDF() {
         frontCoverPages.forEach((page) => finalPdf.addPage(page));
         
         // Copy table of contents pages
-        //const tocPages = await finalPdf.copyPages(tocPdf, tocPdf.getPageIndices());
-        //tocPages.forEach((page) => finalPdf.addPage(page));
+        const tocPages = await finalPdf.copyPages(tocPdf, tocPdf.getPageIndices());
+        tocPages.forEach((page) => finalPdf.addPage(page));
         
         // Copy content pages
         const contentPages = await finalPdf.copyPages(contentPdf, contentPdf.getPageIndices());
