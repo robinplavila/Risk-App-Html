@@ -4292,8 +4292,9 @@
     
     <!-- PDF Generation Module -->
     <script>
-        // Define showNotification function before loading generate-pdf.js
-        // This function is used by the PDF generation module
+        // Define helper functions before loading generate-pdf.js
+        // These functions are used by the PDF generation module
+        
         function showNotification(message, type = 'info') {
             // Remove existing notifications
             $('.notification').remove();
@@ -4319,6 +4320,94 @@
             setTimeout(() => {
                 $notification.alert('close');
             }, 5000);
+        }
+
+        function collectFormData() {
+            const formData = {
+                submissionDate: new Date().toLocaleDateString(),
+                submissionTime: new Date().toLocaleTimeString(),
+                sectors: [],
+                generalInfo: {},
+                operations: {},
+                financials: {},
+                contractualControls: {},
+                cybersecurity: {},
+                dataBackup: {},
+                thirdParty: {},
+                privacy: {},
+                intellectualProperty: {},
+                employment: {},
+                aiTools: {},
+                priorIncidents: {},
+                ai: {},
+                defi: {},
+                robotics: {}
+            };
+
+            // Collect sectors
+            $('input[name="sectors[]"]:checked').each(function() {
+                formData.sectors.push($(this).val());
+            });
+
+            // Collect all form inputs by section
+            const sections = [
+                { step: 2, key: 'generalInfo' },
+                { step: 3, key: 'operations' },
+                { step: 4, key: 'financials' },
+                { step: 5, key: 'contractualControls' },
+                { step: 6, key: 'cybersecurity' },
+                { step: 7, key: 'dataBackup' },
+                { step: 8, key: 'thirdParty' },
+                { step: 9, key: 'privacy' },
+                { step: 10, key: 'intellectualProperty' },
+                { step: 11, key: 'employment' },
+                { step: 12, key: 'aiTools' },
+                { step: 13, key: 'priorIncidents' }
+            ];
+
+            // Add conditional sections based on their current step numbers (dynamic)
+            if (window.aiStepEnabled) {
+                const aiStep = $('#ai-section').attr('data-section');
+                if (aiStep) sections.push({ step: parseInt(aiStep), key: 'ai' });
+            }
+            if (window.defiStepEnabled) {
+                const defiStep = $('#defi-section').attr('data-section');
+                if (defiStep) sections.push({ step: parseInt(defiStep), key: 'defi' });
+            }
+            if (window.roboticsStepEnabled) {
+                const roboticsStep = $('#robotics-section').attr('data-section');
+                if (roboticsStep) sections.push({ step: parseInt(roboticsStep), key: 'robotics' });
+            }
+
+            sections.forEach(section => {
+                $(`.form-section[data-section="${section.step}"] input, .form-section[data-section="${section.step}"] textarea, .form-section[data-section="${section.step}"] select`).each(function() {
+                    const $input = $(this);
+                    const name = $input.attr('name');
+                    const type = $input.attr('type');
+                    
+                    if (name) {
+                        if (type === 'checkbox') {
+                            if (!formData[section.key][name]) {
+                                formData[section.key][name] = [];
+                            }
+                            if ($input.is(':checked')) {
+                                formData[section.key][name].push($input.val());
+                            }
+                        } else if (type === 'radio') {
+                            if ($input.is(':checked')) {
+                                formData[section.key][name] = $input.val();
+                            }
+                        } else {
+                            const value = $input.val();
+                            if (value && value.trim() !== '') {
+                                formData[section.key][name] = value;
+                            }
+                        }
+                    }
+                });
+            });
+
+            return formData;
         }
     </script>
     
