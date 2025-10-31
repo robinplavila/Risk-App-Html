@@ -4291,6 +4291,36 @@
     <script src="./typography/useFont.umd.js"></script>
     
     <!-- PDF Generation Module -->
+    <script>
+        // Define showNotification function before loading generate-pdf.js
+        // This function is used by the PDF generation module
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            $('.notification').remove();
+            
+            const alertClass = {
+                'success': 'alert-success',
+                'error': 'alert-danger',
+                'warning': 'alert-warning',
+                'info': 'alert-info'
+            }[type];
+
+            const $notification = $(`
+                <div class="notification alert ${alertClass} alert-dismissible fade show position-fixed" 
+                     style="top: 20px; right: 20px; z-index: 9999; max-width: 400px;">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `);
+
+            $('body').append($notification);
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                $notification.alert('close');
+            }, 5000);
+        }
+    </script>
     <script src="./generate-pdf.js"></script>
 
     <!-- Custom jQuery Script for Form Logic -->
@@ -5452,34 +5482,7 @@
 
             // PDF generation logic moved to generate-pdf.js
             // The generatePDF function is now loaded from external file
-
-
-            function showNotification(message, type = 'info') {
-                // Remove existing notifications
-                $('.notification').remove();
-                
-                const alertClass = {
-                    'success': 'alert-success',
-                    'error': 'alert-danger',
-                    'warning': 'alert-warning',
-                    'info': 'alert-info'
-                }[type];
-
-                const $notification = $(`
-                    <div class="notification alert ${alertClass} alert-dismissible fade show position-fixed" 
-                         style="top: 20px; right: 20px; z-index: 9999; max-width: 400px;">
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                `);
-
-                $('body').append($notification);
-
-                // Auto-dismiss after 5 seconds
-                setTimeout(() => {
-                    $notification.alert('close');
-                }, 5000);
-            }
+            // Note: showNotification function is defined before generate-pdf.js loads
 
             // Initialize step indicator click handlers
             $('.step-item').on('click', function() {
