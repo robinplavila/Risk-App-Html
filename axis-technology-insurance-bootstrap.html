@@ -1283,7 +1283,13 @@
 
                         <div class="mb-4">
                             <label class="form-label">7. List your largest 3 Projects or Contracts in the past 2 years</label>
-                            <div class="table-responsive">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="projects_non_applicable" name="projects_non_applicable" value="yes">
+                                <label class="form-check-label" for="projects_non_applicable">
+                                    Non Applicable (I do not have any applicable projects or contracts)
+                                </label>
+                            </div>
+                            <div id="projects_table_container" class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -4635,6 +4641,18 @@
                     } else {
                         $details.removeClass('show').slideUp(400);
                         $details.find('textarea').attr('required', false).val('');
+                    }
+                });
+
+                // Projects/Contracts Non Applicable conditional logic
+                $('#projects_non_applicable').on('change', function() {
+                    const $tableContainer = $('#projects_table_container');
+                    if ($(this).is(':checked')) {
+                        $tableContainer.slideUp(400);
+                        // Clear all project input fields
+                        $tableContainer.find('input').val('');
+                    } else {
+                        $tableContainer.slideDown(400);
                     }
                 });
 
